@@ -27,6 +27,8 @@ TOKEN_EXP  = int(os.environ.get("TOKEN_EXP_HOURS", 12))
 # BANCO DE DADOS
 # ══════════════════════════════════════════
 
+
+
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(DB_PATH)
@@ -153,6 +155,14 @@ def init_db():
             )
     db.commit()
     db.close()
+
+
+# Inicializa banco ao importar o módulo (funciona com Gunicorn)
+try:
+    init_db()
+    print('✓ Banco Cresce Farma 360 inicializado')
+except Exception as _e:
+    print(f'Aviso init_db: {_e}')
 
 
 # ══════════════════════════════════════════
@@ -653,4 +663,3 @@ if __name__ == "__main__":
     print(f"  Banco: {DB_PATH}")
     print(f"  Debug: {debug}\n")
     app.run(host="0.0.0.0", port=port, debug=debug)
-    
