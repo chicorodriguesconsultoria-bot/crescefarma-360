@@ -12,16 +12,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-@app.after_request
-def after_request(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
-    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
-    return response
 
-@app.route("/api/<path:path>", methods=["OPTIONS"])
-def options_handler(path):
-    return "", 200
 CORS(app, origins="*", allow_headers=["Content-Type","Authorization"], methods=["GET","POST","PUT","DELETE","OPTIONS"])
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "cf360-secret-2025-troque-em-producao")
