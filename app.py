@@ -4,7 +4,8 @@ Stack: Python · Flask · SQLite · JWT
 Níveis de acesso: consultor | gestor | franqueadora
 """
 
-import sqlite3, bcrypt, jwt, os, json
+import sqlite3, jwt, os, json
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
 from functools import wraps
 from flask import Flask, request, jsonify, g
@@ -126,7 +127,7 @@ def init_db():
     for nome, email, senha, perfil, celula in seeds:
         existe = db.execute("SELECT id FROM usuarios WHERE email=?", (email,)).fetchone()
         if not existe:
-            h = bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode()
+            h = generate_password_hash(senha)
             db.execute(
                 "INSERT INTO usuarios (nome,email,senha_hash,perfil,celula) VALUES (?,?,?,?,?)",
                 (nome, email, h, perfil, celula)
@@ -204,7 +205,7 @@ def login():
         return jsonify({"erro": "E-mail e senha obrigatórios"}), 400
     db = get_db()
     user = db.execute("SELECT * FROM usuarios WHERE email=? AND ativo=1", (email,)).fetchone()
-    if not user or not bcrypt.checkpw(senha.encode(), user["senha_hash"].encode()):
+    if not user or not check_password_hash(user["senha_hash"], senha):
         return jsonify({"erro": "Credenciais inválidas"}), 401
     exp = datetime.now(timezone.utc) + timedelta(hours=TOKEN_EXP)
     token = jwt.encode({
@@ -256,7 +257,7 @@ def criar_usuario():
         return jsonify({"erro": "nome, email e senha obrigatórios"}), 400
     if perfil not in ("consultor","gestor","franqueadora"):
         return jsonify({"erro": "Perfil inválido"}), 400
-    h = bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode()
+    h = generate_password_hash(senha)
     db = get_db()
     try:
         cur = db.execute(
@@ -652,3 +653,4 @@ if __name__ == "__main__":
     print(f"  Banco: {DB_PATH}")
     print(f"  Debug: {debug}\n")
     app.run(host="0.0.0.0", port=port, debug=debug)
+    
