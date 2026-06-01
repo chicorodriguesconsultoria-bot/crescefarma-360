@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cresce Farma 360 — Organograma</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#F4F5F7;--bg2:#fff;--bg3:#F9FAFB;--bg4:#F0F1F3;
+  --border:#E5E7EB;--border2:#D1D5DB;
+  --text:#111827;--text2:#6B7280;--text3:#9CA3AF;
+  --green:#1D9E75;--green2:#157A5A;--green-bg:#EAF3DE;
+  --amber:#B45309;--amber-bg:#FEF3C7;
+  --red:#B91C1C;--red-bg:#FEE2E2;
+  --blue:#1D4ED8;--blue-bg:#EFF6FF;
+  --purple:#6D28D9;--purple-bg:#EDE9FE;
+  --teal:#0F766E;--teal-bg:#F0FDFA;
+  --coral:#C2410C;--coral-bg:#FFF7ED;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --radius:10px;--radius-sm:7px;--shadow:0 1px 3px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* HEADER */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50;}
+.logo-icon{width:30px;height:30px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;}
+.logo-icon svg{width:15px;height:15px;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;}
+.brand{font-size:14px;font-weight:700;color:var(--text);}
+.sep{width:1px;height:18px;background:var(--border);}
+.page-title{font-size:14px;font-weight:600;flex:1;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .12s;white-space:nowrap;}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-primary:hover{background:var(--green2);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.btn-sm{padding:5px 10px;font-size:12px;}
+.btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;}
+
+/* LAYOUT */
+.container{max-width:1200px;margin:0 auto;padding:24px;}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.toolbar-left{flex:1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.loja-select{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;padding:7px 12px;outline:none;font-weight:500;}
+.loja-select:focus{border-color:var(--green);}
+
+/* ORGANOGRAMA CONTAINER */
+.org-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px 24px;box-shadow:var(--shadow);overflow-x:auto;margin-bottom:20px;}
+.org-tree{display:flex;flex-direction:column;align-items:center;min-width:800px;}
+
+/* NÍVEIS */
+.org-level{display:flex;justify-content:center;gap:16px;position:relative;margin-bottom:0;}
+.org-level + .org-level{margin-top:0;}
+
+/* LINHAS CONECTORAS */
+.connector-wrap{display:flex;flex-direction:column;align-items:center;}
+.line-down{width:2px;height:24px;background:var(--border2);}
+.line-h-wrap{display:flex;align-items:flex-start;justify-content:center;}
+.line-h{height:2px;background:var(--border2);align-self:flex-start;margin-top:0;}
+.line-branch{display:flex;flex-direction:column;align-items:center;}
+.line-branch .line-down{height:20px;}
+
+/* NÓ DO ORGANOGRAMA */
+.org-node{position:relative;display:flex;flex-direction:column;align-items:center;}
+.node-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius);padding:14px 16px;width:180px;cursor:pointer;transition:all .15s;position:relative;box-shadow:var(--shadow);}
+.node-card:hover{border-color:var(--border2);box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.node-card.selected{border-color:var(--green);box-shadow:0 0 0 3px rgba(29,158,117,.15);}
+.node-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin:0 auto 8px;}
+.node-nome{font-size:12.5px;font-weight:700;color:var(--text);text-align:center;line-height:1.3;margin-bottom:3px;}
+.node-cargo{font-size:11px;color:var(--text2);text-align:center;margin-bottom:8px;}
+.node-cot{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-bottom:6px;}
+.cot-pill{font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;white-space:nowrap;}
+.node-contato{font-size:10px;color:var(--text3);text-align:center;line-height:1.6;}
+.node-contato a{color:var(--green);text-decoration:none;}
+.node-actions{position:absolute;top:6px;right:6px;display:flex;gap:3px;opacity:0;transition:opacity .15s;}
+.node-card:hover .node-actions{opacity:1;}
+.node-btn{width:20px;height:20px;border-radius:4px;border:none;background:var(--bg3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;}
+.node-btn:hover{background:var(--border);}
+.add-child-btn{margin-top:10px;width:28px;height:28px;border-radius:50%;border:2px dashed var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text3);transition:all .15s;}
+.add-child-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg);}
+
+/* COT CORES */
+.cot-marketing{background:#EDE9FE;color:#6D28D9;}
+.cot-compras{background:#FEF3C7;color:#B45309;}
+.cot-financeiro{background:#EFF6FF;color:#1D4ED8;}
+.cot-vm{background:#FFF7ED;color:#C2410C;}
+.cot-gcp{background:#F0FDFA;color:#0F766E;}
+.cot-drcuidado{background:#FEE2E2;color:#B91C1C;}
+
+/* PAINEL LATERAL */
+.side-panel{position:fixed;right:0;top:56px;bottom:0;width:340px;background:var(--bg2);border-left:1px solid var(--border);padding:0;transform:translateX(100%);transition:transform .25s;z-index:40;display:flex;flex-direction:column;}
+.side-panel.open{transform:translateX(0);}
+.side-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.side-title{font-size:15px;font-weight:700;}
+.side-body{flex:1;overflow-y:auto;padding:18px 20px;}
+.side-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;}
+.field{margin-bottom:14px;}
+.field-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+input[type=text],input[type=email],input[type=tel],textarea,select{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;padding:8px 12px;width:100%;outline:none;transition:border-color .12s;}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(29,158,117,.1);}
+.cot-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.cot-check{display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:12px;color:var(--text2);transition:all .12s;}
+.cot-check:hover{border-color:var(--border2);}
+.cot-check.active{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.cot-check-dot{width:8px;height:8px;border-radius:50%;}
+
+/* LISTA CONTATOS */
+.contatos-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+.contato-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.contato-row:last-child{border:none;}
+.contato-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.contato-info{flex:1;min-width:0;}
+.contato-nome{font-size:13px;font-weight:600;color:var(--text);}
+.contato-cargo{font-size:11px;color:var(--text3);}
+.contato-cot{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap;}
+.contato-dados{font-size:11px;color:var(--text2);line-height:1.8;text-align:right;}
+.contato-dados a{color:var(--green);text-decoration:none;}
+
+/* WHATSAPP EXPORT */
+.wa-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-family:var(--mono);font-size:12px;color:var(--text2);line-height:1.8;white-space:pre-wrap;margin-top:12px;position:relative;}
+.copy-wa{position:absolute;top:8px;right:8px;background:var(--bg2);border:1px solid var(--border2);color:var(--text2);font-family:var(--font);font-size:11px;font-weight:500;padding:3px 8px;border-radius:var(--radius-xs);cursor:pointer;}
+.copy-wa:hover{color:var(--green);}
+
+/* MODAL */
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-wrap.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:18px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+
+/* NOTIF */
+.notif{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;padding:12px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.notif.show{opacity:1;transform:translateY(0);}
+
+/* PDF PREVIEW INVISÍVEL */
+.pdf-preview{position:absolute;left:-9999px;top:0;width:900px;background:#fff;padding:40px;font-family:var(--font);}
+
+@media(max-width:700px){
+  .side-panel{width:100%;}
+  .container{padding:14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+  <div class="brand">Cresce Farma 360</div>
+  <div class="sep"></div>
+  <div class="page-title" id="page-title-loja">Organograma da Farmácia</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-ghost btn-sm" onclick="gerarListaContatos()">👥 Lista de contatos</button>
+    <button class="btn btn-ghost btn-sm" onclick="gerarWhatsApp()">📱 Exportar WhatsApp</button>
+    <button class="btn btn-primary btn-sm" onclick="exportarPDF()">↓ Exportar PDF</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <select class="loja-select" id="sel-loja" onchange="trocarLoja()">
+        <option value="1">Farmácia Bom Jesus Centro</option>
+        <option value="2">Farmácia Bom Jesus Norte</option>
+        <option value="3">Farmácia Central Norte</option>
+        <option value="4">Farmácia Park Sul</option>
+        <option value="5">Farmácia Recanto das Flores</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="showModal('modal-add-node')">+ Adicionar pessoa</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleView()">⇄ Alternar vista</button>
+    </div>
+    <div style="font-size:12px;color:var(--text3)">Clique em um card para editar</div>
+  </div>
+
+  <!-- ORGANOGRAMA -->
+  <div class="org-wrap" id="org-wrap">
+    <div class="org-tree" id="org-tree"></div>
+  </div>
+
+  <!-- LISTA DE CONTATOS (oculta até clicar) -->
+  <div id="lista-contatos-section" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:15px;font-weight:700">Lista de contatos — <span id="loja-nome-lista"></span></div>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('lista-contatos-section').style.display='none'">Fechar</button>
+    </div>
+    <div class="contatos-section" id="lista-contatos-render"></div>
+  </div>
+
+  <!-- WHATSAPP EXPORT -->
+  <div id="wa-section" style="display:none;margin-top:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:15px;font-weight:700">Texto para WhatsApp</div>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('wa-section').style.display='none'">Fechar</button>
+    </div>
+    <div class="wa-block" id="wa-texto">
+      <button class="copy-wa" onclick="copiarWA()">Copiar</button>
+      <span id="wa-content"></span>
+    </div>
+  </div>
+</div>
+
+<!-- PAINEL LATERAL DE EDIÇÃO -->
+<div class="side-panel" id="side-panel">
+  <div class="side-header">
+    <div class="side-title" id="side-panel-title">Editar colaborador</div>
+    <button class="btn btn-ghost btn-sm" onclick="fecharPanel()">✕</button>
+  </div>
+  <div class="side-body">
+    <div class="field"><div class="field-label">Nome completo</div><input type="text" id="ep-nome" placeholder="Ex: Ana Paula Souza"></div>
+    <div class="field"><div class="field-label">Cargo</div>
+      <select id="ep-cargo">
+        <option value="Proprietário">Proprietário</option>
+        <option value="Gerente">Gerente</option>
+        <option value="Farmacêutico Responsável">Farmacêutico Responsável</option>
+        <option value="Comprador">Comprador</option>
+        <option value="Vendedor">Vendedor</option>
+        <option value="Caixa">Caixa</option>
+        <option value="Auxiliar Administrativo">Auxiliar Administrativo</option>
+        <option value="Perfumista">Perfumista</option>
+        <option value="Entregador">Entregador</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+    <div class="field"><div class="field-label">Telefone / WhatsApp</div><input type="tel" id="ep-tel" placeholder="(41) 99999-0000"></div>
+    <div class="field"><div class="field-label">E-mail</div><input type="email" id="ep-email" placeholder="email@farmacia.com"></div>
+    <div class="field">
+      <div class="field-label">Responsabilidades COT</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Quais células do COT esta pessoa responde?</div>
+      <div class="cot-check-grid" id="cot-checks">
+        <div class="cot-check" data-cot="Marketing" onclick="toggleCOT(this)"><div class="cot-check-dot" style="background:#6D28D9"></div>Marketing</div>
+        <div class="cot-check" data-cot="Negociações" onclick="toggleCOT(this)"><div class="cot-check-dot" style="background:#B45309"></div>Negociações</div>
+        <div class="cot-check" data-cot="Financeiro" onclick="toggleCOT(this)"><div class="cot-check-dot" style="background:#1D4ED8"></div>Financeiro</div>
+        <div class="cot-check" data-cot="VM" onclick="toggleCOT(this)"><div class="cot-check-dot" style="background:#C2410C"></div>Visual Merch.</div>
+        <div class="cot-check" data-cot="GCP" onclick="toggleCOT(this)"><div class="cot-check-dot" style="background:#0F766E"></div>GCP</div>
+        <div class="cot-check" data-cot="Dr Cuidado" onclick="toggleCOT(this)"><div class="cot-check-dot" style="background:#B91C1C"></div>Dr Cuidado</div>
+      </div>
+    </div>
+    <div class="field"><div class="field-label">Observações / Responsabilidades</div><textarea rows="3" id="ep-obs" placeholder="Ex: Responsável pelo pedido semanal de genéricos, controle de vencidos..."></textarea></div>
+  </div>
+  <div class="side-footer">
+    <button class="btn btn-ghost" style="flex:1" onclick="excluirNo()">Excluir</button>
+    <button class="btn btn-primary" style="flex:2" onclick="salvarNo()">Salvar alterações</button>
+  </div>
+</div>
+
+<!-- MODAL ADD NODO -->
+<div class="modal-wrap" id="modal-add-node">
+  <div class="modal">
+    <div class="modal-title">Adicionar colaborador</div>
+    <div class="field"><div class="field-label">Nome completo</div><input type="text" id="an-nome" placeholder="Ex: Carlos Moura"></div>
+    <div class="field"><div class="field-label">Cargo</div>
+      <select id="an-cargo">
+        <option value="Proprietário">Proprietário</option>
+        <option value="Gerente">Gerente</option>
+        <option value="Farmacêutico Responsável">Farmacêutico Responsável</option>
+        <option value="Comprador">Comprador</option>
+        <option value="Vendedor">Vendedor</option>
+        <option value="Caixa">Caixa</option>
+        <option value="Auxiliar Administrativo">Auxiliar Administrativo</option>
+        <option value="Perfumista">Perfumista</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+    <div class="field"><div class="field-label">Telefone</div><input type="tel" id="an-tel" placeholder="(41) 99999-0000"></div>
+    <div class="field"><div class="field-label">E-mail</div><input type="email" id="an-email" placeholder="email@farmacia.com"></div>
+    <div class="field"><div class="field-label">Reporta a</div><select id="an-parent"><option value="">— Nó raiz —</option></select></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-node')">Cancelar</button>
+      <button class="btn btn-primary" onclick="adicionarNo()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<!-- PDF PREVIEW OCULTO -->
+<div class="pdf-preview" id="pdf-preview"></div>
+
+<script>
+const COT_CORES = {
+  'Marketing': {bg:'#EDE9FE',color:'#6D28D9'},
+  'Negociações': {bg:'#FEF3C7',color:'#B45309'},
+  'Financeiro': {bg:'#EFF6FF',color:'#1D4ED8'},
+  'VM': {bg:'#FFF7ED',color:'#C2410C'},
+  'GCP': {bg:'#F0FDFA',color:'#0F766E'},
+  'Dr Cuidado': {bg:'#FEE2E2',color:'#B91C1C'},
+};
+
+const AVATAR_CORES = [
+  {bg:'#EAF3DE',color:'#1D9E75'},{bg:'#EFF6FF',color:'#1D4ED8'},
+  {bg:'#EDE9FE',color:'#6D28D9'},{bg:'#FEF3C7',color:'#B45309'},
+  {bg:'#FEE2E2',color:'#B91C1C'},{bg:'#F0FDFA',color:'#0F766E'},
+];
+
+// ══ DADOS POR LOJA ══
+const ORGS = {
+  1: [
+    {id:1, nome:'Roberto Andrade', cargo:'Proprietário', tel:'(41) 99901-0001', email:'roberto@bomjesus.com', cot:[], obs:'', parentId:null, nivel:0},
+    {id:2, nome:'Ana Paula Souza', cargo:'Gerente', tel:'(41) 99901-0002', email:'anapaula@bomjesus.com', cot:['GCP','Financeiro'], obs:'Responsável pelo fechamento de caixa e metas de equipe', parentId:1, nivel:1},
+    {id:3, nome:'Dr. Marcos Lima', cargo:'Farmacêutico Responsável', tel:'(41) 99901-0003', email:'marcos@bomjesus.com', cot:['Dr Cuidado'], obs:'Responsável pela farmácia clínica e GCP', parentId:1, nivel:1},
+    {id:4, nome:'Carla Ramos', cargo:'Comprador', tel:'(41) 99901-0004', email:'carla@bomjesus.com', cot:['Negociações'], obs:'Pedidos semanais, negociação com distribuidoras', parentId:2, nivel:2},
+    {id:5, nome:'Juliana Costa', cargo:'Vendedor', tel:'(41) 99901-0005', email:'juliana@bomjesus.com', cot:['Marketing','VM'], obs:'Responsável pelo PDV e campanhas ativas', parentId:2, nivel:2},
+    {id:6, nome:'Pedro Silva', cargo:'Vendedor', tel:'(41) 99901-0006', email:'pedro@bomjesus.com', cot:[], obs:'', parentId:2, nivel:2},
+    {id:7, nome:'Fernanda Moura', cargo:'Caixa', tel:'(41) 99901-0007', email:'fernanda@bomjesus.com', cot:[], obs:'', parentId:2, nivel:2},
+  ],
+  2: [
+    {id:1, nome:'Sílvia Nakamura', cargo:'Proprietária', tel:'(41) 99902-0001', email:'silvia@bjnorte.com', cot:[], obs:'', parentId:null, nivel:0},
+    {id:2, nome:'Rodrigo Alves', cargo:'Gerente', tel:'(41) 99902-0002', email:'rodrigo@bjnorte.com', cot:['GCP','Financeiro','VM'], obs:'', parentId:1, nivel:1},
+    {id:3, nome:'Dra. Patrícia Luz', cargo:'Farmacêutica Responsável', tel:'(41) 99902-0003', email:'patricia@bjnorte.com', cot:['Dr Cuidado'], obs:'', parentId:1, nivel:1},
+    {id:4, nome:'Tiago Mendes', cargo:'Comprador', tel:'(41) 99902-0004', email:'tiago@bjnorte.com', cot:['Negociações'], obs:'', parentId:2, nivel:2},
+    {id:5, nome:'Bruna Ferreira', cargo:'Vendedor', tel:'(41) 99902-0005', email:'bruna@bjnorte.com', cot:['Marketing'], obs:'', parentId:2, nivel:2},
+  ],
+  3: [
+    {id:1, nome:'Eduardo Pires', cargo:'Proprietário', tel:'(41) 99903-0001', email:'eduardo@centralnorte.com', cot:[], obs:'', parentId:null, nivel:0},
+    {id:2, nome:'Patrícia Souza', cargo:'Gerente', tel:'(41) 99903-0002', email:'patricia@centralnorte.com', cot:['GCP','Financeiro'], obs:'', parentId:1, nivel:1},
+    {id:3, nome:'Dr. Henrique Leal', cargo:'Farmacêutico Responsável', tel:'(41) 99903-0003', email:'henrique@centralnorte.com', cot:['Dr Cuidado'], obs:'', parentId:1, nivel:1},
+  ],
+};
+
+let lojaAtual = 1;
+let orgAtual = [];
+let noSelecionado = null;
+let nextId = 100;
+let viewMode = 'arvore';
+
+function trocarLoja() {
+  lojaAtual = parseInt(document.getElementById('sel-loja').value);
+  orgAtual = JSON.parse(JSON.stringify(ORGS[lojaAtual] || ORGS[1]));
+  document.getElementById('page-title-loja').textContent = 'Organograma — ' + document.getElementById('sel-loja').options[document.getElementById('sel-loja').selectedIndex].text;
+  fecharPanel();
+  renderOrg();
+}
+
+// ══ RENDER ══
+function renderOrg() {
+  const tree = document.getElementById('org-tree');
+  tree.innerHTML = '';
+
+  const raiz = orgAtual.find(n => n.parentId === null);
+  if (!raiz) { tree.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">Nenhum colaborador cadastrado. Clique em "+ Adicionar pessoa".</div>'; return; }
+
+  renderNo(tree, raiz, true);
+}
+
+function renderNo(container, no, isRoot) {
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+
+  // Card do nó
+  const card = criarCard(no);
+  wrapper.appendChild(card);
+
+  // Filhos
+  const filhos = orgAtual.filter(n => n.parentId === no.id);
+  if (filhos.length > 0) {
+    // Linha descendo do pai
+    const lineDown = document.createElement('div');
+    lineDown.className = 'line-down';
+    wrapper.appendChild(lineDown);
+
+    if (filhos.length === 1) {
+      renderNo(wrapper, filhos[0], false);
+    } else {
+      // Linha horizontal
+      const hWrap = document.createElement('div');
+      hWrap.style.cssText = 'display:flex;align-items:flex-start;justify-content:center;gap:0;';
+
+      filhos.forEach((filho, idx) => {
+        const branch = document.createElement('div');
+        branch.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+
+        // Linha horizontal conectora
+        const hLine = document.createElement('div');
+        hLine.style.cssText = `height:2px;background:var(--border2);width:100%;align-self:flex-start;margin-top:0;min-width:${filhos.length > 3 ? 80 : 100}px;`;
+        if (idx === 0) hLine.style.borderRadius = '2px 0 0 0';
+        if (idx === filhos.length - 1) hLine.style.borderRadius = '0 2px 0 0';
+        branch.appendChild(hLine);
+
+        const lineDown2 = document.createElement('div');
+        lineDown2.className = 'line-down';
+        branch.appendChild(lineDown2);
+
+        renderNo(branch, filho, false);
+        hWrap.appendChild(branch);
+      });
+
+      wrapper.appendChild(hWrap);
+    }
+  }
+
+  container.appendChild(wrapper);
+}
+
+function criarCard(no) {
+  const idx = orgAtual.indexOf(no) % AVATAR_CORES.length;
+  const cor = AVATAR_CORES[idx];
+  const ini = no.nome.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+
+  const div = document.createElement('div');
+  div.className = 'org-node';
+
+  const card = document.createElement('div');
+  card.className = 'node-card' + (noSelecionado?.id === no.id ? ' selected' : '');
+  card.onclick = () => abrirPanel(no);
+
+  // Ações
+  const actions = document.createElement('div');
+  actions.className = 'node-actions';
+  actions.innerHTML = `<button class="node-btn" title="Editar" onclick="event.stopPropagation();abrirPanel(orgAtual.find(n=>n.id===${no.id}))">✎</button>`;
+  card.appendChild(actions);
+
+  // Avatar
+  const avatar = document.createElement('div');
+  avatar.className = 'node-avatar';
+  avatar.style.cssText = `background:${cor.bg};color:${cor.color}`;
+  avatar.textContent = ini;
+  card.appendChild(avatar);
+
+  // Nome
+  const nome = document.createElement('div');
+  nome.className = 'node-nome';
+  nome.textContent = no.nome;
+  card.appendChild(nome);
+
+  // Cargo
+  const cargo = document.createElement('div');
+  cargo.className = 'node-cargo';
+  cargo.textContent = no.cargo;
+  card.appendChild(cargo);
+
+  // COT Pills
+  if (no.cot && no.cot.length > 0) {
+    const cotWrap = document.createElement('div');
+    cotWrap.className = 'node-cot';
+    no.cot.forEach(c => {
+      const pill = document.createElement('span');
+      pill.className = 'cot-pill';
+      const cc = COT_CORES[c] || {bg:'#F3F4F6',color:'#6B7280'};
+      pill.style.cssText = `background:${cc.bg};color:${cc.color}`;
+      pill.textContent = c;
+      cotWrap.appendChild(pill);
+    });
+    card.appendChild(cotWrap);
+  }
+
+  // Contato
+  if (no.tel || no.email) {
+    const contato = document.createElement('div');
+    contato.className = 'node-contato';
+    if (no.tel) contato.innerHTML += `📱 ${no.tel}<br>`;
+    if (no.email) contato.innerHTML += `✉ ${no.email}`;
+    card.appendChild(contato);
+  }
+
+  div.appendChild(card);
+  return div;
+}
+
+// ══ PAINEL LATERAL ══
+function abrirPanel(no) {
+  noSelecionado = no;
+  document.getElementById('ep-nome').value = no.nome;
+  document.getElementById('ep-cargo').value = no.cargo;
+  document.getElementById('ep-tel').value = no.tel || '';
+  document.getElementById('ep-email').value = no.email || '';
+  document.getElementById('ep-obs').value = no.obs || '';
+
+  // Reset COT checks
+  document.querySelectorAll('.cot-check').forEach(el => {
+    el.classList.toggle('active', (no.cot||[]).includes(el.dataset.cot));
+  });
+
+  document.getElementById('side-panel-title').textContent = 'Editar: ' + no.nome.split(' ')[0];
+  document.getElementById('side-panel').classList.add('open');
+  renderOrg();
+}
+
+function fecharPanel() {
+  noSelecionado = null;
+  document.getElementById('side-panel').classList.remove('open');
+  renderOrg();
+}
+
+function toggleCOT(el) { el.classList.toggle('active'); }
+
+function salvarNo() {
+  if (!noSelecionado) return;
+  const no = orgAtual.find(n => n.id === noSelecionado.id);
+  no.nome = document.getElementById('ep-nome').value.trim() || no.nome;
+  no.cargo = document.getElementById('ep-cargo').value;
+  no.tel = document.getElementById('ep-tel').value.trim();
+  no.email = document.getElementById('ep-email').value.trim();
+  no.obs = document.getElementById('ep-obs').value.trim();
+  no.cot = [...document.querySelectorAll('.cot-check.active')].map(el => el.dataset.cot);
+  fecharPanel();
+  notif('Alterações salvas ✓');
+}
+
+function excluirNo() {
+  if (!noSelecionado) return;
+  const filhos = orgAtual.filter(n => n.parentId === noSelecionado.id);
+  if (filhos.length > 0) { notif('Remova os subordinados antes de excluir'); return; }
+  orgAtual = orgAtual.filter(n => n.id !== noSelecionado.id);
+  fecharPanel();
+  notif('Colaborador removido');
+}
+
+// ══ ADICIONAR NÓ ══
+function abrirModalAdd() {
+  const sel = document.getElementById('an-parent');
+  sel.innerHTML = '<option value="">— Nó raiz (sem superior) —</option>' +
+    orgAtual.map(n => `<option value="${n.id}">${n.nome} (${n.cargo})</option>`).join('');
+  showModal('modal-add-node');
+}
+
+function adicionarNo() {
+  const nome = document.getElementById('an-nome').value.trim();
+  if (!nome) { notif('Informe o nome'); return; }
+  const parentId = document.getElementById('an-parent').value ? parseInt(document.getElementById('an-parent').value) : null;
+  orgAtual.push({
+    id: nextId++,
+    nome,
+    cargo: document.getElementById('an-cargo').value,
+    tel: document.getElementById('an-tel').value.trim(),
+    email: document.getElementById('an-email').value.trim(),
+    cot: [], obs: '',
+    parentId,
+    nivel: parentId ? (orgAtual.find(n=>n.id===parentId)?.nivel||0)+1 : 0
+  });
+  document.getElementById('an-nome').value='';document.getElementById('an-tel').value='';document.getElementById('an-email').value='';
+  closeModal('modal-add-node');
+  renderOrg();
+  notif('Colaborador adicionado ✓');
+}
+
+// ══ LISTA DE CONTATOS ══
+function gerarListaContatos() {
+  const sec = document.getElementById('lista-contatos-section');
+  const el = document.getElementById('lista-contatos-render');
+  document.getElementById('loja-nome-lista').textContent = document.getElementById('sel-loja').options[document.getElementById('sel-loja').selectedIndex].text;
+
+  el.innerHTML = orgAtual.sort((a,b)=>a.nivel-b.nivel).map((no,idx) => {
+    const cor = AVATAR_CORES[idx%AVATAR_CORES.length];
+    const ini = no.nome.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+    const cotHtml = no.cot && no.cot.length > 0 ? no.cot.map(c => {
+      const cc = COT_CORES[c]||{bg:'#F3F4F6',color:'#6B7280'};
+      return `<span class="cot-pill" style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;background:${cc.bg};color:${cc.color}">${c}</span>`;
+    }).join('') : '';
+    return `<div class="contato-row">
+      <div class="contato-avatar" style="background:${cor.bg};color:${cor.color}">${ini}</div>
+      <div class="contato-info">
+        <div class="contato-nome">${no.nome}</div>
+        <div class="contato-cargo">${no.cargo}</div>
+        ${cotHtml ? `<div class="contato-cot" style="margin-top:4px">${cotHtml}</div>` : ''}
+        ${no.obs ? `<div style="font-size:11px;color:var(--text3);margin-top:3px">${no.obs}</div>` : ''}
+      </div>
+      <div class="contato-dados">
+        ${no.tel ? `<a href="tel:${no.tel}">${no.tel}</a><br>` : '—<br>'}
+        ${no.email ? `<a href="mailto:${no.email}">${no.email}</a>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  sec.style.display = 'block';
+  sec.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ══ WHATSAPP EXPORT ══
+function gerarWhatsApp() {
+  const lojaNome = document.getElementById('sel-loja').options[document.getElementById('sel-loja').selectedIndex].text;
+  let txt = `*${lojaNome}*\n*Equipe & Contatos — Cresce Farma 360*\n${'─'.repeat(30)}\n\n`;
+  orgAtual.sort((a,b)=>a.nivel-b.nivel).forEach(no => {
+    txt += `*${no.nome}*\n`;
+    txt += `📋 ${no.cargo}\n`;
+    if(no.tel) txt += `📱 ${no.tel}\n`;
+    if(no.email) txt += `✉️ ${no.email}\n`;
+    if(no.cot && no.cot.length) txt += `🎯 COT: ${no.cot.join(' · ')}\n`;
+    if(no.obs) txt += `📌 ${no.obs}\n`;
+    txt += '\n';
+  });
+  txt += `_Gerado pelo Cresce Farma 360_`;
+
+  document.getElementById('wa-content').textContent = txt;
+  document.getElementById('wa-section').style.display = 'block';
+  document.getElementById('wa-section').scrollIntoView({behavior:'smooth'});
+}
+
+function copiarWA() {
+  navigator.clipboard.writeText(document.getElementById('wa-content').textContent);
+  notif('Texto copiado! Cole no WhatsApp ✓');
+}
+
+// ══ EXPORT PDF ══
+async function exportarPDF() {
+  notif('Gerando PDF...');
+  const lojaNome = document.getElementById('sel-loja').options[document.getElementById('sel-loja').selectedIndex].text;
+
+  const preview = document.getElementById('pdf-preview');
+  preview.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #1D9E75">
+      <div style="width:36px;height:36px;border-radius:9px;background:#1D9E75;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px">CF</div>
+      <div>
+        <div style="font-size:18px;font-weight:700;color:#111827">Cresce Farma 360</div>
+        <div style="font-size:12px;color:#6B7280">Organograma — ${lojaNome}</div>
+      </div>
+      <div style="margin-left:auto;font-size:11px;color:#9CA3AF">${new Date().toLocaleDateString('pt-BR')}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px">
+      ${orgAtual.sort((a,b)=>a.nivel-b.nivel).map((no,idx) => {
+        const cor = AVATAR_CORES[idx%AVATAR_CORES.length];
+        const ini = no.nome.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+        const cotHtml = no.cot && no.cot.length > 0 ? no.cot.map(c=>{
+          const cc=COT_CORES[c]||{bg:'#F3F4F6',color:'#6B7280'};
+          return `<span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;background:${cc.bg};color:${cc.color};margin:1px;display:inline-block">${c}</span>`;
+        }).join('') : '';
+        return `<div style="border:1px solid #E5E7EB;border-radius:10px;padding:14px;background:#fff;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <div style="width:32px;height:32px;border-radius:50%;background:${cor.bg};color:${cor.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${ini}</div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#111827">${no.nome}</div>
+              <div style="font-size:10px;color:#6B7280">${no.cargo}</div>
+            </div>
+          </div>
+          ${cotHtml ? `<div style="margin-bottom:6px">${cotHtml}</div>` : ''}
+          <div style="font-size:10px;color:#6B7280;line-height:1.7">
+            ${no.tel ? `📱 ${no.tel}<br>` : ''}
+            ${no.email ? `✉ ${no.email}<br>` : ''}
+            ${no.obs ? `📌 ${no.obs}` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:10px;color:#9CA3AF;text-align:center;border-top:1px solid #E5E7EB;padding-top:12px">Cresce Farma 360 · Sistema de Consultoria em Campo · ${new Date().toLocaleDateString('pt-BR')}</div>`;
+
+  try {
+    const canvas = await html2canvas(preview, {scale:2,backgroundColor:'#ffffff',logging:false});
+    const imgData = canvas.toDataURL('image/png');
+    const {jsPDF} = window.jspdf;
+    const pdf = new jsPDF('p','mm','a4');
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const imgW = pageW - 20;
+    const imgH = (canvas.height * imgW) / canvas.width;
+    pdf.addImage(imgData,'PNG',10,10,imgW,Math.min(imgH, pageH-20));
+    pdf.save(`organograma-${lojaNome.replace(/\s/g,'-').toLowerCase()}.pdf`);
+    notif('PDF exportado com sucesso ✓');
+  } catch(e) {
+    notif('Erro ao gerar PDF. Tente novamente.');
+  }
+}
+
+// ══ TOGGLE VIEW ══
+function toggleView() {
+  viewMode = viewMode === 'arvore' ? 'lista' : 'arvore';
+  if (viewMode === 'lista') { gerarListaContatos(); notif('Vista de lista ativada'); }
+  else { document.getElementById('lista-contatos-section').style.display='none'; notif('Vista de árvore ativada'); }
+}
+
+// ══ UTILS ══
+function showModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function notif(msg) { const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800); }
+
+// Sobrescrever botão de adicionar para abrir com dados
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('[onclick="showModal(\'modal-add-node\')"]')?.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation(); abrirModalAdd();
+  });
+});
+
+// ══ INIT ══
+trocarLoja();
+</script>
+</body>
+</html>
