@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cresce Farma 360 — Painel de Performance</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0f;--bg2:#0e1118;--bg3:#141720;--bg4:#1a1e2a;--bg5:#202434;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);--border3:rgba(255,255,255,0.16);
+  --text:#dde2f0;--text2:#7c829a;--text3:#454a5e;
+  --green:#00f0a0;--green2:#00c882;--green-bg:rgba(0,240,160,0.07);
+  --amber:#ffc040;--amber-bg:rgba(255,192,64,0.08);
+  --red:#ff4d6a;--red-bg:rgba(255,77,106,0.08);
+  --blue:#4d9fff;--blue-bg:rgba(77,159,255,0.08);
+  --purple:#b388ff;--purple-bg:rgba(179,136,255,0.08);
+  --teal:#00d4e0;--teal-bg:rgba(0,212,224,0.08);
+  --font:'Syne',sans-serif;--body:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --radius:14px;--radius-sm:9px;--radius-xs:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50;}
+.brand{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;}
+.sep{width:1px;height:18px;background:var(--border2);}
+.header-loja{font-family:var(--font);font-size:14px;font-weight:600;flex:1;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-family:var(--body);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s;white-space:nowrap;}
+.btn-primary{background:var(--green);color:#080a0f;}
+.btn-primary:hover{background:var(--green2);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.btn-purple{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(179,136,255,.2);}
+.btn-purple:hover{background:rgba(179,136,255,.15);}
+.btn-sm{padding:5px 10px;font-size:12px;}
+.btn-amber{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(255,192,64,.2);}
+
+/* LAYOUT */
+.container{max-width:1380px;margin:0 auto;padding:20px 24px;}
+
+/* CONTROLES TOPO */
+.top-controls{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+select.ctrl{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:var(--body);font-size:13px;padding:7px 12px;outline:none;cursor:pointer;}
+select.ctrl:focus{border-color:var(--green);}
+.periodo-tabs{display:flex;gap:2px;background:var(--bg3);border-radius:var(--radius-sm);padding:3px;}
+.p-tab{padding:5px 12px;border-radius:var(--radius-xs);font-size:12px;font-weight:600;border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:var(--body);transition:all .15s;}
+.p-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4);}
+
+/* UPLOAD SECTION */
+.upload-section{margin-bottom:20px;}
+.upload-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.upload-title{font-family:var(--font);font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;}
+.meses-upload{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+.mes-upload-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 10px;text-align:center;cursor:pointer;transition:all .15s;position:relative;}
+.mes-upload-card:hover{border-color:var(--border2);}
+.mes-upload-card.tem-dados{border-color:var(--green);background:var(--green-bg);}
+.mes-upload-card.uploading{border-color:var(--amber);background:var(--amber-bg);}
+.mes-upload-card input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.muc-label{font-size:11px;font-weight:700;font-family:var(--font);color:var(--text2);margin-bottom:4px;}
+.muc-label.has{color:var(--green);}
+.muc-status{font-size:9px;color:var(--text3);}
+.muc-status.has{color:var(--green);}
+.muc-icon{font-size:18px;margin-bottom:4px;}
+.muc-venda{font-family:var(--mono);font-size:10px;color:var(--green);margin-top:3px;}
+
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--bg3);border-radius:var(--radius-sm);padding:3px;margin-bottom:20px;overflow-x:auto;}
+.tab{flex-shrink:0;padding:7px 14px;font-size:12.5px;border-radius:var(--radius-xs);cursor:pointer;color:var(--text2);font-weight:500;border:none;background:transparent;font-family:var(--body);transition:all .15s;}
+.tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:18px;}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi-card.green::before{background:var(--green);}
+.kpi-card.amber::before{background:var(--amber);}
+.kpi-card.red::before{background:var(--red);}
+.kpi-card.blue::before{background:var(--blue);}
+.kpi-card.purple::before{background:var(--purple);}
+.kpi-card.teal::before{background:var(--teal);}
+.kpi-label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.kpi-val{font-family:var(--font);font-size:22px;font-weight:700;line-height:1;margin-bottom:5px;}
+.kpi-val.green{color:var(--green);}
+.kpi-val.amber{color:var(--amber);}
+.kpi-val.red{color:var(--red);}
+.kpi-val.blue{color:var(--blue);}
+.kpi-val.purple{color:var(--purple);}
+.kpi-val.teal{color:var(--teal);}
+.kpi-delta{font-size:11px;color:var(--text2);}
+.kpi-delta.up{color:var(--green);}
+.kpi-delta.down{color:var(--red);}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.card-ttl{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+
+/* CHART SEMESTRAL */
+.chart-sem{display:flex;align-items:flex-end;gap:8px;height:160px;margin-top:8px;}
+.cs-bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.cs-mes{font-size:10px;color:var(--text3);font-family:var(--mono);text-align:center;}
+.cs-bars{display:flex;gap:3px;align-items:flex-end;width:100%;}
+.cs-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s;}
+.cs-val{font-size:9px;color:var(--text2);font-family:var(--mono);text-align:center;}
+
+/* BARRAS SIMPLES */
+.chart-bars{display:flex;align-items:flex-end;gap:5px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bar-body{width:100%;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s ease;}
+.bar-lbl{font-size:9px;color:var(--text3);font-family:var(--mono);}
+.bar-num{font-size:9px;color:var(--text2);font-family:var(--mono);}
+
+/* TABELA */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{text-align:left;padding:8px 12px;background:var(--bg3);color:var(--text3);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg3);}
+td.num{font-family:var(--mono);text-align:right;}
+td.pos{color:var(--green);}
+td.neg{color:var(--red);}
+td.warn{color:var(--amber);}
+tr.total-row td{font-weight:600;color:var(--text);background:var(--bg3);}
+.rank{width:20px;height:20px;border-radius:50%;background:var(--bg4);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text3);}
+.rank.r1{background:rgba(255,192,64,.15);color:var(--amber);}
+
+/* DRE */
+.dre-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+.dre-row:last-child{border-bottom:none;}
+.dre-row.total{background:var(--bg3);border-radius:var(--radius-xs);padding:9px 10px;margin:2px -10px;}
+.dre-label{flex:1;font-size:12.5px;color:var(--text2);}
+.dre-label.indent{padding-left:14px;font-size:12px;color:var(--text3);}
+.dre-row.total .dre-label{color:var(--text);font-weight:600;}
+.dre-val{font-family:var(--mono);font-size:12.5px;min-width:110px;text-align:right;}
+.dre-pct{font-family:var(--mono);font-size:11px;color:var(--text3);min-width:50px;text-align:right;}
+.dre-input{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-xs);color:var(--text);font-family:var(--mono);font-size:12px;padding:4px 8px;width:110px;text-align:right;outline:none;}
+.dre-input:focus{border-color:var(--green);}
+.dre-sec{font-family:var(--font);font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:12px 0 4px;border-top:1px solid var(--border);margin-top:4px;}
+
+/* PROGRESS */
+.prog-track{height:5px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-top:5px;}
+.prog-fill{height:100%;border-radius:99px;transition:width .5s;}
+
+/* IA */
+.ai-box{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:var(--radius-sm);padding:16px 18px;margin-top:14px;}
+.ai-hdr{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
+.ai-body{font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;}
+.ai-loading{display:flex;gap:4px;align-items:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--purple);animation:pulse 1.2s infinite;}
+.dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:1}}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);}
+.badge-red{background:var(--red-bg);color:var(--red);}
+.badge-gray{background:var(--bg4);color:var(--text2);}
+
+/* NOTIF */
+.notif{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--green);color:var(--green);padding:12px 18px;border-radius:var(--radius-sm);font-size:13px;z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;}
+.notif.show{opacity:1;transform:translateY(0);}
+
+/* MODAL */
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-wrap.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:24px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-family:var(--font);font-size:16px;font-weight:700;margin-bottom:16px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+.field{margin-bottom:12px;}
+.field-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+input[type=text],textarea,select{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:var(--body);font-size:13px;padding:8px 12px;width:100%;outline:none;transition:border-color .15s;}
+input:focus,textarea:focus,select:focus{border-color:var(--green);}
+textarea{resize:vertical;}
+
+.divider{height:1px;background:var(--border);margin:16px 0;}
+
+@media(max-width:768px){
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .meses-upload{grid-template-columns:repeat(3,1fr);}
+  .container{padding:14px;}
+  .top-controls{gap:8px;}
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:1fr;}
+  .meses-upload{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <button onclick="history.back()" style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text2);">← Voltar</button>
+  <div class="sep"></div>
+  <div class="brand">✦ Cresce Farma 360</div>
+  <div class="sep"></div>
+  <div class="header-loja" id="hdr-loja">Painel de Performance</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-purple btn-sm" onclick="gerarIA()">✦ Análise IA</button>
+    <button class="btn btn-ghost btn-sm" onclick="notif('Exportando PDF...')">↗ Exportar</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- CONTROLES -->
+  <div class="top-controls">
+    <select class="ctrl" id="sel-loja" onchange="trocarLoja()">
+      <option value="1">Farmácia Bom Jesus Centro</option>
+      <option value="2">Farmácia Bom Jesus Norte</option>
+      <option value="3">Farmácia Central Norte</option>
+      <option value="4">Farmácia Park Sul</option>
+      <option value="5">Farmácia Recanto das Flores</option>
+      <option value="6">Farmácia Nova Esperança</option>
+      <option value="7">Farmácia Boa Saúde</option>
+      <option value="8">Farmácia Vida Plena</option>
+    </select>
+    <div class="periodo-tabs">
+      <button class="p-tab" onclick="setModo('fixo',this)">1º Sem 2025</button>
+      <button class="p-tab" onclick="setModo('fixo2',this)">2º Sem 2024</button>
+      <button class="p-tab active" onclick="setModo('movel',this)">Últimos 6 meses</button>
+    </div>
+    <span id="periodo-label" style="font-size:12px;color:var(--text3)">Jan–Jun 2025</span>
+  </div>
+
+  <!-- UPLOAD MÊS A MÊS -->
+  <div class="upload-section">
+    <div class="upload-header">
+      <div class="upload-title">📊 Importar dados por mês — IA preenche automaticamente</div>
+      <button class="btn btn-ghost btn-sm" onclick="limparTodos()">Limpar tudo</button>
+    </div>
+    <div class="meses-upload" id="meses-upload-grid"></div>
+    <!-- STATUS UPLOAD -->
+    <div id="upload-status" style="display:none;margin-top:12px;">
+      <div class="ai-box">
+        <div class="ai-hdr">✦ Interpretando arquivo — <span id="upload-mes-label"></span></div>
+        <div class="ai-body" id="upload-result">
+          <div class="ai-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div id="upload-actions" style="display:none;margin-top:12px;display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" onclick="aplicarDados()">✓ Aplicar dados</button>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('upload-status').style.display='none'">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('t-resumo')">Resumo Semestral</button>
+    <button class="tab" onclick="showTab('t-vendas')">Vendas & Mix</button>
+    <button class="tab" onclick="showTab('t-cmv')">CMV & Compras</button>
+    <button class="tab" onclick="showTab('t-dre')">DRE Gerencial</button>
+    <button class="tab" onclick="showTab('t-equipe')">Equipe</button>
+    <button class="tab" onclick="showTab('t-ia')">✦ Análise IA</button>
+  </div>
+
+  <!-- TAB: RESUMO SEMESTRAL -->
+  <div id="t-resumo" class="tab-content active">
+    <!-- KPIs médios do semestre -->
+    <div class="kpi-grid">
+      <div class="kpi-card green">
+        <div class="kpi-label">Faturamento Semestral</div>
+        <div class="kpi-val green" id="ks-fat">R$ 1.087.420</div>
+        <div class="kpi-delta up" id="ks-fat-d">Média mensal: R$ 181.237</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">CMV Médio Semestre</div>
+        <div class="kpi-val red" id="ks-cmv">63,1%</div>
+        <div class="kpi-delta down" id="ks-cmv-d">Meta 58% · Desvio +5,1pp</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Ticket Médio</div>
+        <div class="kpi-val amber" id="ks-ticket">R$ 46,80</div>
+        <div class="kpi-delta down" id="ks-ticket-d">Meta R$ 52,00</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Melhor Mês</div>
+        <div class="kpi-val blue" id="ks-melhor">Junho</div>
+        <div class="kpi-delta up" id="ks-melhor-d">R$ 187.420</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">Margem Bruta Média</div>
+        <div class="kpi-val purple" id="ks-margem">36,9%</div>
+        <div class="kpi-delta down" id="ks-margem-d">Meta ≥ 42%</div>
+      </div>
+      <div class="kpi-card teal">
+        <div class="kpi-label">Resultado Op. Médio</div>
+        <div class="kpi-val teal" id="ks-resultado">R$ 6.180</div>
+        <div class="kpi-delta up" id="ks-resultado-d">3,4% do faturamento</div>
+      </div>
+    </div>
+
+    <!-- GRÁFICO SEMESTRAL PRINCIPAL -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-hdr">
+        <div class="card-ttl">Evolução Semestral — Venda × CMV × Resultado</div>
+        <div style="display:flex;gap:10px;font-size:11px;color:var(--text2)">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--green);border-radius:2px;display:inline-block"></span>Venda</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--red);border-radius:2px;display:inline-block"></span>CMV</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--purple);border-radius:2px;display:inline-block"></span>Resultado</span>
+        </div>
+      </div>
+      <div class="chart-sem" id="chart-semestral" style="height:180px"></div>
+    </div>
+
+    <div class="grid-2">
+      <!-- TABELA RESUMO MÊS A MÊS -->
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Comparativo Mensal</div></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Mês</th><th>Venda</th><th>CMV%</th><th>Margem</th><th>Resultado</th><th>vs Ant.</th></tr>
+            </thead>
+            <tbody id="tb-resumo"></tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td><strong>Total/Méd.</strong></td>
+                <td class="num pos" id="tf-venda">R$ 1.087.420</td>
+                <td class="num neg" id="tf-cmv">63,1%</td>
+                <td class="num warn" id="tf-margem">36,9%</td>
+                <td class="num pos" id="tf-resultado">R$ 37.080</td>
+                <td class="num">—</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- CMV POR CATEGORIA -->
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">CMV por Categoria — Semestre</div></div>
+        <div id="cmv-cats">
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="color:var(--text2)">Genéricos</span>
+              <span style="color:var(--green);font-family:var(--mono)">52,8% <span style="color:var(--text3);font-size:10px">▲ meta 52%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill" style="width:52.8%;background:var(--green)"></div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="color:var(--text2)">Similares</span>
+              <span style="color:var(--amber);font-family:var(--mono)">62,1% <span style="color:var(--text3);font-size:10px">meta 58%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill" style="width:62%;background:var(--amber)"></div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="color:var(--text2)">Referência</span>
+              <span style="color:var(--red);font-family:var(--mono)">70,8% <span style="color:var(--text3);font-size:10px">meta 65%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill" style="width:70.8%;background:var(--red)"></div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="color:var(--text2)">HB / Perfumaria</span>
+              <span style="color:var(--amber);font-family:var(--mono)">57,4% <span style="color:var(--text3);font-size:10px">meta 55%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill" style="width:57.4%;background:var(--amber)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+              <span style="color:var(--text2)">Marca Própria</span>
+              <span style="color:var(--green);font-family:var(--mono)">43,8% <span style="color:var(--text3);font-size:10px">meta 45%</span></span>
+            </div>
+            <div class="prog-track"><div class="prog-fill" style="width:43.8%;background:var(--green)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: VENDAS -->
+  <div id="t-vendas" class="tab-content">
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Venda Bruta — 6 meses</div></div>
+        <div class="chart-bars" id="chart-venda-sem" style="height:160px"></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Mix de Categorias — Semestre</div></div>
+        <div class="chart-bars" id="chart-mix-sem" style="height:160px"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-ttl">Venda por Vendedor — Semestre Consolidado</div>
+        <button class="btn btn-ghost btn-sm" onclick="showModal('modal-vendedor')">+ Vendedor</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Vendedor</th><th>Venda Total</th><th>Média Mensal</th><th>Ticket Médio</th><th>Itens/CLI</th><th>Meta Semestral</th><th>Atingimento</th></tr>
+          </thead>
+          <tbody id="tb-vendedores-sem">
+            <tr><td><span class="rank r1">1</span></td><td>Ana Paula</td><td class="num pos">R$ 312.840</td><td class="num">R$ 52.140</td><td class="num">R$ 54,20</td><td class="num">3,1</td><td class="num">R$ 300.000</td><td class="num pos">104,3%</td></tr>
+            <tr><td><span class="rank">2</span></td><td>Carlos Moura</td><td class="num">R$ 261.190</td><td class="num">R$ 43.532</td><td class="num">R$ 46,80</td><td class="num">2,9</td><td class="num">R$ 288.000</td><td class="num warn">90,7%</td></tr>
+            <tr><td><span class="rank">3</span></td><td>Juliana Ramos</td><td class="num">R$ 228.720</td><td class="num">R$ 38.120</td><td class="num">R$ 41,50</td><td class="num">2,6</td><td class="num">R$ 270.000</td><td class="num neg">84,7%</td></tr>
+            <tr><td><span class="rank">4</span></td><td>Roberto Alves</td><td class="num">R$ 187.480</td><td class="num">R$ 31.247</td><td class="num">R$ 38,90</td><td class="num">2,4</td><td class="num">R$ 210.000</td><td class="num warn">89,3%</td></tr>
+            <tr><td><span class="rank">5</span></td><td>Fernanda Costa</td><td class="num neg">R$ 97.190</td><td class="num neg">R$ 16.198</td><td class="num">R$ 35,20</td><td class="num">2,1</td><td class="num">R$ 180.000</td><td class="num neg">54,0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CMV & COMPRAS -->
+  <div id="t-cmv" class="tab-content">
+    <div class="grid-3" style="margin-bottom:14px">
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">CMV% Semestre</div></div>
+        <div style="text-align:center;padding:16px 0">
+          <div class="kpi-val red" style="font-size:48px">63,1%</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px">Meta: 58% · Desvio: +5,1pp</div>
+          <div style="font-size:11px;color:var(--red);margin-top:4px">⚠ Acima do limite 4° mês seguido</div>
+        </div>
+        <div class="prog-track"><div class="prog-fill" style="width:63%;background:var(--red)"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Venda × Compra Semestre</div></div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text2)">Venda Total</span>
+            <span style="font-family:var(--mono);color:var(--green)">R$ 1.087.420</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text2)">Compra Total (CMV)</span>
+            <span style="font-family:var(--mono);color:var(--red)">R$ 686.156</span>
+          </div>
+          <div class="divider" style="margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text2)">Margem Bruta Total</span>
+            <span style="font-family:var(--mono);color:var(--purple)">R$ 401.264</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600">
+            <span style="color:var(--text)">Giro Médio</span>
+            <span style="font-family:var(--mono);color:var(--blue)">1,58×</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Tendência CMV</div></div>
+        <div class="chart-bars" id="chart-cmv-trend" style="height:120px"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-ttl">CMV Detalhado Mês a Mês</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Mês</th><th>Venda Bruta</th><th>Compra (CMV)</th><th>CMV %</th><th>Margem Bruta</th><th>Giro</th><th>Status</th></tr>
+          </thead>
+          <tbody id="tb-cmv-det"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: DRE -->
+  <div id="t-dre" class="tab-content">
+    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <select class="ctrl" id="dre-mes-sel" onchange="trocarMesDRE()">
+        <option value="0">Janeiro 2025</option>
+        <option value="1">Fevereiro 2025</option>
+        <option value="2">Março 2025</option>
+        <option value="3">Abril 2025</option>
+        <option value="4">Maio 2025</option>
+        <option value="5" selected>Junho 2025</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="verDREConsolidado()">Ver Semestre Consolidado</button>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl" id="dre-title">DRE — Junho 2025</div></div>
+        <div class="dre-sec">Receita</div>
+        <div class="dre-row"><div class="dre-label">(+) Venda Bruta</div><input class="dre-input" id="d-vb" value="187.420,00" oninput="calcDRE()"><div class="dre-pct" id="dp-vb">100%</div></div>
+        <div class="dre-row"><div class="dre-label indent">(-) Devoluções</div><input class="dre-input" id="d-dev" value="1.240,00" oninput="calcDRE()"><div class="dre-pct" id="dp-dev">0,7%</div></div>
+        <div class="dre-row"><div class="dre-label indent">(-) Descontos PBM</div><input class="dre-input" id="d-pbm" value="3.820,00" oninput="calcDRE()"><div class="dre-pct" id="dp-pbm">2,0%</div></div>
+        <div class="dre-row total"><div class="dre-label">(=) Venda Líquida</div><div class="dre-val green" id="d-vl">R$ 182.360,00</div><div class="dre-pct" id="dp-vl">97,3%</div></div>
+        <div class="dre-sec">Custo</div>
+        <div class="dre-row"><div class="dre-label">(-) CMV</div><input class="dre-input" id="d-cmv" value="120.364,00" oninput="calcDRE()"><div class="dre-pct" id="dp-cmv">64,2%</div></div>
+        <div class="dre-row total"><div class="dre-label">(=) Margem Bruta</div><div class="dre-val purple" id="d-mb">R$ 61.996,00</div><div class="dre-pct" id="dp-mb">33,1%</div></div>
+        <div class="dre-sec">Despesas Operacionais</div>
+        <div class="dre-row"><div class="dre-label indent">Folha de Pessoal</div><input class="dre-input" id="d-folha" value="28.000,00" oninput="calcDRE()"><div class="dre-pct" id="dp-folha">14,9%</div></div>
+        <div class="dre-row"><div class="dre-label indent">Aluguel</div><input class="dre-input" id="d-aluguel" value="8.500,00" oninput="calcDRE()"><div class="dre-pct" id="dp-aluguel">4,5%</div></div>
+        <div class="dre-row"><div class="dre-label indent">Royalties + Associação</div><input class="dre-input" id="d-roy" value="1.938,75" oninput="calcDRE()"><div class="dre-pct" id="dp-roy">1,0%</div></div>
+        <div class="dre-row"><div class="dre-label indent">DAS (4,5%)</div><input class="dre-input" id="d-das" value="8.434,00" oninput="calcDRE()"><div class="dre-pct" id="dp-das">4,5%</div></div>
+        <div class="dre-row"><div class="dre-label indent">Marketing (2%)</div><input class="dre-input" id="d-mkt" value="3.748,00" oninput="calcDRE()"><div class="dre-pct" id="dp-mkt">2,0%</div></div>
+        <div class="dre-row"><div class="dre-label indent">Outras despesas</div><input class="dre-input" id="d-outras" value="4.200,00" oninput="calcDRE()"><div class="dre-pct" id="dp-outras">2,2%</div></div>
+        <div class="dre-row total"><div class="dre-label">(=) Resultado Operacional</div><div class="dre-val" id="d-res">R$ 7.175,25</div><div class="dre-pct" id="dp-res">3,8%</div></div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-hdr"><div class="card-ttl">Ponto de Equilíbrio</div></div>
+          <div style="font-size:12px;color:var(--text2);line-height:2">
+            <div style="display:flex;justify-content:space-between"><span>Total despesas</span><span style="font-family:var(--mono);color:var(--text)" id="pec-desp">R$ 54.820</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Margem contribuição</span><span style="font-family:var(--mono);color:var(--purple)" id="pec-mc">35,8%</span></div>
+            <div class="divider" style="margin:6px 0"></div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600">
+              <span style="color:var(--text)">Ponto de Equilíbrio</span>
+              <span style="font-family:var(--mono);color:var(--amber)" id="pec-val">R$ 153.128</span>
+            </div>
+            <div style="font-size:11px;margin-top:6px" id="pec-status" style="color:var(--green)">✓ Acima do PE em R$ 34.292</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Termômetro</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:var(--text2)">CMV%</span><span style="font-family:var(--mono)" id="t-cmv">64,2%</span></div><div class="prog-track"><div class="prog-fill" id="pb-cmv" style="width:64%;background:var(--red)"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:var(--text2)">Margem Bruta</span><span style="font-family:var(--mono)" id="t-mb">33,1%</span></div><div class="prog-track"><div class="prog-fill" id="pb-mb" style="width:33%;background:var(--purple)"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:var(--text2)">Folha/Faturamento</span><span style="font-family:var(--mono)" id="t-folha">14,9%</span></div><div class="prog-track"><div class="prog-fill" id="pb-folha" style="width:15%;background:var(--amber)"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:var(--text2)">Resultado Op.</span><span style="font-family:var(--mono)" id="t-res">3,8%</span></div><div class="prog-track"><div class="prog-fill" id="pb-res" style="width:3.8%;background:var(--green)"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: EQUIPE -->
+  <div id="t-equipe" class="tab-content">
+    <div class="kpi-grid" style="margin-bottom:14px">
+      <div class="kpi-card green"><div class="kpi-label">Melhor Semestre</div><div class="kpi-val green" style="font-size:16px">Ana Paula</div><div class="kpi-delta up">R$ 312.840 · 104,3% meta</div></div>
+      <div class="kpi-card red"><div class="kpi-label">Abaixo da Meta</div><div class="kpi-val red">3</div><div class="kpi-delta down">Carlos · Juliana · Fernanda</div></div>
+      <div class="kpi-card amber"><div class="kpi-label">Ticket Médio Semestre</div><div class="kpi-val amber">R$ 46,80</div><div class="kpi-delta down">Meta R$ 52,00</div></div>
+      <div class="kpi-card blue"><div class="kpi-label">Itens/Cliente Médio</div><div class="kpi-val blue">2,8</div><div class="kpi-delta down">Meta 3,2 itens</div></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-ttl">Performance Semestral da Equipe</div>
+        <button class="btn btn-ghost btn-sm" onclick="showModal('modal-vendedor')">+ Vendedor</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Vendedor</th><th>Venda Semestre</th><th>Média/Mês</th><th>Ticket</th><th>Itens/CLI</th><th>Meta</th><th>%</th><th>Comissão Est.</th></tr></thead>
+          <tbody>
+            <tr><td><span class="rank r1">1</span></td><td>Ana Paula</td><td class="num pos">R$ 312.840</td><td class="num">R$ 52.140</td><td class="num">R$ 54,20</td><td class="num">3,1</td><td class="num">R$ 300.000</td><td class="num pos">104,3%</td><td class="num">R$ 7.821</td></tr>
+            <tr><td><span class="rank">2</span></td><td>Carlos Moura</td><td class="num">R$ 261.190</td><td class="num">R$ 43.532</td><td class="num">R$ 46,80</td><td class="num">2,9</td><td class="num">R$ 288.000</td><td class="num warn">90,7%</td><td class="num">R$ 6.530</td></tr>
+            <tr><td><span class="rank">3</span></td><td>Juliana Ramos</td><td class="num">R$ 228.720</td><td class="num">R$ 38.120</td><td class="num">R$ 41,50</td><td class="num">2,6</td><td class="num">R$ 270.000</td><td class="num neg">84,7%</td><td class="num">R$ 5.718</td></tr>
+            <tr><td><span class="rank">4</span></td><td>Roberto Alves</td><td class="num">R$ 187.480</td><td class="num">R$ 31.247</td><td class="num">R$ 38,90</td><td class="num">2,4</td><td class="num">R$ 210.000</td><td class="num warn">89,3%</td><td class="num">R$ 4.687</td></tr>
+            <tr><td><span class="rank">5</span></td><td>Fernanda Costa</td><td class="num neg">R$ 97.190</td><td class="num neg">R$ 16.198</td><td class="num">R$ 35,20</td><td class="num">2,1</td><td class="num">R$ 180.000</td><td class="num neg">54,0%</td><td class="num">R$ 2.430</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: IA -->
+  <div id="t-ia" class="tab-content">
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-hdr"><div class="card-ttl">Contexto adicional</div></div>
+      <div class="field"><div class="field-label">Observações do consultor</div><textarea rows="3" id="ia-obs" placeholder="Ex: gerente novo desde março, concorrente abriu ao lado em abril, equipe desmotivada..."></textarea></div>
+      <div class="field"><div class="field-label">Principal dor do proprietário</div><textarea rows="2" id="ia-dor" placeholder="Ex: margem caindo todo mês, não consegue pagar fornecedor em dia..."></textarea></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="gerarIA()">✦ Gerar análise semestral completa com IA</button>
+    </div>
+    <div id="ia-output" style="display:none">
+      <div class="ai-box">
+        <div class="ai-hdr">✦ Diagnóstico Semestral — Cresce Farma 360</div>
+        <div class="ai-body" id="ia-txt"><div class="ai-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      </div>
+      <div id="ia-acts" style="display:none;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="copiarIA()">Copiar</button>
+        <button class="btn btn-purple btn-sm" onclick="notif('Enviando ao Yungas...')">↗ Yungas</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- MODAL VENDEDOR -->
+<div class="modal-wrap" id="modal-vendedor">
+  <div class="modal">
+    <div class="modal-title">Adicionar Vendedor</div>
+    <div class="field"><div class="field-label">Nome</div><input type="text" id="mv-nome" placeholder="Nome do vendedor"></div>
+    <div class="field"><div class="field-label">Meta Mensal</div><input type="text" id="mv-meta" placeholder="Ex: 45.000,00"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-vendedor')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarVendedor()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+// ══ DADOS SAMPLE ══
+const MESES_SEM = ['Jan/25','Fev/25','Mar/25','Abr/25','Mai/25','Jun/25'];
+const VENDAS_SEM = [168420,144800,172300,185600,178900,187420];
+const CMV_SEM = [61.8,60.4,62.1,64.8,64.0,64.2];
+const RESULTADOS_SEM = [6420,7200,6100,5400,6400,7175];
+const MARGEM_SEM = [38.2,39.6,37.9,35.2,36.0,35.8];
+
+// Dados de cada mês — pode ser preenchido via upload
+let dadosMeses = MESES_SEM.map((m,i) => ({
+  mes: m, venda: VENDAS_SEM[i], cmv: CMV_SEM[i],
+  resultado: RESULTADOS_SEM[i], margem: MARGEM_SEM[i],
+  temDados: true
+}));
+
+let mesUploadAtivo = null;
+let dadosIATemp = null;
+
+// ══ UTILS ══
+const fmtR = v => 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
+const fmtPct = v => v.toFixed(1)+'%';
+const parseV = s => parseFloat((s||'0').replace(/\./g,'').replace(',','.'))||0;
+
+// ══ TABS ══
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ids=['t-resumo','t-vendas','t-cmv','t-dre','t-equipe','t-ia'];
+  document.querySelectorAll('.tab')[ids.indexOf(id)]?.classList.add('active');
+  if(id==='t-resumo')renderResumo();
+  if(id==='t-cmv')renderCMVDet();
+  if(id==='t-vendas')renderVendas();
+}
+
+// ══ PERÍODO ══
+function setModo(modo, btn){
+  document.querySelectorAll('.p-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = {fixo:'Jan–Jun 2025', fixo2:'Jul–Dez 2024', movel:'Dez/24–Mai/25'};
+  document.getElementById('periodo-label').textContent = labels[modo]||'';
+  renderMesesUpload();
+  renderResumo();
+}
+
+// ══ LOJA ══
+function trocarLoja(){
+  const nome = document.getElementById('sel-loja').options[document.getElementById('sel-loja').selectedIndex].text;
+  document.getElementById('hdr-loja').textContent = nome;
+}
+
+// ══ UPLOAD MÊS A MÊS ══
+function renderMesesUpload(){
+  const grid = document.getElementById('meses-upload-grid');
+  grid.innerHTML = MESES_SEM.map((m,i) => {
+    const d = dadosMeses[i];
+    return `<div class="mes-upload-card ${d.temDados?'tem-dados':''}" id="muc-${i}">
+      <input type="file" accept=".csv,.xlsx,.xls,.pdf,.txt" onchange="handleUpload(event,${i})">
+      <div class="muc-icon">${d.temDados?'✅':'📤'}</div>
+      <div class="muc-label ${d.temDados?'has':''}">${m}</div>
+      <div class="muc-status ${d.temDados?'has':''}">${d.temDados?'Dados OK':'Clique para subir'}</div>
+      ${d.temDados?`<div class="muc-venda">${fmtR(d.venda)}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function handleUpload(e, mesIdx){
+  const file = e.target.files[0];
+  if(!file) return;
+
+  mesUploadAtivo = mesIdx;
+  const card = document.getElementById(`muc-${mesIdx}`);
+  card.className = 'mes-upload-card uploading';
+  card.querySelector('.muc-icon').textContent = '⏳';
+
+  document.getElementById('upload-status').style.display = 'block';
+  document.getElementById('upload-mes-label').textContent = MESES_SEM[mesIdx];
+  document.getElementById('upload-result').innerHTML = '<div class="ai-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  document.getElementById('upload-actions').style.display = 'none';
+
+  const reader = new FileReader();
+  reader.onload = async function(ev){
+    const conteudo = ev.target.result.toString().substring(0, 4000);
+
+    const prompt = `Você é especialista em análise de dados financeiros de farmácias. Analise o arquivo abaixo e extraia os indicadores do mês ${MESES_SEM[mesIdx]}.
+
+ARQUIVO: ${file.name}
+CONTEÚDO:
+${conteudo}
+
+Extraia e retorne APENAS um JSON válido com esta estrutura (sem texto antes ou depois):
+{
+  "venda_bruta": 0,
+  "cmv_valor": 0,
+  "cmv_percentual": 0,
+  "margem_bruta_percentual": 0,
+  "ticket_medio": 0,
+  "atendimentos": 0,
+  "itens_por_cliente": 0,
+  "resultado_operacional": 0,
+  "vendedores": [
+    {"nome": "", "venda": 0, "ticket": 0}
+  ],
+  "observacoes": "Observações relevantes do arquivo"
+}
+
+Se não encontrar algum campo, use 0. Use ponto como separador decimal.`;
+
+    try{
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:prompt}]})
+      });
+      const data = await res.json();
+      const txt = data.content?.find(c=>c.type==='text')?.text||'{}';
+
+      try{
+        const clean = txt.replace(/```json|```/g,'').trim();
+        dadosIATemp = JSON.parse(clean);
+
+        document.getElementById('upload-result').textContent =
+`✓ Arquivo interpretado com sucesso!
+
+Dados extraídos:
+• Venda Bruta: ${fmtR(dadosIATemp.venda_bruta)}
+• CMV: ${fmtR(dadosIATemp.cmv_valor)} (${dadosIATemp.cmv_percentual.toFixed(1)}%)
+• Margem Bruta: ${dadosIATemp.margem_bruta_percentual.toFixed(1)}%
+• Ticket Médio: R$ ${dadosIATemp.ticket_medio.toFixed(2)}
+• Resultado Op.: ${fmtR(dadosIATemp.resultado_operacional)}
+${dadosIATemp.observacoes ? '\nObs: '+dadosIATemp.observacoes : ''}
+
+Confira os dados e clique em "Aplicar" para atualizar o painel.`;
+
+        document.getElementById('upload-actions').style.display = 'flex';
+      }catch(je){
+        document.getElementById('upload-result').textContent = 'IA interpretou mas não conseguiu estruturar os dados. Insira manualmente:\n\n'+txt;
+      }
+    }catch(err){
+      document.getElementById('upload-result').textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
+      card.className = 'mes-upload-card';
+      card.querySelector('.muc-icon').textContent = '📤';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function aplicarDados(){
+  if(mesUploadAtivo === null || !dadosIATemp) return;
+  const i = mesUploadAtivo;
+  dadosMeses[i] = {
+    mes: MESES_SEM[i],
+    venda: dadosIATemp.venda_bruta||VENDAS_SEM[i],
+    cmv: dadosIATemp.cmv_percentual||CMV_SEM[i],
+    resultado: dadosIATemp.resultado_operacional||RESULTADOS_SEM[i],
+    margem: dadosIATemp.margem_bruta_percentual||MARGEM_SEM[i],
+    ticket: dadosIATemp.ticket_medio||0,
+    temDados: true,
+    fonte: 'upload'
+  };
+  document.getElementById('upload-status').style.display = 'none';
+  renderMesesUpload();
+  renderResumo();
+  renderChartSemestral();
+  notif(`${MESES_SEM[i]} atualizado com dados do arquivo ✓`);
+}
+
+function limparTodos(){
+  dadosMeses = MESES_SEM.map((m,i)=>({mes:m,venda:VENDAS_SEM[i],cmv:CMV_SEM[i],resultado:RESULTADOS_SEM[i],margem:MARGEM_SEM[i],temDados:false}));
+  renderMesesUpload();
+  notif('Dados limpos — faça upload dos arquivos');
+}
+
+// ══ RESUMO ══
+function renderResumo(){
+  const tb = document.getElementById('tb-resumo');
+  if(!tb) return;
+
+  const totalVenda = dadosMeses.reduce((a,d)=>a+d.venda,0);
+  const mediaCMV = dadosMeses.reduce((a,d)=>a+d.cmv,0)/6;
+  const mediaRes = dadosMeses.reduce((a,d)=>a+d.resultado,0)/6;
+  const mediaMargem = dadosMeses.reduce((a,d)=>a+d.margem,0)/6;
+  const melhorMes = dadosMeses.reduce((a,b)=>a.venda>b.venda?a:b);
+
+  document.getElementById('ks-fat').textContent = fmtR(totalVenda);
+  document.getElementById('ks-fat-d').textContent = 'Média mensal: '+fmtR(totalVenda/6);
+  document.getElementById('ks-cmv').textContent = fmtPct(mediaCMV);
+  document.getElementById('ks-ticket').textContent = 'R$ 46,80';
+  document.getElementById('ks-melhor').textContent = melhorMes.mes;
+  document.getElementById('ks-melhor-d').textContent = fmtR(melhorMes.venda);
+  document.getElementById('ks-margem').textContent = fmtPct(mediaMargem);
+  document.getElementById('ks-resultado').textContent = fmtR(mediaRes);
+  document.getElementById('ks-resultado-d').textContent = fmtPct(mediaRes/(totalVenda/6)*100)+' do faturamento';
+
+  tb.innerHTML = dadosMeses.map((d,i)=>{
+    const delta = i>0?((d.venda-dadosMeses[i-1].venda)/dadosMeses[i-1].venda*100):null;
+    const cl = delta===null?'':delta>=0?'pos':'neg';
+    const seta = delta===null?'—':delta>=0?'▲'+delta.toFixed(1)+'%':'▼'+Math.abs(delta).toFixed(1)+'%';
+    return`<tr>
+      <td>${d.mes}${d.fonte==='upload'?' <span class="badge badge-green" style="font-size:8px">↑ Upload</span>':''}</td>
+      <td class="num">${fmtR(d.venda)}</td>
+      <td class="num ${d.cmv>62?'neg':'pos'}">${fmtPct(d.cmv)}</td>
+      <td class="num ${d.margem<38?'warn':'pos'}">${fmtPct(d.margem)}</td>
+      <td class="num pos">${fmtR(d.resultado)}</td>
+      <td class="num ${cl}">${seta}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tf-venda').textContent = fmtR(totalVenda);
+  document.getElementById('tf-cmv').textContent = fmtPct(mediaCMV);
+  document.getElementById('tf-margem').textContent = fmtPct(mediaMargem);
+  document.getElementById('tf-resultado').textContent = fmtR(dadosMeses.reduce((a,d)=>a+d.resultado,0));
+
+  renderChartSemestral();
+}
+
+function renderChartSemestral(){
+  const el = document.getElementById('chart-semestral');
+  if(!el) return;
+  const maxVenda = Math.max(...dadosMeses.map(d=>d.venda))*1.1;
+  el.innerHTML = dadosMeses.map(d=>{
+    const hV = (d.venda/maxVenda)*100;
+    const hC = (d.venda*d.cmv/100/maxVenda)*100;
+    const hR = (Math.max(d.resultado,0)/maxVenda)*100;
+    return`<div class="cs-bar-group">
+      <div class="cs-val" style="font-size:8px">${fmtR(d.venda)}</div>
+      <div class="cs-bars" style="height:${hV}px;max-height:120px">
+        <div class="cs-bar" style="background:var(--green);height:100%"></div>
+        <div class="cs-bar" style="background:var(--red);height:${(hC/hV)*100}%"></div>
+        <div class="cs-bar" style="background:var(--purple);height:${Math.max((hR/hV)*100,2)}%"></div>
+      </div>
+      <div class="cs-mes">${d.mes}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderVendas(){
+  const el = document.getElementById('chart-venda-sem');
+  if(!el) return;
+  const max = Math.max(...dadosMeses.map(d=>d.venda))*1.1;
+  el.innerHTML = dadosMeses.map(d=>`
+    <div class="bar-col">
+      <div class="bar-num">${fmtR(d.venda)}</div>
+      <div class="bar-body" style="height:${Math.max(d.venda/max*100,4)}%;background:var(--green);opacity:.85"></div>
+      <div class="bar-lbl">${d.mes}</div>
+    </div>`).join('');
+
+  const elM = document.getElementById('chart-mix-sem');
+  if(!elM) return;
+  const cats=[['Genérico',38,'var(--green)'],['Similar',28,'var(--blue)'],['Referência',18,'var(--amber)'],['HB',12,'var(--purple)'],['M.Própria',4,'var(--teal)']];
+  elM.innerHTML = cats.map(([l,v,c])=>`
+    <div class="bar-col">
+      <div class="bar-num">${v}%</div>
+      <div class="bar-body" style="height:${v*4}%;background:${c};opacity:.85"></div>
+      <div class="bar-lbl" style="font-size:8px">${l}</div>
+    </div>`).join('');
+}
+
+function renderCMVDet(){
+  const el = document.getElementById('chart-cmv-trend');
+  if(!el) return;
+  const max = Math.max(...dadosMeses.map(d=>d.cmv))*1.1;
+  el.innerHTML = dadosMeses.map(d=>`
+    <div class="bar-col">
+      <div class="bar-num">${fmtPct(d.cmv)}</div>
+      <div class="bar-body" style="height:${Math.max(d.cmv/max*100,4)}%;background:${d.cmv>62?'var(--red)':'var(--amber)'}"></div>
+      <div class="bar-lbl">${d.mes.slice(0,3)}</div>
+    </div>`).join('');
+
+  const tb = document.getElementById('tb-cmv-det');
+  if(!tb) return;
+  tb.innerHTML = dadosMeses.map(d=>{
+    const compra = d.venda*(d.cmv/100);
+    const giro = (d.venda/compra).toFixed(2);
+    return`<tr>
+      <td>${d.mes}</td>
+      <td class="num">${fmtR(d.venda)}</td>
+      <td class="num">${fmtR(compra)}</td>
+      <td class="num ${d.cmv>62?'neg':'warn'}">${fmtPct(d.cmv)}</td>
+      <td class="num">${fmtPct(100-d.cmv)}</td>
+      <td class="num">${giro}×</td>
+      <td><span class="badge ${d.cmv<=58?'badge-green':d.cmv<=63?'badge-amber':'badge-red'}">${d.cmv<=58?'✓ OK':d.cmv<=63?'⚠ Atenção':'✗ Alto'}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══ DRE ══
+function calcDRE(){
+  const vb=parseV(document.getElementById('d-vb')?.value);
+  const dev=parseV(document.getElementById('d-dev')?.value);
+  const pbm=parseV(document.getElementById('d-pbm')?.value);
+  const cmv=parseV(document.getElementById('d-cmv')?.value);
+  const folha=parseV(document.getElementById('d-folha')?.value);
+  const aluguel=parseV(document.getElementById('d-aluguel')?.value);
+  const roy=parseV(document.getElementById('d-roy')?.value);
+  const das=parseV(document.getElementById('d-das')?.value);
+  const mkt=parseV(document.getElementById('d-mkt')?.value);
+  const outras=parseV(document.getElementById('d-outras')?.value);
+
+  const vl=vb-dev-pbm;
+  const mb=vl-cmv;
+  const desp=folha+aluguel+roy+das+mkt+outras;
+  const res=mb-desp;
+  const pct=v=>vb>0?(v/vb*100).toFixed(1)+'%':'—';
+
+  const set=(id,v,cls)=>{const el=document.getElementById(id);if(el){el.textContent='R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});if(cls)el.className='dre-val '+cls;}};
+  const setp=(id,v)=>{const el=document.getElementById('dp-'+id);if(el)el.textContent=pct(v);};
+
+  set('d-vl',vl,'green');
+  set('d-mb',mb,'purple');
+  set('d-res',res,res>=0?'green':'red');
+
+  const items={vb,dev,pbm,vl,cmv,mb,folha,aluguel,roy,das,mkt,outras};
+  Object.entries(items).forEach(([k,v])=>setp(k,v));
+  setp('res',res);
+
+  // Termômetro
+  const upd=(tid,pbid,val,color)=>{
+    const te=document.getElementById(tid),pe=document.getElementById(pbid);
+    if(te)te.textContent=fmtPct(val);
+    if(pe){pe.style.width=Math.min(Math.max(val,0),100)+'%';pe.style.background=color;}
+  };
+  upd('t-cmv','pb-cmv',vb>0?cmv/vb*100:0,'var(--red)');
+  upd('t-mb','pb-mb',vb>0?mb/vb*100:0,'var(--purple)');
+  upd('t-folha','pb-folha',vb>0?folha/vb*100:0,'var(--amber)');
+  upd('t-res','pb-res',vb>0?res/vb*100:0,'var(--green)');
+
+  // PEC
+  const mc=vb>0?(1-cmv/vb)*100:0;
+  const pe=mc>0?desp/(mc/100):0;
+  const acima=vb-pe;
+  const pd=document.getElementById('pec-desp'),pm=document.getElementById('pec-mc'),pv=document.getElementById('pec-val'),ps=document.getElementById('pec-status');
+  if(pd)pd.textContent=fmtR(desp);
+  if(pm)pm.textContent=fmtPct(mc);
+  if(pv)pv.textContent=fmtR(pe);
+  if(ps){ps.textContent=acima>=0?`✓ Acima do PE em ${fmtR(acima)}`:`⚠ Abaixo do PE em ${fmtR(Math.abs(acima))}`;ps.style.color=acima>=0?'var(--green)':'var(--red)';}
+}
+
+function trocarMesDRE(){
+  const i=parseInt(document.getElementById('dre-mes-sel').value);
+  document.getElementById('dre-title').textContent='DRE — '+MESES_SEM[i];
+  const d=dadosMeses[i];
+  const setV=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v.toLocaleString('pt-BR',{minimumFractionDigits:2});};
+  setV('d-vb',d.venda);
+  setV('d-cmv',d.venda*(d.cmv/100));
+  calcDRE();
+}
+
+function verDREConsolidado(){notif('DRE semestral consolidado em breve');}
+
+// ══ IA ══
+async function gerarIA(){
+  showTab('t-ia');
+  document.getElementById('ia-output').style.display='block';
+  document.getElementById('ia-acts').style.display='none';
+  document.getElementById('ia-txt').innerHTML='<div class="ai-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+
+  const loja=document.getElementById('sel-loja').options[document.getElementById('sel-loja').selectedIndex].text;
+  const obs=document.getElementById('ia-obs')?.value||'';
+  const dor=document.getElementById('ia-dor')?.value||'';
+
+  const totalVenda=dadosMeses.reduce((a,d)=>a+d.venda,0);
+  const mediaCMV=dadosMeses.reduce((a,d)=>a+d.cmv,0)/6;
+  const mediaRes=dadosMeses.reduce((a,d)=>a+d.resultado,0);
+  const melhor=dadosMeses.reduce((a,b)=>a.venda>b.venda?a:b);
+  const pior=dadosMeses.reduce((a,b)=>a.cmv>b.cmv?a:b);
+
+  const prompt=`Você é o Consultor Executivo Sênior da Cresce Farma 360. Trajetória real: promotor, balconista, gerente de loja de alto fluxo, supervisor regional e comprador técnico.
+
+REFERÊNCIAS DA REDE:
+- CMV Elite: Genéricos ≤52% | Similares ≤58% | Referência ≤65% | HB ≤55%
+- Margem bruta mínima saudável: ≥38% | Resultado operacional mínimo: ≥5%
+- Ticket médio referência: R$ 52,00 | Itens/cliente: ≥3,2
+- Royalties: R$ 1.938,75/mês | PEC: R$ 115,00/mês | DAS: 4,5%
+
+DADOS SEMESTRAIS — ${loja}:
+${dadosMeses.map(d=>`- ${d.mes}: Venda ${fmtR(d.venda)} | CMV ${fmtPct(d.cmv)} | Margem ${fmtPct(d.margem)} | Resultado ${fmtR(d.resultado)}`).join('\n')}
+
+CONSOLIDADO SEMESTRAL:
+- Faturamento total: ${fmtR(totalVenda)}
+- Média mensal: ${fmtR(totalVenda/6)}
+- CMV médio: ${fmtPct(mediaCMV)}
+- Resultado total: ${fmtR(mediaRes)}
+- Melhor mês: ${melhor.mes} (${fmtR(melhor.venda)})
+- Pior CMV: ${pior.mes} (${fmtPct(pior.cmv)})
+- Mix: Genérico 38% | Similar 28% | Referência 18% | HB 12% | Marca Própria 4%
+
+EQUIPE:
+- Ana Paula: R$ 312.840 (104,3% meta) — melhor vendedora
+- Fernanda Costa: R$ 97.190 (54% meta) — crítico
+- Ticket médio equipe: R$ 46,80 (meta R$ 52,00)
+- Itens/cliente: 2,8 (meta 3,2)
+
+Observações do consultor: ${obs||'não informadas'}
+Principal dor do proprietário: ${dor||'não informada'}
+
+Gere a análise semestral executiva com os blocos:
+
+1. DIAGNÓSTICO SEMESTRAL CIRÚRGICO
+(4-5 linhas — leitura honesta da evolução dos 6 meses: tendência, o que melhorou, o que piorou, qual é o sangramento principal)
+
+2. ALERTAS CRÍTICOS DO SEMESTRE
+(Máximo 3 — o que está fora de controle e precisa de ação imediata)
+
+3. OPORTUNIDADES DE MARGEM IDENTIFICADAS
+(Onde tem dinheiro escondido nesta loja — precificação, mix de categorias, ticket, itens/cliente)
+
+4. ANÁLISE DA EQUIPE
+(Quem está puxando, quem está freando, o que fazer com Fernanda Costa)
+
+5. PLANO DE AÇÃO — PRÓXIMO SEMESTRE
+(6-8 ações com responsável e prazo — consultor, gestor, célula)
+
+6. HANDOVER CÉLULAS COT
+(Tarefas específicas para: Financeiro, Negociações, Marketing, VM, GCP, Dr Cuidado)
+
+7. METAS PARA O PRÓXIMO SEMESTRE
+(Faturamento total, CMV médio, ticket médio, resultado operacional — números concretos e atingíveis)
+
+Linguagem direta. De quem já esteve no balcão. Sem enrolação.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const txt=data.content?.find(c=>c.type==='text')?.text||'Erro ao gerar análise.';
+    document.getElementById('ia-txt').textContent=txt;
+    document.getElementById('ia-acts').style.display='flex';
+  }catch(e){
+    document.getElementById('ia-txt').textContent='Erro de conexão. Verifique sua internet.';
+  }
+}
+
+function copiarIA(){navigator.clipboard.writeText(document.getElementById('ia-txt').textContent);notif('Diagnóstico copiado ✓');}
+
+// ══ MODAL ══
+function showModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function salvarVendedor(){notif('Vendedor adicionado ✓');closeModal('modal-vendedor');}
+
+// ══ NOTIF ══
+function notif(msg){const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800);}
+
+// ══ INIT ══
+// Ler parâmetro de loja da URL se vier do sistema principal
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const lojaId = params.get('loja');
+  if (lojaId) {
+    const sel = document.getElementById('sel-loja');
+    if (sel) { sel.value = lojaId; trocarLoja(); }
+  }
+})();
+renderMesesUpload();
+renderResumo();
+calcDRE();
+</script>
+</body>
+</html>
