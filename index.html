@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0053)file:///C:/Users/win10/Downloads/crescefarma_360.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cresce Farma 360</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="./Cresce Farma 360_files/css2" rel="stylesheet">
 <style>
 :root{
   --bg:#F4F5F7;--bg2:#FFFFFF;--bg3:#F9FAFB;--bg4:#F0F1F3;
@@ -329,21 +329,21 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
 <body>
 
 <!-- LOGIN -->
-<div id="tela-login" style="display:flex">
+<div id="tela-login" style="display: none;">
   <div class="login-card">
     <div class="login-brand">
       <div class="login-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M8 6l8 6-8 6V6z" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"></path><path d="M8 6l8 6-8 6V6z" stroke-linejoin="round"></path></svg>
       </div>
       <div class="login-title">Cresce Farma 360</div>
       <div class="login-sub">Sistema de Consultoria em Campo</div>
     </div>
     <div class="erro-box" id="login-erro"></div>
-    <div class="field"><div class="field-label">E-mail</div><input type="text" id="login-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')fazerLogin2()"></div>
-    <div class="field"><div class="field-label">Senha</div><input type="password" id="login-senha" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin2()"></div>
+    <div class="field"><div class="field-label">E-mail</div><input type="text" id="login-email" placeholder="seu@email.com" onkeydown="if(event.key===&#39;Enter&#39;)fazerLogin2()"></div>
+    <div class="field"><div class="field-label">Senha</div><input type="password" id="login-senha" placeholder="••••••••" onkeydown="if(event.key===&#39;Enter&#39;)fazerLogin2()"></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" id="login-btn" onclick="fazerLogin2()">Entrar</button>
     <div style="text-align:center;margin-top:14px;">
-      <button onclick="showModal('modal-esqueci-senha')" style="background:none;border:none;font-size:12px;color:var(--green);cursor:pointer;font-family:var(--font);font-weight:500;">Esqueci minha senha</button>
+      <button onclick="showModal(&#39;modal-esqueci-senha&#39;)" style="background:none;border:none;font-size:12px;color:var(--green);cursor:pointer;font-family:var(--font);font-weight:500;">Esqueci minha senha</button>
     </div>
     <div style="text-align:center;font-size:11px;color:var(--text3);margin-top:10px;">Cresce Farma 360 · v2.0</div>
   </div>
@@ -352,11 +352,11 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar" style="display:none">
+<aside class="sidebar" id="sidebar" style="display: flex;">
   <div class="logo">
     <div class="logo-wrap">
       <div class="logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
       </div>
       <div>
         <div class="logo-name">Cresce Farma 360</div>
@@ -366,52 +366,52 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
   </div>
   <nav class="nav">
     <div class="nav-sec">Principal</div>
-    <button class="nav-item active" onclick="showPage('dashboard')">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <button class="nav-item active" onclick="showPage(&#39;dashboard&#39;)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
       Dashboard
     </button>
-    <button class="nav-item" onclick="showPage('lojas')">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <button class="nav-item" onclick="showPage(&#39;lojas&#39;)">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       Minhas lojas
     </button>
-    <button class="nav-item" onclick="showPage('visita')">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    <button class="nav-item" onclick="showPage(&#39;visita&#39;)">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
       Nova visita + IA
     </button>
     <div class="nav-sec">Gestão</div>
-    <button class="nav-item" onclick="showPage('acordos')">
-      <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-      Acordos & pendentes
+    <button class="nav-item" onclick="showPage(&#39;acordos&#39;)">
+      <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>
+      Acordos &amp; pendentes
       <span class="nav-badge" id="badge-acordos">3</span>
     </button>
-    <button class="nav-item" onclick="showPage('calendario')">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <button class="nav-item" onclick="showPage(&#39;calendario&#39;)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
       Calendário
     </button>
-    <button class="nav-item" onclick="showPage('performance')">
-      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <button class="nav-item" onclick="showPage(&#39;performance&#39;)">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
       Performance
     </button>
-    <button class="nav-item" onclick="showPage('historico')">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <button class="nav-item" onclick="showPage(&#39;historico&#39;)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
       Histórico
     </button>
     <div class="nav-sec">Export</div>
-    <button class="nav-item" onclick="showPage('yungas')">
-      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    <button class="nav-item" onclick="showPage(&#39;yungas&#39;)">
+      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       Gerar p/ Yungas
     </button>
     <div class="nav-sec" id="nav-sec-admin" style="display:none">Admin</div>
-    <button class="nav-item" id="nav-config" style="display:none" onclick="showPage('configuracoes')">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    <button class="nav-item" id="nav-config" style="display:none" onclick="showPage(&#39;configuracoes&#39;)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
       Configurações
     </button>
   </nav>
   <div class="sidebar-footer">
     <div class="user-wrap">
-      <div class="avatar" id="avatar-ini">CF</div>
+      <div class="avatar" id="avatar-ini">GC</div>
       <div>
-        <div class="user-name" id="user-nome">Consultor</div>
+        <div class="user-name" id="user-nome">Gestor Cresce Farma 360</div>
         <div class="user-role" id="user-perfil">Consultor</div>
       </div>
     </div>
@@ -419,14 +419,14 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
 </aside>
 
 <!-- MAIN -->
-<div class="main" id="main-app" style="display:none">
+<div class="main" id="main-app" style="display: block;">
   <div class="topbar">
     <button class="hamburger" onclick="toggleSidebar()">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
     <span class="topbar-title" id="topbar-title">Dashboard</span>
-    <button class="btn btn-ghost btn-sm" onclick="showModal('modal-config')">⚙</button>
-    <button class="btn btn-primary btn-sm" onclick="showPage('visita')">+ Visita</button>
+    <button class="btn btn-ghost btn-sm" onclick="showModal(&#39;modal-config&#39;)">⚙</button>
+    <button class="btn btn-primary btn-sm" onclick="showPage(&#39;visita&#39;)">+ Visita</button>
   </div>
 
   <!-- DASHBOARD -->
@@ -476,18 +476,106 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
   <div class="page" id="page-lojas">
     <div class="page-header"><div class="page-title">Minhas lojas</div></div>
     <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar loja, célula ou cidade..." id="search-lojas" oninput="filtrarLojas()"></div>
-    <div class="loja-list" id="loja-list"></div>
+    <div class="loja-list" id="loja-list">
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#F59E0B"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Bom Jesus Centro</div>
+        <div class="loja-meta">Curitiba · Ana Paula · Última: 02/06/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-green">OK</span>
+        <span class="fase-badge f1">Fase 1</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#F59E0B"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Bom Jesus Norte</div>
+        <div class="loja-meta">Curitiba · Marcos Lima · Última: 15/05/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-amber">Atenção</span>
+        <span class="fase-badge f2">Fase 2</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#10B981"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Central Norte</div>
+        <div class="loja-meta">Curitiba · Patrícia Souza · Última: 28/05/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-red">Pendente</span>
+        <span class="fase-badge f2">Fase 2</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#06B6D4"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Park Sul</div>
+        <div class="loja-meta">Curitiba · Roberto Alves · Última: 30/05/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-green">OK</span>
+        <span class="fase-badge f3">Fase 3</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#06B6D4"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Recanto das Flores</div>
+        <div class="loja-meta">São José dos Pinhais · Fernanda Costa · Última: 20/05/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-amber">Atenção</span>
+        <span class="fase-badge f3">Fase 3</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#F43F5E"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Nova Esperança</div>
+        <div class="loja-meta">Pinhais · Carlos Moura · Última: 10/05/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-amber">Atenção</span>
+        <span class="fase-badge f1">Fase 1</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#F97316"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Boa Saúde</div>
+        <div class="loja-meta">Araucária · Juliana Ramos · Última: 05/06/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-green">OK</span>
+        <span class="fase-badge f2">Fase 2</span>
+      </div>
+    </div>
+    <div class="loja-card">
+      <div class="loja-dot" style="background:#92400E"></div>
+      <div class="loja-info">
+        <div class="loja-nome">Farmácia Vida Plena</div>
+        <div class="loja-meta">Colombo · Eduardo Neri · Última: 01/06/2025</div>
+      </div>
+      <div class="loja-right">
+        <span class="badge badge-green">OK</span>
+        <span class="fase-badge f3">Fase 3</span>
+      </div>
+    </div></div>
   </div>
 
   <!-- VISITA -->
   <div class="page" id="page-visita">
     <div class="page-header"><div class="page-title">Nova visita + IA</div></div>
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('tab-sel','visita-tabs')">1. Loja</button>
-      <button class="tab" onclick="switchTab('tab-lev','visita-tabs')">2. Raio-X</button>
-      <button class="tab" onclick="switchTab('tab-check','visita-tabs')">3. Checklist</button>
-      <button class="tab" onclick="switchTab('tab-ia','visita-tabs')">4. IA</button>
-      <button class="tab" onclick="switchTab('tab-ac','visita-tabs')">5. Acordos</button>
+      <button class="tab active" onclick="switchTab(&#39;tab-sel&#39;,&#39;visita-tabs&#39;)">1. Loja</button>
+      <button class="tab" onclick="switchTab(&#39;tab-lev&#39;,&#39;visita-tabs&#39;)">2. Raio-X</button>
+      <button class="tab" onclick="switchTab(&#39;tab-check&#39;,&#39;visita-tabs&#39;)">3. Checklist</button>
+      <button class="tab" onclick="switchTab(&#39;tab-ia&#39;,&#39;visita-tabs&#39;)">4. IA</button>
+      <button class="tab" onclick="switchTab(&#39;tab-ac&#39;,&#39;visita-tabs&#39;)">5. Acordos</button>
     </div>
     <div id="tab-sel" class="tab-content">
       <div class="card">
@@ -512,21 +600,417 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <div id="tab-lev" class="tab-content" style="display:none">
       <div class="card" style="margin-bottom:14px">
         <div class="card-hdr"><div class="card-ttl">Raio-X — Levantamento de dados</div></div>
-        <div class="lev-grid" id="lev-grid"></div>
+        <div class="lev-grid" id="lev-grid">
+    <div class="lev-item " onclick="toggleLev(0,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Fluxo de caixa (últimos 30 dias)</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(1,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Prazos de fornecedores</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(2,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Despesas fixas e variáveis</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(3,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Estoque no ERP atualizado</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(4,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Venda bruta do mês</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(5,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Venda líquida (descontos)</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(6,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Venda por categoria</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(7,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Descontos concedidos</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(8,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">CMV atual (%)</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(9,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Ticket médio atual</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(10,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Atendimentos por dia</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(11,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Margem bruta por categoria</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(12,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Lucratividade por produto</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(13,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Vencimentos em estoque</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(14,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Quadro de pessoal e folha</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(15,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Ações de marketing vigentes</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(16,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Precificação (tabela PEC)</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(17,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">DRE do mês anterior</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(18,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Capital de giro disponível</div>
+    </div>
+    <div class="lev-item " onclick="toggleLev(19,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Conciliação de cartões</div>
+    </div></div>
       </div>
       <div class="card">
         <div class="card-hdr"><div class="card-ttl">Ferramentas em uso na loja</div></div>
-        <div class="lev-grid" id="ferr-grid"></div>
+        <div class="lev-grid" id="ferr-grid">
+    <div class="lev-item " onclick="toggleFerr(0,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">PEC — Programa de Estratégia Competitiva</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(1,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Yungas (checklists)</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(2,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">ACODE</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(3,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Bússola</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(4,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Minha Saúde / Saúde Digital</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(5,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">ERP Trier</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(6,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">ERP Alpha7</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(7,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">PBM E-Pharma</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(8,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">PBM Funcional</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(9,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">PBM Portal Drogaria</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(10,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">ABC Farma</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(11,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">SMART PED</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(12,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">Delivery ativo</div>
+    </div>
+    <div class="lev-item " onclick="toggleFerr(13,this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">CRM / Fidelização</div>
+    </div></div>
       </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="switchTab('tab-check','visita-tabs')">Ir para checklist →</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="switchTab(&#39;tab-check&#39;,&#39;visita-tabs&#39;)">Ir para checklist →</button>
     </div>
     <div id="tab-check" class="tab-content" style="display:none">
       <div class="progress-wrap">
         <div class="progress-label"><span id="check-fase-lbl">Checklist</span><span id="check-pct">0%</span></div>
         <div class="progress-track"><div class="progress-fill" id="check-bar" style="width:0%"></div></div>
       </div>
-      <div id="checklist-content"></div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="switchTab('tab-ia','visita-tabs')">Gerar análise com IA →</button>
+      <div id="checklist-content">
+    <div class="check-section">
+      <div class="check-sec-title">Equipe &amp; Engajamento</div>
+      
+        <div class="check-item " id="wrap-c1" onclick="toggleCheck(&#39;c1&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-c1"></div>
+          <div>
+            <div class="check-label">Equipe presente e uniformizada</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c2" onclick="toggleCheck(&#39;c2&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c2"></div>
+          <div>
+            <div class="check-label">Metas do mês comunicadas ao balcão</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c3" onclick="toggleCheck(&#39;c3&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c3"></div>
+          <div>
+            <div class="check-label">Postura ativa de abordagem ao cliente</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c3b" onclick="toggleCheck(&#39;c3b&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c3b"></div>
+          <div>
+            <div class="check-label">Farmacêutico presente 100% do funcionamento</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+    </div>
+    <div class="check-section">
+      <div class="check-sec-title">Operação &amp; Estoque</div>
+      
+        <div class="check-item " id="wrap-c4" onclick="toggleCheck(&#39;c4&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c4"></div>
+          <div>
+            <div class="check-label">Ruptura de gôndola: Genéricos</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c5" onclick="toggleCheck(&#39;c5&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c5"></div>
+          <div>
+            <div class="check-label">Ruptura de gôndola: Similares</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c6" onclick="toggleCheck(&#39;c6&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-c6"></div>
+          <div>
+            <div class="check-label">Curva A em evidência no layout</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c7" onclick="toggleCheck(&#39;c7&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-c7"></div>
+          <div>
+            <div class="check-label">Controlados organizados e registrados</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c7b" onclick="toggleCheck(&#39;c7b&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c7b"></div>
+          <div>
+            <div class="check-label">Sem vencidos em gôndola</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+    </div>
+    <div class="check-section">
+      <div class="check-sec-title">Ferramentas &amp; Processos</div>
+      
+        <div class="check-item " id="wrap-c8" onclick="toggleCheck(&#39;c8&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c8"></div>
+          <div>
+            <div class="check-label">Yungas checklist atualizado (última semana)</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c9" onclick="toggleCheck(&#39;c9&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c9"></div>
+          <div>
+            <div class="check-label">PEC ativo na precificação — Programa de Estratégia Competitiva</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c9b" onclick="toggleCheck(&#39;c9b&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c9b"></div>
+          <div>
+            <div class="check-label">Ponto de Equilíbrio Comercial calculado e revisado</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c10" onclick="toggleCheck(&#39;c10&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c10"></div>
+          <div>
+            <div class="check-label">DRE do mês anterior revisado com gerente</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c10b" onclick="toggleCheck(&#39;c10b&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-c10b"></div>
+          <div>
+            <div class="check-label">ACODE / Bússola consultados no mês</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c11" onclick="toggleCheck(&#39;c11&#39;)">
+          <div class="sev sev-low"></div>
+          <div class="check-box " id="cb-c11"></div>
+          <div>
+            <div class="check-label">Campanhas de fidelização ativas</div>
+            <div class="check-obs">Observação</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c11b" onclick="toggleCheck(&#39;c11b&#39;)">
+          <div class="sev sev-low"></div>
+          <div class="check-box " id="cb-c11b"></div>
+          <div>
+            <div class="check-label">Delivery ativo e atualizado</div>
+            <div class="check-obs">Observação</div>
+          </div>
+        </div>
+    </div>
+    <div class="check-section">
+      <div class="check-sec-title">Visual Merchandising</div>
+      
+        <div class="check-item " id="wrap-c12" onclick="toggleCheck(&#39;c12&#39;)">
+          <div class="sev sev-low"></div>
+          <div class="check-box " id="cb-c12"></div>
+          <div>
+            <div class="check-label">Layout de vitrine atualizado</div>
+            <div class="check-obs">Observação</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c13" onclick="toggleCheck(&#39;c13&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-c13"></div>
+          <div>
+            <div class="check-label">Precificação visível e correta nas gôndolas</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c14" onclick="toggleCheck(&#39;c14&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-c14"></div>
+          <div>
+            <div class="check-label">Material de PDV da campanha vigente exposto</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-c14b" onclick="toggleCheck(&#39;c14b&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-c14b"></div>
+          <div>
+            <div class="check-label">Comunicação visual dos setores padronizada</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+    </div>
+    <div class="check-section">
+      <div class="check-sec-title">Saúde Financeira — Padrão Rede</div>
+      
+        <div class="check-item " id="wrap-f1" onclick="toggleCheck(&#39;f1&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-f1"></div>
+          <div>
+            <div class="check-label">Royalties em dia (R$ 1.938,75/mês)</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f2" onclick="toggleCheck(&#39;f2&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-f2"></div>
+          <div>
+            <div class="check-label">PEC ativo e mensalidade paga (R$ 115,00/mês)</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f3" onclick="toggleCheck(&#39;f3&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-f3"></div>
+          <div>
+            <div class="check-label">DAS recolhido corretamente (4,5%)</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f4" onclick="toggleCheck(&#39;f4&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-f4"></div>
+          <div>
+            <div class="check-label">Comissões provisionadas (~2,5% fat.)</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f5" onclick="toggleCheck(&#39;f5&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-f5"></div>
+          <div>
+            <div class="check-label">Marketing provisionado (2% fat.)</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f6" onclick="toggleCheck(&#39;f6&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-f6"></div>
+          <div>
+            <div class="check-label">Capital de giro para mínimo 60 dias</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f7" onclick="toggleCheck(&#39;f7&#39;)">
+          <div class="sev sev-high"></div>
+          <div class="check-box " id="cb-f7"></div>
+          <div>
+            <div class="check-label">Controle de vencidos implantado</div>
+            <div class="check-obs">⚠ Prioridade alta</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f8" onclick="toggleCheck(&#39;f8&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-f8"></div>
+          <div>
+            <div class="check-label">Taxa PBM monitorada</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f9" onclick="toggleCheck(&#39;f9&#39;)">
+          <div class="sev sev-low"></div>
+          <div class="check-box " id="cb-f9"></div>
+          <div>
+            <div class="check-label">ABC Farma em dia (R$ 30,00/mês)</div>
+            <div class="check-obs">Observação</div>
+          </div>
+        </div>
+        <div class="check-item " id="wrap-f10" onclick="toggleCheck(&#39;f10&#39;)">
+          <div class="sev sev-med"></div>
+          <div class="check-box " id="cb-f10"></div>
+          <div>
+            <div class="check-label">Coleta de resíduos contratada e em dia</div>
+            <div class="check-obs">Prioridade média</div>
+          </div>
+        </div>
+    </div></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="switchTab(&#39;tab-ia&#39;,&#39;visita-tabs&#39;)">Gerar análise com IA →</button>
     </div>
     <div id="tab-ia" class="tab-content" style="display:none">
       <div class="card">
@@ -553,16 +1037,16 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
       </div>
       <div id="acordos-visita-lista"></div>
       <div class="divider"></div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="showPage('yungas')">Finalizar visita e gerar Yungas →</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="showPage(&#39;yungas&#39;)">Finalizar visita e gerar Yungas →</button>
     </div>
   </div>
 
   <!-- ACORDOS -->
   <div class="page" id="page-acordos">
-    <div class="page-header"><div class="page-title">Acordos & pendentes</div></div>
+    <div class="page-header"><div class="page-title">Acordos &amp; pendentes</div></div>
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('ac-abertos','acordos-tabs')">Em aberto</button>
-      <button class="tab" onclick="switchTab('ac-concluidos','acordos-tabs')">Concluídos</button>
+      <button class="tab active" onclick="switchTab(&#39;ac-abertos&#39;,&#39;acordos-tabs&#39;)">Em aberto</button>
+      <button class="tab" onclick="switchTab(&#39;ac-concluidos&#39;,&#39;acordos-tabs&#39;)">Concluídos</button>
     </div>
     <div id="ac-abertos"><div id="acordos-abertos-list"></div></div>
     <div id="ac-concluidos" style="display:none"><div id="acordos-concluidos-list"></div></div>
@@ -586,7 +1070,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
         <div class="card-hdr"><div class="card-ttl">Lembretes do mês</div></div>
         <div id="cal-eventos-list"></div>
         <div class="divider"></div>
-        <button class="btn btn-primary btn-sm" onclick="showModal('modal-evento')">+ Novo lembrete</button>
+        <button class="btn btn-primary btn-sm" onclick="showModal(&#39;modal-evento&#39;)">+ Novo lembrete</button>
       </div>
     </div>
   </div>
@@ -607,8 +1091,8 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
 
     <!-- TABS -->
     <div class="tabs" style="margin-bottom:20px">
-      <button class="tab active" onclick="switchPerfTab('perf-consolidado')">Visão consolidada</button>
-      <button class="tab" onclick="switchPerfTab('perf-ranking')">Ranking</button>
+      <button class="tab active" onclick="switchPerfTab(&#39;perf-consolidado&#39;)">Visão consolidada</button>
+      <button class="tab" onclick="switchPerfTab(&#39;perf-ranking&#39;)">Ranking</button>
     </div>
 
     <!-- CONSOLIDADO -->
@@ -668,17 +1152,17 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
 
     <!-- TABS CONFIG -->
     <div class="tabs" style="margin-bottom:20px">
-      <button class="tab active" onclick="switchConfigTab('cfg-consultores')">Consultores</button>
-      <button class="tab" onclick="switchConfigTab('cfg-farmacias')">Farmácias</button>
-      <button class="tab" onclick="switchConfigTab('cfg-franqueados')">Franqueados</button>
-      <button class="tab" onclick="switchConfigTab('cfg-rede')">Visão da rede</button>
+      <button class="tab active" onclick="switchConfigTab(&#39;cfg-consultores&#39;)">Consultores</button>
+      <button class="tab" onclick="switchConfigTab(&#39;cfg-farmacias&#39;)">Farmácias</button>
+      <button class="tab" onclick="switchConfigTab(&#39;cfg-franqueados&#39;)">Franqueados</button>
+      <button class="tab" onclick="switchConfigTab(&#39;cfg-rede&#39;)">Visão da rede</button>
     </div>
 
     <!-- ABA: CONSULTORES -->
     <div id="cfg-consultores" class="cfg-tab active">
       <div class="section-hdr">
         <div class="section-ttl">Consultores cadastrados</div>
-        <button class="btn btn-primary btn-sm" onclick="showModal('modal-novo-consultor')">+ Novo consultor</button>
+        <button class="btn btn-primary btn-sm" onclick="showModal(&#39;modal-novo-consultor&#39;)">+ Novo consultor</button>
       </div>
       <div id="lista-consultores"></div>
     </div>
@@ -687,7 +1171,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <div id="cfg-farmacias" class="cfg-tab" style="display:none">
       <div class="section-hdr">
         <div class="section-ttl">Farmácias cadastradas</div>
-        <button class="btn btn-primary btn-sm" onclick="showModal('modal-nova-farmacia')">+ Nova farmácia</button>
+        <button class="btn btn-primary btn-sm" onclick="showModal(&#39;modal-nova-farmacia&#39;)">+ Nova farmácia</button>
       </div>
       <div id="lista-farmacias"></div>
     </div>
@@ -696,7 +1180,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <div id="cfg-franqueados" class="cfg-tab" style="display:none">
       <div class="section-hdr">
         <div class="section-ttl">Franqueados (visão farmácia)</div>
-        <button class="btn btn-primary btn-sm" onclick="showModal('modal-novo-franqueado')">+ Novo franqueado</button>
+        <button class="btn btn-primary btn-sm" onclick="showModal(&#39;modal-novo-franqueado&#39;)">+ Novo franqueado</button>
       </div>
       <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Cada franqueado pode ter uma ou várias farmácias vinculadas. O acesso deles mostra painel de performance, histórico, acordos e IA assistente.</p>
       <div id="lista-franqueados"></div>
@@ -732,7 +1216,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <div class="field"><div class="field-label">Perfil</div><select id="cfg-perfil"><option value="consultor">Consultor</option><option value="gestor">Gestor</option></select></div>
     <div class="field"><div class="field-label">Célula</div><select id="cfg-celula"><option>Amarela</option><option>Laranja</option><option>Verde</option><option>Turquesa</option><option>Coral</option><option>Café</option></select></div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-config')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modal-config&#39;)">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarConfig()">Salvar</button>
     </div>
   </div>
@@ -746,7 +1230,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <div class="field"><div class="field-label">Data</div><input type="date" id="ev-data"></div>
     <div class="field"><div class="field-label">Descrição</div><textarea rows="2" id="ev-desc" placeholder="Ex: Ligar para verificar campanha de Similares"></textarea></div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-evento')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modal-evento&#39;)">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarEvento()">Salvar</button>
     </div>
   </div>
@@ -768,7 +1252,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
       <div id="nc-farmacias-check" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-novo-consultor')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modal-novo-consultor&#39;)">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarConsultor()">Cadastrar</button>
     </div>
   </div>
@@ -792,7 +1276,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
       <select id="nf-consultor"><option value="">— Selecione —</option></select>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-nova-farmacia')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modal-nova-farmacia&#39;)">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarFarmacia()">Cadastrar</button>
     </div>
   </div>
@@ -811,7 +1295,7 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
       <div id="nfq-farmacias-check" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('modal-novo-franqueado')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal(&#39;modal-novo-franqueado&#39;)">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarFranqueado()">Cadastrar</button>
     </div>
   </div>
@@ -1230,7 +1714,8 @@ function renderCal(){
     const ds=`${calMes.getFullYear()}-${String(calMes.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isHoje=hoje.getDate()===d&&hoje.getMonth()===calMes.getMonth()&&hoje.getFullYear()===calMes.getFullYear();
     const temEv=eventos.some(e=>e.data===ds);
-    html+=`<div class="cal-day${isHoje?' today':''}${temEv?' has-event':''}" onclick="verDia('${ds}')">${d}</div>`;
+    const dayClass='cal-day'+(isHoje?' today':'')+(temEv?' has-event':'');
+    html+='<div class="'+dayClass+'" onclick="verDia(\''+ds+'\')">'+d+'</div>';
   }
   document.getElementById('cal-grid').innerHTML=html;
   const mes=`${calMes.getFullYear()}-${String(calMes.getMonth()+1).padStart(2,'0')}`;
@@ -1322,32 +1807,36 @@ function switchPerfTab(id) {
 function renderPerfLojas() {
   const grid = document.getElementById('perf-lojas-grid');
   if(!grid) return;
-  grid.innerHTML = PERF_DATA.map(l => {
+  grid.innerHTML = PERF_DATA.map(function(l) {
     const atingimento = Math.round(l.fat/l.meta*100);
     const acimaMeta = l.fat >= l.meta;
-    const cmvOk = l.cmv <= 58;
     const corCMV = l.cmv <= 58 ? 'pos' : l.cmv <= 63 ? 'warn' : 'neg';
     const corFat = acimaMeta ? 'pos' : 'warn';
-    return `<div class="loja-perf-card">
-      <div class="loja-perf-header">
-        <div class="loja-dot" style="background:${CEL_CORES[l.celula]||'#888'};width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>
-        <div style="flex:1;min-width:0">
-          <div class="loja-perf-nome">${l.nome.replace('Farmácia ','')}</div>
-          <div class="loja-perf-meta">Consultor: ${l.consultor} · Meta: ${fmtR(l.meta)}</div>
-        </div>
-        <span class="badge ${acimaMeta?'badge-green':'badge-amber'}">${atingimento}%</span>
-      </div>
-      <div class="loja-perf-kpis">
-        <div class="lp-kpi"><div class="lp-kpi-lbl">Faturamento</div><div class="lp-kpi-val ${corFat}">${fmtR(l.fat)}</div></div>
-        <div class="lp-kpi"><div class="lp-kpi-lbl">CMV %</div><div class="lp-kpi-val ${corCMV}">${l.cmv}%</div></div>
-        <div class="lp-kpi"><div class="lp-kpi-lbl">Ticket médio</div><div class="lp-kpi-val">R$ ${l.ticket.toFixed(2)}</div></div>
-        <div class="lp-kpi"><div class="lp-kpi-lbl">Itens/cliente</div><div class="lp-kpi-val ${l.itens>=3.2?'pos':l.itens>=2.8?'warn':'neg'}">${l.itens.toFixed(1)}</div></div>
-      </div>
-      <div class="loja-perf-footer">
-        <div style="font-size:11px;color:var(--text3)">Resultado op.: <strong style="color:${l.resultado>5000?'var(--green)':'var(--amber)'}">R$ ${l.resultado.toLocaleString('pt-BR')}</strong></div>
-        <button class="btn btn-ghost btn-sm" onclick="abrirPerformanceLoja(${l.id})">Ver detalhes →</button>
-      </div>
-    </div>`;
+    const corRes = l.resultado > 5000 ? 'var(--green)' : 'var(--amber)';
+    const corItens = l.itens >= 3.2 ? 'pos' : l.itens >= 2.8 ? 'warn' : 'neg';
+    const badgeCls = acimaMeta ? 'badge-green' : 'badge-amber';
+    const celCor = CEL_CORES[l.celula] || '#888';
+    const nomeAbrev = l.nome.replace('Farmácia ','');
+    return '<div class="loja-perf-card">'
+      + '<div class="loja-perf-header">'
+      + '<div class="loja-dot" style="background:'+celCor+';width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>'
+      + '<div style="flex:1;min-width:0">'
+      + '<div class="loja-perf-nome">'+nomeAbrev+'</div>'
+      + '<div class="loja-perf-meta">Consultor: '+l.consultor+' · Meta: '+fmtR(l.meta)+'</div>'
+      + '</div>'
+      + '<span class="badge '+badgeCls+'">'+atingimento+'%</span>'
+      + '</div>'
+      + '<div class="loja-perf-kpis">'
+      + '<div class="lp-kpi"><div class="lp-kpi-lbl">Faturamento</div><div class="lp-kpi-val '+corFat+'">'+fmtR(l.fat)+'</div></div>'
+      + '<div class="lp-kpi"><div class="lp-kpi-lbl">CMV %</div><div class="lp-kpi-val '+corCMV+'">'+l.cmv+'%</div></div>'
+      + '<div class="lp-kpi"><div class="lp-kpi-lbl">Ticket médio</div><div class="lp-kpi-val">R$ '+l.ticket.toFixed(2)+'</div></div>'
+      + '<div class="lp-kpi"><div class="lp-kpi-lbl">Itens/cliente</div><div class="lp-kpi-val '+corItens+'">'+l.itens.toFixed(1)+'</div></div>'
+      + '</div>'
+      + '<div class="loja-perf-footer">'
+      + '<div style="font-size:11px;color:var(--text3)">Resultado op.: <strong style="color:'+corRes+'">R$ '+l.resultado.toLocaleString('pt-BR')+'</strong></div>'
+      + '<button class="btn btn-ghost btn-sm" onclick="abrirPerformanceLoja('+l.id+')">Ver detalhes →</button>'
+      + '</div>'
+      + '</div>';
   }).join('');
 }
 
@@ -1383,18 +1872,20 @@ function renderRankings() {
   // Ranking resultado
   const porRes = [...PERF_DATA].sort((a,b)=>b.resultado-a.resultado);
   const maxRes = porRes[0].resultado;
-  document.getElementById('rank-resultado').innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-      ${porRes.map((l,i) => `
-        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;align-items:center;gap:10px">
-          <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:12.5px;font-weight:600;color:var(--text)">${l.nome.replace('Farmácia ','')}</div>
-            <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:${l.resultado>6000?'var(--green)':'var(--amber)';};margin-top:2px">${fmtR(l.resultado)}</div>
-            <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${l.resultado/maxRes*100}%;background:${l.resultado>6000?'var(--green)':'var(--amber)'}"></div></div></div>
-          </div>
-        </div>`).join('')}
-    </div>`;
+  const resHtml = porRes.map(function(l,i){
+    const posClass = i===0?'r1':i===1?'r2':i===2?'r3':'rn';
+    const corRes2 = l.resultado>6000?'var(--green)':'var(--amber)';
+    const pct = Math.round(l.resultado/maxRes*100);
+    const nomeAbrev2 = l.nome.replace('Farmácia ','');
+    return '<div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;align-items:center;gap:10px">'
+      + '<div class="rank-pos '+posClass+'">'+(i+1)+'</div>'
+      + '<div style="flex:1;min-width:0">'
+      + '<div style="font-size:12.5px;font-weight:600;color:var(--text)">'+nomeAbrev2+'</div>'
+      + '<div style="font-family:var(--mono);font-size:13px;font-weight:700;color:'+corRes2+';margin-top:2px">R$ '+l.resultado.toLocaleString('pt-BR')+'</div>'
+      + '<div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:'+pct+'%;background:'+corRes2+'"></div></div></div>'
+      + '</div></div>';
+  }).join('');
+  document.getElementById('rank-resultado').innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">'+resHtml+'</div>';
 }
 
 function abrirPerformanceLoja(id) {
@@ -1694,5 +2185,6 @@ window.showModal = function(id) {
 // INIT
 if(authToken&&usuarioLogado){showApp();}else{document.getElementById('tela-login').style.display='flex';}
 </script>
-</body>
-</html>
+
+
+</body></html>
