@@ -288,6 +288,33 @@ select option{background:var(--bg2);}
 .rede-bar{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-top:5px;}
 .rede-fill{height:100%;border-radius:99px;transition:width .4s;}
 
+/* ── PERF ── */
+.perf-tab{display:none;}.perf-tab.active{display:block;}
+.loja-perf-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+.loja-perf-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.loja-perf-nome{font-size:13.5px;font-weight:700;color:var(--text);}
+.loja-perf-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.loja-perf-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.lp-kpi{background:var(--bg3);border-radius:var(--radius-sm);padding:8px 10px;}
+.lp-kpi-lbl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.lp-kpi-val{font-size:16px;font-weight:700;color:var(--text);}
+.lp-kpi-val.pos{color:var(--green);}.lp-kpi-val.neg{color:var(--red);}.lp-kpi-val.warn{color:var(--amber);}
+.loja-perf-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.rank-row:last-child{border:none;}
+.rank-pos{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.rank-pos.r1{background:#FEF3C7;color:#B45309;}
+.rank-pos.r2{background:#F3F4F6;color:#6B7280;}
+.rank-pos.r3{background:#FFF7ED;color:#C2410C;}
+.rank-pos.rn{background:var(--bg4);color:var(--text3);}
+.rank-info{flex:1;min-width:0;}
+.rank-nome{font-size:13px;font-weight:600;color:var(--text);}
+.rank-sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.rank-val{font-family:var(--mono);font-size:13px;font-weight:600;flex-shrink:0;}
+.rank-bar-wrap{margin-top:4px;}
+.rank-bar-track{height:4px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+.rank-bar-fill{height:100%;border-radius:99px;transition:width .5s;}
+
 /* ── TABLE ── */
 .table-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:12.5px;}
@@ -360,6 +387,10 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <button class="nav-item" onclick="showPage('calendario')">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Calendário
+    </button>
+    <button class="nav-item" onclick="showPage('performance')">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Performance
     </button>
     <button class="nav-item" onclick="showPage('historico')">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -565,6 +596,51 @@ td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
     <div class="page-header"><div class="page-title">Histórico de visitas</div></div>
     <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar por loja ou data..."></div>
     <div id="historico-list"></div>
+  </div>
+
+  <!-- PERFORMANCE -->
+  <div class="page" id="page-performance">
+    <div class="page-header">
+      <div class="page-title">Performance das lojas</div>
+      <div class="page-sub">Visão consolidada e ranking da rede</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs" style="margin-bottom:20px">
+      <button class="tab active" onclick="switchPerfTab('perf-consolidado')">Visão consolidada</button>
+      <button class="tab" onclick="switchPerfTab('perf-ranking')">Ranking</button>
+    </div>
+
+    <!-- CONSOLIDADO -->
+    <div id="perf-consolidado" class="perf-tab">
+      <div class="kpi-grid" style="margin-bottom:18px">
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--green)"></div><div class="kpi-lbl">Fat. total rede</div><div class="kpi-val">R$ 1,42M</div><div class="kpi-sub">Junho 2025</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-lbl">CMV médio rede</div><div class="kpi-val">63,1%</div><div class="kpi-sub down">Meta 58%</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--amber-light)"></div><div class="kpi-lbl">Ticket médio rede</div><div class="kpi-val">R$ 46,80</div><div class="kpi-sub down">Meta R$ 52,00</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--blue)"></div><div class="kpi-lbl">Lojas acima da meta</div><div class="kpi-val">3 / 8</div><div class="kpi-sub">37,5% da rede</div></div>
+      </div>
+
+      <!-- CARDS DE CADA LOJA -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px" id="perf-lojas-grid"></div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="perf-ranking" class="perf-tab" style="display:none">
+      <div class="grid-2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Ranking por faturamento</div></div>
+          <div id="rank-fat"></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Ranking por CMV (melhor → pior)</div></div>
+          <div id="rank-cmv"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Ranking por resultado operacional</div></div>
+        <div id="rank-resultado"></div>
+      </div>
+    </div>
   </div>
 
   <!-- YUNGAS -->
@@ -898,7 +974,7 @@ function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const map={dashboard:0,lojas:1,visita:2,acordos:3,calendario:4,historico:5,yungas:6};
+  const map={dashboard:0,lojas:1,visita:2,acordos:3,calendario:4,performance:5,historico:6,yungas:7};
   document.querySelectorAll('.nav-item')[map[id]]?.classList.add('active');
   const titles={dashboard:'Dashboard',lojas:'Minhas lojas',visita:'Nova visita + IA',acordos:'Acordos & pendentes',calendario:'Calendário',historico:'Histórico',yungas:'Gerar p/ Yungas'};
   document.getElementById('topbar-title').textContent=titles[id]||id;
@@ -907,6 +983,7 @@ function showPage(id){
   if(id==='historico')renderHistorico();
   if(id==='calendario')renderCal();
   if(id==='visita')initVisita();
+  if(id==='performance'){renderPerfLojas();switchPerfTab('perf-consolidado');}
   closeSidebar();
 }
 
@@ -1219,6 +1296,117 @@ function salvarConfig(){
 function showModal(id){document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
 function notif(msg){const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800);}
+
+// ══ PERFORMANCE ══
+const PERF_DATA = [
+  {id:1,nome:'Farmácia Bom Jesus Centro',celula:'amarela',fat:187420,cmv:64.2,ticket:48.3,itens:2.8,resultado:7175,meta:180000,consultor:'Francisco R.'},
+  {id:2,nome:'Farmácia Bom Jesus Norte',celula:'amarela',fat:142800,cmv:62.1,ticket:44.1,itens:2.6,resultado:5200,meta:150000,consultor:'Francisco R.'},
+  {id:3,nome:'Farmácia Central Norte',celula:'verde',fat:168400,cmv:61.8,ticket:46.2,itens:2.7,resultado:6420,meta:165000,consultor:'Mariana C.'},
+  {id:4,nome:'Farmácia Park Sul',celula:'turquesa',fat:195600,cmv:58.4,ticket:52.1,itens:3.2,resultado:9840,meta:190000,consultor:'Rafael L.'},
+  {id:5,nome:'Farmácia Recanto das Flores',celula:'turquesa',fat:128400,cmv:66.8,ticket:39.4,itens:2.2,resultado:3180,meta:145000,consultor:'Rafael L.'},
+  {id:6,nome:'Farmácia Nova Esperança',celula:'coral',fat:112800,cmv:67.2,ticket:37.8,itens:2.1,resultado:2640,meta:130000,consultor:'Mariana C.'},
+  {id:7,nome:'Farmácia Boa Saúde',celula:'laranja',fat:178200,cmv:60.2,ticket:49.8,itens:2.9,resultado:7920,meta:175000,consultor:'Rafael L.'},
+  {id:8,nome:'Farmácia Vida Plena',celula:'cafe',fat:152400,cmv:63.4,ticket:45.6,itens:2.7,resultado:5480,meta:155000,consultor:'Francisco R.'},
+];
+
+function switchPerfTab(id) {
+  document.querySelectorAll('.perf-tab').forEach(t=>{t.style.display='none';t.classList.remove('active');});
+  const el = document.getElementById(id);
+  if(el){el.style.display='block';el.classList.add('active');}
+  document.querySelectorAll('#page-performance .tab').forEach((b,i)=>{
+    b.classList.toggle('active',['perf-consolidado','perf-ranking'][i]===id);
+  });
+  if(id==='perf-ranking') renderRankings();
+}
+
+function renderPerfLojas() {
+  const grid = document.getElementById('perf-lojas-grid');
+  if(!grid) return;
+  grid.innerHTML = PERF_DATA.map(l => {
+    const atingimento = Math.round(l.fat/l.meta*100);
+    const acimaMeta = l.fat >= l.meta;
+    const cmvOk = l.cmv <= 58;
+    const corCMV = l.cmv <= 58 ? 'pos' : l.cmv <= 63 ? 'warn' : 'neg';
+    const corFat = acimaMeta ? 'pos' : 'warn';
+    return `<div class="loja-perf-card">
+      <div class="loja-perf-header">
+        <div class="loja-dot" style="background:${CEL_CORES[l.celula]||'#888'};width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>
+        <div style="flex:1;min-width:0">
+          <div class="loja-perf-nome">${l.nome.replace('Farmácia ','')}</div>
+          <div class="loja-perf-meta">Consultor: ${l.consultor} · Meta: ${fmtR(l.meta)}</div>
+        </div>
+        <span class="badge ${acimaMeta?'badge-green':'badge-amber'}">${atingimento}%</span>
+      </div>
+      <div class="loja-perf-kpis">
+        <div class="lp-kpi"><div class="lp-kpi-lbl">Faturamento</div><div class="lp-kpi-val ${corFat}">${fmtR(l.fat)}</div></div>
+        <div class="lp-kpi"><div class="lp-kpi-lbl">CMV %</div><div class="lp-kpi-val ${corCMV}">${l.cmv}%</div></div>
+        <div class="lp-kpi"><div class="lp-kpi-lbl">Ticket médio</div><div class="lp-kpi-val">R$ ${l.ticket.toFixed(2)}</div></div>
+        <div class="lp-kpi"><div class="lp-kpi-lbl">Itens/cliente</div><div class="lp-kpi-val ${l.itens>=3.2?'pos':l.itens>=2.8?'warn':'neg'}">${l.itens.toFixed(1)}</div></div>
+      </div>
+      <div class="loja-perf-footer">
+        <div style="font-size:11px;color:var(--text3)">Resultado op.: <strong style="color:${l.resultado>5000?'var(--green)':'var(--amber)'}">R$ ${l.resultado.toLocaleString('pt-BR')}</strong></div>
+        <button class="btn btn-ghost btn-sm" onclick="abrirPerformanceLoja(${l.id})">Ver detalhes →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderRankings() {
+  // Ranking faturamento
+  const porFat = [...PERF_DATA].sort((a,b)=>b.fat-a.fat);
+  const maxFat = porFat[0].fat;
+  document.getElementById('rank-fat').innerHTML = porFat.map((l,i) => `
+    <div class="rank-row">
+      <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
+      <div class="rank-info">
+        <div class="rank-nome">${l.nome.replace('Farmácia ','')}</div>
+        <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${l.fat/maxFat*100}%;background:var(--green)"></div></div></div>
+      </div>
+      <div class="rank-val" style="color:var(--green)">${fmtR(l.fat)}</div>
+    </div>`).join('');
+
+  // Ranking CMV (menor é melhor)
+  const porCMV = [...PERF_DATA].sort((a,b)=>a.cmv-b.cmv);
+  const minCMV = porCMV[0].cmv, maxCMV = porCMV[porCMV.length-1].cmv;
+  document.getElementById('rank-cmv').innerHTML = porCMV.map((l,i) => {
+    const cor = l.cmv<=58?'var(--green)':l.cmv<=63?'var(--amber)':'var(--red)';
+    return `<div class="rank-row">
+      <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
+      <div class="rank-info">
+        <div class="rank-nome">${l.nome.replace('Farmácia ','')}</div>
+        <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${(1-(l.cmv-minCMV)/(maxCMV-minCMV||1))*100}%;background:${cor}"></div></div></div>
+      </div>
+      <div class="rank-val" style="color:${cor}">${l.cmv}%</div>
+    </div>`;
+  }).join('');
+
+  // Ranking resultado
+  const porRes = [...PERF_DATA].sort((a,b)=>b.resultado-a.resultado);
+  const maxRes = porRes[0].resultado;
+  document.getElementById('rank-resultado').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      ${porRes.map((l,i) => `
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;align-items:center;gap:10px">
+          <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12.5px;font-weight:600;color:var(--text)">${l.nome.replace('Farmácia ','')}</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:${l.resultado>6000?'var(--green)':'var(--amber)';};margin-top:2px">${fmtR(l.resultado)}</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${l.resultado/maxRes*100}%;background:${l.resultado>6000?'var(--green)':'var(--amber)'}"></div></div></div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function abrirPerformanceLoja(id) {
+  const loja = PERF_DATA.find(l=>l.id===id);
+  if(!loja) return;
+  // Abre o painel_performance.html com a loja selecionada
+  const url = 'painel_performance.html?loja=' + id;
+  window.open(url, '_blank');
+  notif('Abrindo painel de ' + loja.nome.replace('Farmácia ',''));
+}
+
+const fmtR = v => 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
 
 // ══ RECUPERAÇÃO DE SENHA ══
 async function enviarRecuperacao() {
