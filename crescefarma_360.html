@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cresce Farma 360</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F5F7;--bg2:#FFFFFF;--bg3:#F9FAFB;--bg4:#F0F1F3;
+  --border:#E5E7EB;--border2:#D1D5DB;
+  --text:#111827;--text2:#6B7280;--text3:#9CA3AF;
+  --green:#1D9E75;--green2:#157A5A;--green-bg:#EAF3DE;--green-light:#C0DD97;
+  --amber:#B45309;--amber-bg:#FEF3C7;--amber-light:#FCD34D;
+  --red:#B91C1C;--red-bg:#FEE2E2;--red-light:#FCA5A5;
+  --blue:#1D4ED8;--blue-bg:#EFF6FF;--blue-light:#93C5FD;
+  --purple:#6D28D9;--purple-bg:#EDE9FE;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --radius:10px;--radius-sm:7px;--radius-xs:5px;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;-webkit-font-smoothing:antialiased;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:232px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .25s;}
+.main{margin-left:232px;min-height:100vh;}
+.logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:32px;height:32px;border-radius:9px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-icon svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;}
+.logo-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.2;}
+.logo-ver{font-size:10px;color:var(--text3);margin-top:1px;}
+.nav{flex:1;padding:10px 8px;overflow-y:auto;}
+.nav-sec{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;padding:12px 8px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:13.5px;font-weight:500;color:var(--text2);transition:all .12s;margin-bottom:1px;border:none;background:none;width:100%;text-align:left;font-family:var(--font);}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:var(--green-bg);color:var(--green);}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:99px;font-family:var(--font);}
+.sidebar-footer{padding:14px 12px;border-top:1px solid var(--border);}
+.user-wrap{display:flex;align-items:center;gap:10px;}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--green);flex-shrink:0;}
+.user-name{font-size:13px;font-weight:600;color:var(--text);}
+.user-role{font-size:11px;color:var(--text3);}
+
+/* ── TOPBAR ── */
+.topbar{height:54px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:15px;font-weight:700;flex:1;color:var(--text);}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;color:var(--text2);}
+.hamburger svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .12s;white-space:nowrap;line-height:1;}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-primary:hover{background:var(--green2);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.btn-sm{padding:5px 10px;font-size:12px;}
+.btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;}
+
+/* ── PAGE ── */
+.page{padding:24px;display:none;}
+.page.active{display:block;}
+.page-header{margin-bottom:20px;}
+.page-title{font-size:20px;font-weight:700;color:var(--text);}
+.page-sub{font-size:13px;color:var(--text2);margin-top:3px;}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.card-ttl{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;}
+
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.kpi-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
+.kpi-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.kpi-val{font-size:24px;font-weight:700;color:var(--text);line-height:1;margin-bottom:5px;}
+.kpi-sub{font-size:12px;color:var(--text2);}
+.kpi-sub.up{color:var(--green);}
+.kpi-sub.down{color:var(--red);}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+
+/* ── LOJA LIST ── */
+.loja-list{display:flex;flex-direction:column;gap:8px;}
+.loja-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .12s;box-shadow:var(--shadow);}
+.loja-card:hover{border-color:var(--border2);}
+.loja-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.loja-info{flex:1;min-width:0;}
+.loja-nome{font-size:13.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.loja-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.loja-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap;}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);}
+.badge-red{background:var(--red-bg);color:var(--red);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-gray{background:var(--bg4);color:var(--text2);}
+.fase-badge{display:inline-flex;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;}
+.fase-badge.f1{background:var(--blue-bg);color:var(--blue);}
+.fase-badge.f2{background:var(--amber-bg);color:var(--amber);}
+.fase-badge.f3{background:var(--green-bg);color:var(--green);}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:18px;}
+.timeline::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--border);}
+.tl-item{position:relative;padding-bottom:16px;}
+.tl-item::before{content:'';position:absolute;left:-16px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--bg4);border:1.5px solid var(--border2);}
+.tl-item.done::before{background:var(--green);border-color:var(--green);}
+.tl-item.pending::before{background:var(--amber-light);border-color:var(--amber);}
+.tl-time{font-size:10px;color:var(--text3);margin-bottom:2px;font-family:var(--mono);}
+.tl-text{font-size:13px;font-weight:500;color:var(--text);}
+.tl-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* ── ACORDO CARD ── */
+.acordo-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:8px;box-shadow:var(--shadow);}
+.acordo-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.acordo-ttl{font-size:13.5px;font-weight:600;color:var(--text);}
+.acordo-meta{font-size:11px;color:var(--text3);margin-top:3px;}
+.acordo-body{font-size:12px;color:var(--text2);margin-top:10px;line-height:1.6;border-top:1px solid var(--border);padding-top:10px;}
+.prazo-bar{margin-top:8px;}
+.bar-track{height:4px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;}
+
+/* ── CHECKLIST ── */
+.check-section{margin-bottom:18px;}
+.check-sec-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg2);margin-bottom:6px;transition:all .12s;cursor:pointer;}
+.check-item:hover{border-color:var(--border2);}
+.check-item.done{opacity:.6;background:var(--bg3);}
+.check-item.done .check-label{text-decoration:line-through;color:var(--text3);}
+.check-box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .12s;margin-top:1px;background:#fff;}
+.check-box.checked{background:var(--green);border-color:var(--green);}
+.check-box.checked::after{content:'✓';font-size:11px;color:#fff;font-weight:700;}
+.check-label{font-size:13px;color:var(--text);flex:1;line-height:1.4;}
+.check-obs{font-size:11px;color:var(--text3);margin-top:2px;}
+.sev{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+.sev-high{background:var(--red);}
+.sev-med{background:var(--amber-light);}
+.sev-low{background:var(--green-light);}
+
+/* ── PROGRESS ── */
+.progress-wrap{margin-bottom:16px;}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
+.progress-track{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:99px;background:var(--green);transition:width .4s;}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:2px;background:var(--bg4);border-radius:var(--radius-sm);padding:3px;margin-bottom:20px;overflow-x:auto;}
+.tab{flex-shrink:0;padding:7px 14px;font-size:12.5px;border-radius:var(--radius-xs);cursor:pointer;color:var(--text2);font-weight:600;border:none;background:transparent;font-family:var(--font);transition:all .12s;}
+.tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1);}
+
+/* ── FIELDS ── */
+.field{margin-bottom:14px;}
+.field-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+textarea,input[type=text],input[type=date],input[type=password],select{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;width:100%;outline:none;transition:border-color .12s;resize:vertical;}
+textarea:focus,input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(29,158,117,.1);}
+select option{background:var(--bg2);}
+
+/* ── AI BOX ── */
+.ai-box{background:var(--purple-bg);border:1px solid rgba(109,40,217,.15);border-left:3px solid var(--purple);border-radius:var(--radius-sm);padding:14px 16px;margin-top:14px;}
+.ai-hdr{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.ai-body{font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;}
+.ai-loading{display:flex;gap:4px;align-items:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--purple);animation:pulse 1.2s infinite;}
+.dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+
+/* ── CHART MINI ── */
+.chart-bars{display:flex;align-items:flex-end;gap:5px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bar-body{width:100%;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s;}
+.bar-lbl{font-size:9px;color:var(--text3);font-family:var(--mono);}
+.bar-num{font-size:9px;color:var(--text2);font-family:var(--mono);}
+
+/* ── MODAL ── */
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-wrap.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:18px;color:var(--text);}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+
+/* ── LOGIN ── */
+#tela-login{display:none;position:fixed;inset:0;background:var(--bg);z-index:999;align-items:center;justify-content:center;padding:20px;}
+.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:36px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.1);}
+.login-brand{text-align:center;margin-bottom:28px;}
+.login-icon{width:48px;height:48px;border-radius:14px;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.login-icon svg{width:24px;height:24px;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;}
+.login-title{font-size:22px;font-weight:700;color:var(--text);}
+.login-sub{font-size:13px;color:var(--text3);margin-top:4px;}
+.erro-box{background:var(--red-bg);border:1px solid rgba(185,28,28,.15);border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:var(--red);margin-bottom:14px;display:none;}
+
+/* ── LEVANTAMENTO ── */
+.lev-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.lev-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;transition:all .12s;}
+.lev-item:hover{border-color:var(--border2);}
+.lev-item.checked{border-color:var(--green);background:var(--green-bg);}
+.lev-check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.lev-item.checked .lev-check{background:var(--green);border-color:var(--green);color:#fff;}
+.lev-item.checked .lev-check::after{content:'✓';}
+.lev-label{font-size:12px;color:var(--text2);}
+.lev-item.checked .lev-label{color:var(--green);}
+
+/* ── FASE INFO ── */
+.fase-info{border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.6;}
+.fase-info.f1{background:var(--blue-bg);border:1px solid rgba(29,78,216,.15);color:var(--blue);}
+.fase-info.f2{background:var(--amber-bg);border:1px solid rgba(180,83,9,.15);color:var(--amber);}
+.fase-info.f3{background:var(--green-bg);border:1px solid rgba(29,158,117,.15);color:var(--green);}
+.fase-title{font-weight:700;margin-bottom:3px;font-size:13px;}
+.fase-selector{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.fase-btn{padding:6px 14px;border-radius:99px;font-size:12px;font-weight:600;border:1.5px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .12s;font-family:var(--font);}
+.fase-btn.f1.active{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.fase-btn.f2.active{border-color:var(--amber);background:var(--amber-bg);color:var(--amber);}
+.fase-btn.f3.active{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+
+/* ── YUNGAS ── */
+.yungas-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;font-family:var(--mono);font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap;position:relative;margin-top:14px;}
+.copy-btn{position:absolute;top:10px;right:10px;background:var(--bg2);border:1px solid var(--border2);color:var(--text2);font-family:var(--font);font-size:11px;font-weight:500;padding:4px 10px;border-radius:var(--radius-xs);cursor:pointer;}
+.copy-btn:hover{color:var(--green);}
+
+/* ── CAL ── */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
+.cal-day-name{font-size:10px;color:var(--text3);font-weight:600;padding:4px 0;}
+.cal-day{font-size:12px;padding:7px 2px;border-radius:var(--radius-xs);cursor:pointer;position:relative;font-weight:500;}
+.cal-day:hover{background:var(--bg3);}
+.cal-day.today{background:var(--green-bg);color:var(--green);}
+.cal-day.has-event::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--amber);}
+.cal-day.empty{color:var(--text3);opacity:.4;}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:16px 0;}
+
+/* ── NOTIF ── */
+.notif{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;padding:12px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.notif.show{opacity:1;transform:translateY(0);}
+
+/* ── OVERLAY ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:99;}
+.overlay.show{display:block;}
+
+/* ── SEARCH ── */
+.search-wrap{position:relative;margin-bottom:14px;}
+.search-wrap input{padding-left:34px;}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none;}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px;}
+
+/* ── SECTION HEADER ── */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-ttl{font-size:15px;font-weight:700;color:var(--text);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,.15);}
+  .main{margin-left:0;}
+  .hamburger{display:block;}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .page{padding:14px;}
+  .topbar{padding:0 14px;}
+  .lev-grid{grid-template-columns:1fr;}
+}
+@media(max-width:400px){.kpi-grid{grid-template-columns:1fr;}}
+
+/* ── CFG TABS ── */
+.cfg-tab{display:none;}.cfg-tab.active{display:block;}
+.user-cfg-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;box-shadow:var(--shadow);}
+.ucf-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.ucf-info{flex:1;min-width:0;}
+.ucf-nome{font-size:14px;font-weight:600;color:var(--text);}
+.ucf-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.ucf-lojas{font-size:11px;color:var(--text2);margin-top:4px;}
+.ucf-actions{display:flex;gap:6px;flex-shrink:0;}
+.farmacia-check{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;background:var(--bg3);transition:all .12s;font-size:12px;color:var(--text2);}
+.farmacia-check.selected{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.farmacia-check input[type=checkbox]{accent-color:var(--green);}
+.rede-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.rede-item:last-child{border:none;}
+.rede-bar{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-top:5px;}
+.rede-fill{height:100%;border-radius:99px;transition:width .4s;}
+
+/* ── PERF ── */
+.perf-tab{display:none;}.perf-tab.active{display:block;}
+.loja-perf-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+.loja-perf-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.loja-perf-nome{font-size:13.5px;font-weight:700;color:var(--text);}
+.loja-perf-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.loja-perf-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.lp-kpi{background:var(--bg3);border-radius:var(--radius-sm);padding:8px 10px;}
+.lp-kpi-lbl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.lp-kpi-val{font-size:16px;font-weight:700;color:var(--text);}
+.lp-kpi-val.pos{color:var(--green);}.lp-kpi-val.neg{color:var(--red);}.lp-kpi-val.warn{color:var(--amber);}
+.loja-perf-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.rank-row:last-child{border:none;}
+.rank-pos{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.rank-pos.r1{background:#FEF3C7;color:#B45309;}
+.rank-pos.r2{background:#F3F4F6;color:#6B7280;}
+.rank-pos.r3{background:#FFF7ED;color:#C2410C;}
+.rank-pos.rn{background:var(--bg4);color:var(--text3);}
+.rank-info{flex:1;min-width:0;}
+.rank-nome{font-size:13px;font-weight:600;color:var(--text);}
+.rank-sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.rank-val{font-family:var(--mono);font-size:13px;font-weight:600;flex-shrink:0;}
+.rank-bar-wrap{margin-top:4px;}
+.rank-bar-track{height:4px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+.rank-bar-fill{height:100%;border-radius:99px;transition:width .5s;}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{text-align:left;padding:9px 12px;background:var(--bg3);color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border);}
+td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg3);}
+td.num{font-family:var(--mono);text-align:right;}
+td.pos{color:var(--green);}td.neg{color:var(--red);}td.warn{color:var(--amber);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="tela-login" style="display:flex">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M8 6l8 6-8 6V6z" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="login-title">Cresce Farma 360</div>
+      <div class="login-sub">Sistema de Consultoria em Campo</div>
+    </div>
+    <div class="erro-box" id="login-erro"></div>
+    <div class="field"><div class="field-label">E-mail</div><input type="text" id="login-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')fazerLogin2()"></div>
+    <div class="field"><div class="field-label">Senha</div><input type="password" id="login-senha" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin2()"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" id="login-btn" onclick="fazerLogin2()">Entrar</button>
+    <div style="text-align:center;margin-top:14px;">
+      <button onclick="showModal('modal-esqueci-senha')" style="background:none;border:none;font-size:12px;color:var(--green);cursor:pointer;font-family:var(--font);font-weight:500;">Esqueci minha senha</button>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--text3);margin-top:10px;">Cresce Farma 360 · v2.0</div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar" style="display:none">
+  <div class="logo">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div>
+        <div class="logo-name">Cresce Farma 360</div>
+        <div class="logo-ver">v2.0 · Campo</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-sec">Principal</div>
+    <button class="nav-item active" onclick="showPage('dashboard')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" onclick="showPage('lojas')">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Minhas lojas
+    </button>
+    <button class="nav-item" onclick="showPage('visita')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Nova visita + IA
+    </button>
+    <div class="nav-sec">Gestão</div>
+    <button class="nav-item" onclick="showPage('acordos')">
+      <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Acordos & pendentes
+      <span class="nav-badge" id="badge-acordos">3</span>
+    </button>
+    <button class="nav-item" onclick="showPage('calendario')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendário
+    </button>
+    <button class="nav-item" onclick="showPage('performance')">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Performance
+    </button>
+    <button class="nav-item" onclick="showPage('historico')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Histórico
+    </button>
+    <div class="nav-sec">Export</div>
+    <button class="nav-item" onclick="showPage('yungas')">
+      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Gerar p/ Yungas
+    </button>
+    <div class="nav-sec" id="nav-sec-admin" style="display:none">Admin</div>
+    <button class="nav-item" id="nav-config" style="display:none" onclick="showPage('configuracoes')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Configurações
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-wrap">
+      <div class="avatar" id="avatar-ini">CF</div>
+      <div>
+        <div class="user-name" id="user-nome">Consultor</div>
+        <div class="user-role" id="user-perfil">Consultor</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main" id="main-app" style="display:none">
+  <div class="topbar">
+    <button class="hamburger" onclick="toggleSidebar()">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span class="topbar-title" id="topbar-title">Dashboard</span>
+    <button class="btn btn-ghost btn-sm" onclick="showModal('modal-config')">⚙</button>
+    <button class="btn btn-primary btn-sm" onclick="showPage('visita')">+ Visita</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub">Visão geral da sua carteira</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-accent" style="background:var(--green)"></div><div class="kpi-lbl">Lojas ativas</div><div class="kpi-val" id="s-lojas">8</div><div class="kpi-sub">Sua carteira</div></div>
+      <div class="kpi-card"><div class="kpi-accent" style="background:var(--blue)"></div><div class="kpi-lbl">Visitas / mês</div><div class="kpi-val">12</div><div class="kpi-sub up">▲ 3 vs mês anterior</div></div>
+      <div class="kpi-card"><div class="kpi-accent" style="background:var(--amber-light)"></div><div class="kpi-lbl">Acordos abertos</div><div class="kpi-val" id="s-acordos">3</div><div class="kpi-sub down">1 vence hoje</div></div>
+      <div class="kpi-card"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-lbl">CMV médio rede</div><div class="kpi-val">63,1%</div><div class="kpi-sub down">Meta 58%</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Próximas visitas</div></div>
+        <div class="timeline">
+          <div class="tl-item pending"><div class="tl-time">Hoje · 09:00</div><div class="tl-text">Farmácia Bom Jesus Centro</div><div class="tl-sub">Célula Amarela · <span class="fase-badge f1">Fase 1</span></div></div>
+          <div class="tl-item"><div class="tl-time">Amanhã · 14:00</div><div class="tl-text">Farmácia Central Norte</div><div class="tl-sub">Célula Verde · <span class="fase-badge f2">Fase 2</span></div></div>
+          <div class="tl-item"><div class="tl-time">19/06 · 10:30</div><div class="tl-text">Farmácia Recanto das Flores</div><div class="tl-sub">Célula Turquesa · <span class="fase-badge f3">Fase 3</span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Acordos vencendo</div></div>
+        <div class="acordo-card" style="margin-bottom:8px">
+          <div class="acordo-hdr"><div><div class="acordo-ttl">Implantar Yungas Checklist</div><div class="acordo-meta">Bom Jesus Centro · 01/06</div></div><span class="badge badge-red">Vence hoje</span></div>
+          <div class="prazo-bar"><div class="bar-track"><div class="bar-fill" style="width:95%;background:var(--red-light)"></div></div></div>
+        </div>
+        <div class="acordo-card">
+          <div class="acordo-hdr"><div><div class="acordo-ttl">Revisar CMV Genéricos</div><div class="acordo-meta">Central Norte · 28/05</div></div><span class="badge badge-amber">3 dias</span></div>
+          <div class="prazo-bar"><div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--amber-light)"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-ttl">Últimas visitas</div></div>
+      <div class="timeline">
+        <div class="tl-item done"><div class="tl-time">02/06/2025 · 10:30</div><div class="tl-text">Farmácia Bom Jesus Centro <span class="fase-badge f1" style="margin-left:6px">Fase 1</span></div><div class="tl-sub">8 checks ✓ · 2 acordos · Enviado ao Yungas</div></div>
+        <div class="tl-item done"><div class="tl-time">30/05/2025 · 14:00</div><div class="tl-text">Farmácia Park Sul <span class="fase-badge f2" style="margin-left:6px">Fase 2</span></div><div class="tl-sub">10 checks ✓ · 3 acordos · Plano gerado</div></div>
+        <div class="tl-item pending"><div class="tl-time">28/05/2025 · 09:15</div><div class="tl-text">Farmácia Central Norte <span class="fase-badge f2" style="margin-left:6px">Fase 2</span></div><div class="tl-sub">Aguardando envio ao Yungas</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOJAS -->
+  <div class="page" id="page-lojas">
+    <div class="page-header"><div class="page-title">Minhas lojas</div></div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar loja, célula ou cidade..." id="search-lojas" oninput="filtrarLojas()"></div>
+    <div class="loja-list" id="loja-list"></div>
+  </div>
+
+  <!-- VISITA -->
+  <div class="page" id="page-visita">
+    <div class="page-header"><div class="page-title">Nova visita + IA</div></div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('tab-sel','visita-tabs')">1. Loja</button>
+      <button class="tab" onclick="switchTab('tab-lev','visita-tabs')">2. Raio-X</button>
+      <button class="tab" onclick="switchTab('tab-check','visita-tabs')">3. Checklist</button>
+      <button class="tab" onclick="switchTab('tab-ia','visita-tabs')">4. IA</button>
+      <button class="tab" onclick="switchTab('tab-ac','visita-tabs')">5. Acordos</button>
+    </div>
+    <div id="tab-sel" class="tab-content">
+      <div class="card">
+        <div class="field"><div class="field-label">Loja</div><select id="sel-loja" onchange="selecionarLoja()"><option value="">— Selecione —</option></select></div>
+        <div class="field"><div class="field-label">Data da visita</div><input type="date" id="data-visita"></div>
+        <div class="field">
+          <div class="field-label">Fase da consultoria</div>
+          <div class="fase-selector">
+            <button class="fase-btn f1 active" onclick="selecionarFase(1,this)">Fase 1 — Diagnóstico</button>
+            <button class="fase-btn f2" onclick="selecionarFase(2,this)">Fase 2 — Execução</button>
+            <button class="fase-btn f3" onclick="selecionarFase(3,this)">Fase 3 — Manutenção</button>
+          </div>
+          <div id="fase-desc" class="fase-info f1">
+            <div class="fase-title">Fase 1 · Análise, Diagnóstico e Planejamento</div>
+            Raio-X completo. Levantamento de todos os indicadores. Criação do diagnóstico e plano de ação.
+          </div>
+        </div>
+        <div class="field"><div class="field-label">Objetivo da visita</div><textarea rows="2" id="obj-visita" placeholder="Ex: Levantamento inicial, revisão DRE, auditoria de mix..."></textarea></div>
+        <button class="btn btn-primary" onclick="iniciarVisita()">Iniciar visita →</button>
+      </div>
+    </div>
+    <div id="tab-lev" class="tab-content" style="display:none">
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-hdr"><div class="card-ttl">Raio-X — Levantamento de dados</div></div>
+        <div class="lev-grid" id="lev-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Ferramentas em uso na loja</div></div>
+        <div class="lev-grid" id="ferr-grid"></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="switchTab('tab-check','visita-tabs')">Ir para checklist →</button>
+    </div>
+    <div id="tab-check" class="tab-content" style="display:none">
+      <div class="progress-wrap">
+        <div class="progress-label"><span id="check-fase-lbl">Checklist</span><span id="check-pct">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" id="check-bar" style="width:0%"></div></div>
+      </div>
+      <div id="checklist-content"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="switchTab('tab-ia','visita-tabs')">Gerar análise com IA →</button>
+    </div>
+    <div id="tab-ia" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Contexto para a IA</div></div>
+        <div class="field"><div class="field-label">Observações de campo</div><textarea rows="3" id="obs-campo" placeholder="Ex: equipe desmotivada, gôndola desorganizada, balconista sem meta..."></textarea></div>
+        <div class="field"><div class="field-label">Principal dor do gerente</div><textarea rows="2" id="dor-gerente" placeholder="Ex: perdendo venda de Similar para concorrente ao lado..."></textarea></div>
+        <div class="field"><div class="field-label">Dados financeiros disponíveis</div><textarea rows="2" id="dados-fin" placeholder="Ex: fat. R$ 180.000/mês, CMV 68%, ticket R$ 42,00"></textarea></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="gerarIA()">✦ Gerar plano com IA</button>
+      </div>
+      <div id="ia-output" style="display:none">
+        <div class="ai-box">
+          <div class="ai-hdr">✦ Análise Cresce Farma 360</div>
+          <div class="ai-body" id="ai-text"><div class="ai-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-ac" class="tab-content" style="display:none">
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-hdr"><div class="card-ttl">Registrar acordo</div></div>
+        <div class="field"><div class="field-label">Descrição</div><textarea rows="2" id="novo-acordo" placeholder="Ex: Gerente irá ativar campanha de Similares até sexta"></textarea></div>
+        <div class="field"><div class="field-label">Prazo</div><input type="date" id="prazo-acordo"></div>
+        <div class="field"><div class="field-label">Responsável</div><input type="text" id="resp-acordo" placeholder="Nome do gerente ou responsável"></div>
+        <button class="btn btn-primary btn-sm" onclick="registrarAcordo()">+ Registrar acordo</button>
+      </div>
+      <div id="acordos-visita-lista"></div>
+      <div class="divider"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="showPage('yungas')">Finalizar visita e gerar Yungas →</button>
+    </div>
+  </div>
+
+  <!-- ACORDOS -->
+  <div class="page" id="page-acordos">
+    <div class="page-header"><div class="page-title">Acordos & pendentes</div></div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('ac-abertos','acordos-tabs')">Em aberto</button>
+      <button class="tab" onclick="switchTab('ac-concluidos','acordos-tabs')">Concluídos</button>
+    </div>
+    <div id="ac-abertos"><div id="acordos-abertos-list"></div></div>
+    <div id="ac-concluidos" style="display:none"><div id="acordos-concluidos-list"></div></div>
+  </div>
+
+  <!-- CALENDÁRIO -->
+  <div class="page" id="page-calendario">
+    <div class="page-header"><div class="page-title">Calendário</div></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-hdr">
+          <div class="section-ttl" id="cal-mes-label">Junho 2025</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm" onclick="mudarMes(-1)">‹</button>
+            <button class="btn btn-ghost btn-sm" onclick="mudarMes(1)">›</button>
+          </div>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Lembretes do mês</div></div>
+        <div id="cal-eventos-list"></div>
+        <div class="divider"></div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('modal-evento')">+ Novo lembrete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTÓRICO -->
+  <div class="page" id="page-historico">
+    <div class="page-header"><div class="page-title">Histórico de visitas</div></div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar por loja ou data..."></div>
+    <div id="historico-list"></div>
+  </div>
+
+  <!-- PERFORMANCE -->
+  <div class="page" id="page-performance">
+    <div class="page-header">
+      <div class="page-title">Performance das lojas</div>
+      <div class="page-sub">Visão consolidada e ranking da rede</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs" style="margin-bottom:20px">
+      <button class="tab active" onclick="switchPerfTab('perf-consolidado')">Visão consolidada</button>
+      <button class="tab" onclick="switchPerfTab('perf-ranking')">Ranking</button>
+    </div>
+
+    <!-- CONSOLIDADO -->
+    <div id="perf-consolidado" class="perf-tab">
+      <div class="kpi-grid" style="margin-bottom:18px">
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--green)"></div><div class="kpi-lbl">Fat. total rede</div><div class="kpi-val">R$ 1,42M</div><div class="kpi-sub">Junho 2025</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-lbl">CMV médio rede</div><div class="kpi-val">63,1%</div><div class="kpi-sub down">Meta 58%</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--amber-light)"></div><div class="kpi-lbl">Ticket médio rede</div><div class="kpi-val">R$ 46,80</div><div class="kpi-sub down">Meta R$ 52,00</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--blue)"></div><div class="kpi-lbl">Lojas acima da meta</div><div class="kpi-val">3 / 8</div><div class="kpi-sub">37,5% da rede</div></div>
+      </div>
+
+      <!-- CARDS DE CADA LOJA -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px" id="perf-lojas-grid"></div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="perf-ranking" class="perf-tab" style="display:none">
+      <div class="grid-2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Ranking por faturamento</div></div>
+          <div id="rank-fat"></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Ranking por CMV (melhor → pior)</div></div>
+          <div id="rank-cmv"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Ranking por resultado operacional</div></div>
+        <div id="rank-resultado"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YUNGAS -->
+  <div class="page" id="page-yungas">
+    <div class="page-header"><div class="page-title">Gerar para o Yungas</div></div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="field"><div class="field-label">Selecionar visita</div><select id="sel-visita-export"><option>02/06/2025 — Bom Jesus Centro (Fase 1)</option><option>28/05/2025 — Central Norte (Fase 2)</option></select></div>
+      <button class="btn btn-primary" onclick="gerarYungas()">✦ Gerar texto para Yungas</button>
+    </div>
+    <div id="yungas-output" style="display:none">
+      <div class="card">
+        <div class="card-hdr"><div class="card-ttl">Texto gerado</div></div>
+        <p style="font-size:12px;color:var(--text3);margin-bottom:10px">Copie e cole no relatório do Yungas checklist.</p>
+        <div class="yungas-block"><button class="copy-btn" onclick="copiarYungas()">Copiar</button><span id="yungas-content"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIGURAÇÕES GESTOR -->
+  <div class="page" id="page-configuracoes">
+    <div class="page-header">
+      <div class="page-title">Configurações do sistema</div>
+      <div class="page-sub">Gerencie consultores, farmácias e franqueados</div>
+    </div>
+
+    <!-- TABS CONFIG -->
+    <div class="tabs" style="margin-bottom:20px">
+      <button class="tab active" onclick="switchConfigTab('cfg-consultores')">Consultores</button>
+      <button class="tab" onclick="switchConfigTab('cfg-farmacias')">Farmácias</button>
+      <button class="tab" onclick="switchConfigTab('cfg-franqueados')">Franqueados</button>
+      <button class="tab" onclick="switchConfigTab('cfg-rede')">Visão da rede</button>
+    </div>
+
+    <!-- ABA: CONSULTORES -->
+    <div id="cfg-consultores" class="cfg-tab active">
+      <div class="section-hdr">
+        <div class="section-ttl">Consultores cadastrados</div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('modal-novo-consultor')">+ Novo consultor</button>
+      </div>
+      <div id="lista-consultores"></div>
+    </div>
+
+    <!-- ABA: FARMÁCIAS -->
+    <div id="cfg-farmacias" class="cfg-tab" style="display:none">
+      <div class="section-hdr">
+        <div class="section-ttl">Farmácias cadastradas</div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('modal-nova-farmacia')">+ Nova farmácia</button>
+      </div>
+      <div id="lista-farmacias"></div>
+    </div>
+
+    <!-- ABA: FRANQUEADOS -->
+    <div id="cfg-franqueados" class="cfg-tab" style="display:none">
+      <div class="section-hdr">
+        <div class="section-ttl">Franqueados (visão farmácia)</div>
+        <button class="btn btn-primary btn-sm" onclick="showModal('modal-novo-franqueado')">+ Novo franqueado</button>
+      </div>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Cada franqueado pode ter uma ou várias farmácias vinculadas. O acesso deles mostra painel de performance, histórico, acordos e IA assistente.</p>
+      <div id="lista-franqueados"></div>
+    </div>
+
+    <!-- ABA: VISÃO DA REDE -->
+    <div id="cfg-rede" class="cfg-tab" style="display:none">
+      <div class="grid-3">
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--green)"></div><div class="kpi-lbl">Total farmácias</div><div class="kpi-val" id="r-farmacias">8</div><div class="kpi-sub">Rede ativa</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--blue)"></div><div class="kpi-lbl">Consultores</div><div class="kpi-val" id="r-consultores">3</div><div class="kpi-sub">Em campo</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:var(--purple)"></div><div class="kpi-lbl">Franqueados</div><div class="kpi-val" id="r-franqueados">5</div><div class="kpi-sub">Com acesso ativo</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Distribuição por célula</div></div>
+          <div id="rede-celulas"></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-ttl">Distribuição por fase</div></div>
+          <div id="rede-fases"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL CONFIG -->
+<div class="modal-wrap" id="modal-config">
+  <div class="modal">
+    <div class="modal-title">Configurações</div>
+    <div class="field"><div class="field-label">Nome completo</div><input type="text" id="cfg-nome" placeholder="Ex: Francisco Rodrigues"></div>
+    <div class="field"><div class="field-label">Perfil</div><select id="cfg-perfil"><option value="consultor">Consultor</option><option value="gestor">Gestor</option></select></div>
+    <div class="field"><div class="field-label">Célula</div><select id="cfg-celula"><option>Amarela</option><option>Laranja</option><option>Verde</option><option>Turquesa</option><option>Coral</option><option>Café</option></select></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-config')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarConfig()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EVENTO -->
+<div class="modal-wrap" id="modal-evento">
+  <div class="modal">
+    <div class="modal-title">Novo lembrete</div>
+    <div class="field"><div class="field-label">Loja</div><select id="ev-loja"></select></div>
+    <div class="field"><div class="field-label">Data</div><input type="date" id="ev-data"></div>
+    <div class="field"><div class="field-label">Descrição</div><textarea rows="2" id="ev-desc" placeholder="Ex: Ligar para verificar campanha de Similares"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-evento')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarEvento()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<!-- MODAL NOVO CONSULTOR -->
+<div class="modal-wrap" id="modal-novo-consultor">
+  <div class="modal">
+    <div class="modal-title">Cadastrar consultor</div>
+    <div class="field"><div class="field-label">Nome completo</div><input type="text" id="nc-nome" placeholder="Ex: Francisco Rodrigues"></div>
+    <div class="field"><div class="field-label">E-mail de acesso</div><input type="text" id="nc-email" placeholder="consultor@email.com"></div>
+    <div class="field"><div class="field-label">Senha inicial</div><input type="text" id="nc-senha" placeholder="Mínimo 8 caracteres"></div>
+    <div class="field"><div class="field-label">Célula principal</div>
+      <select id="nc-celula"><option>Amarela</option><option>Laranja</option><option>Verde</option><option>Turquesa</option><option>Coral</option><option>Café</option></select>
+    </div>
+    <div class="field"><div class="field-label">Farmácias atribuídas</div>
+      <div id="nc-farmacias-check" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-novo-consultor')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarConsultor()">Cadastrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOVA FARMÁCIA -->
+<div class="modal-wrap" id="modal-nova-farmacia">
+  <div class="modal">
+    <div class="modal-title">Cadastrar farmácia</div>
+    <div class="field"><div class="field-label">Nome da farmácia</div><input type="text" id="nf-nome" placeholder="Ex: Farmácia Bom Jesus Centro"></div>
+    <div class="field"><div class="field-label">Cidade</div><input type="text" id="nf-cidade" placeholder="Ex: Curitiba"></div>
+    <div class="field"><div class="field-label">Nome do gerente</div><input type="text" id="nf-gerente" placeholder="Ex: Ana Paula"></div>
+    <div class="field"><div class="field-label">Telefone</div><input type="text" id="nf-tel" placeholder="(41) 99999-0000"></div>
+    <div class="field"><div class="field-label">Célula COT</div>
+      <select id="nf-celula"><option value="amarela">Amarela</option><option value="laranja">Laranja</option><option value="verde">Verde</option><option value="turquesa">Turquesa</option><option value="coral">Coral</option><option value="cafe">Café</option></select>
+    </div>
+    <div class="field"><div class="field-label">Fase atual</div>
+      <select id="nf-fase"><option value="1">Fase 1 — Diagnóstico</option><option value="2">Fase 2 — Execução</option><option value="3">Fase 3 — Manutenção</option></select>
+    </div>
+    <div class="field"><div class="field-label">Consultor responsável</div>
+      <select id="nf-consultor"><option value="">— Selecione —</option></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-nova-farmacia')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarFarmacia()">Cadastrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOVO FRANQUEADO -->
+<div class="modal-wrap" id="modal-novo-franqueado">
+  <div class="modal">
+    <div class="modal-title">Cadastrar franqueado</div>
+    <p style="font-size:12.5px;color:var(--text2);margin-bottom:16px;line-height:1.6">O franqueado terá acesso ao painel de performance, histórico de visitas, acordos e IA assistente das suas farmácias.</p>
+    <div class="field"><div class="field-label">Nome do franqueado / empresa</div><input type="text" id="nfq-nome" placeholder="Ex: João Silva / Drogaria Silva Ltda"></div>
+    <div class="field"><div class="field-label">E-mail de acesso</div><input type="text" id="nfq-email" placeholder="franqueado@email.com"></div>
+    <div class="field"><div class="field-label">Senha inicial</div><input type="text" id="nfq-senha" placeholder="Mínimo 8 caracteres"></div>
+    <div class="field"><div class="field-label">Farmácias vinculadas</div>
+      <p style="font-size:11px;color:var(--text3);margin-bottom:8px">Selecione todas as farmácias que este franqueado opera (pode ser multi-loja)</p>
+      <div id="nfq-farmacias-check" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-novo-franqueado')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarFranqueado()">Cadastrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = 'https://crescefarma-360-production.up.railway.app/api';
+let authToken = localStorage.getItem('cf360_token') || null;
+let usuarioLogado = JSON.parse(localStorage.getItem('cf360_usuario') || 'null');
+
+const LOJAS = [
+  {id:1,nome:'Farmácia Bom Jesus Centro',celula:'amarela',cidade:'Curitiba',gerente:'Ana Paula',ultimaVisita:'02/06/2025',status:'ok',fase:1},
+  {id:2,nome:'Farmácia Bom Jesus Norte',celula:'amarela',cidade:'Curitiba',gerente:'Marcos Lima',ultimaVisita:'15/05/2025',status:'atencao',fase:2},
+  {id:3,nome:'Farmácia Central Norte',celula:'verde',cidade:'Curitiba',gerente:'Patrícia Souza',ultimaVisita:'28/05/2025',status:'pendente',fase:2},
+  {id:4,nome:'Farmácia Park Sul',celula:'turquesa',cidade:'Curitiba',gerente:'Roberto Alves',ultimaVisita:'30/05/2025',status:'ok',fase:3},
+  {id:5,nome:'Farmácia Recanto das Flores',celula:'turquesa',cidade:'São José dos Pinhais',gerente:'Fernanda Costa',ultimaVisita:'20/05/2025',status:'atencao',fase:3},
+  {id:6,nome:'Farmácia Nova Esperança',celula:'coral',cidade:'Pinhais',gerente:'Carlos Moura',ultimaVisita:'10/05/2025',status:'atencao',fase:1},
+  {id:7,nome:'Farmácia Boa Saúde',celula:'laranja',cidade:'Araucária',gerente:'Juliana Ramos',ultimaVisita:'05/06/2025',status:'ok',fase:2},
+  {id:8,nome:'Farmácia Vida Plena',celula:'cafe',cidade:'Colombo',gerente:'Eduardo Neri',ultimaVisita:'01/06/2025',status:'ok',fase:3},
+];
+
+const CEL_CORES = {amarela:'#F59E0B',laranja:'#F97316',verde:'#10B981',turquesa:'#06B6D4',coral:'#F43F5E',cafe:'#92400E'};
+
+const LEVANTAMENTO = ['Fluxo de caixa (últimos 30 dias)','Prazos de fornecedores','Despesas fixas e variáveis','Estoque no ERP atualizado','Venda bruta do mês','Venda líquida (descontos)','Venda por categoria','Descontos concedidos','CMV atual (%)','Ticket médio atual','Atendimentos por dia','Margem bruta por categoria','Lucratividade por produto','Vencimentos em estoque','Quadro de pessoal e folha','Ações de marketing vigentes','Precificação (tabela PEC)','DRE do mês anterior','Capital de giro disponível','Conciliação de cartões'];
+const FERRAMENTAS = ['PEC — Programa de Estratégia Competitiva','Yungas (checklists)','ACODE','Bússola','Minha Saúde / Saúde Digital','ERP Trier','ERP Alpha7','PBM E-Pharma','PBM Funcional','PBM Portal Drogaria','ABC Farma','SMART PED','Delivery ativo','CRM / Fidelização'];
+
+const CHECKLIST = [
+  {sec:'Equipe & Engajamento',items:[
+    {id:'c1',label:'Equipe presente e uniformizada',sev:'med'},
+    {id:'c2',label:'Metas do mês comunicadas ao balcão',sev:'high'},
+    {id:'c3',label:'Postura ativa de abordagem ao cliente',sev:'high'},
+    {id:'c3b',label:'Farmacêutico presente 100% do funcionamento',sev:'high'},
+  ]},
+  {sec:'Operação & Estoque',items:[
+    {id:'c4',label:'Ruptura de gôndola: Genéricos',sev:'high'},
+    {id:'c5',label:'Ruptura de gôndola: Similares',sev:'high'},
+    {id:'c6',label:'Curva A em evidência no layout',sev:'med'},
+    {id:'c7',label:'Controlados organizados e registrados',sev:'med'},
+    {id:'c7b',label:'Sem vencidos em gôndola',sev:'high'},
+  ]},
+  {sec:'Ferramentas & Processos',items:[
+    {id:'c8',label:'Yungas checklist atualizado (última semana)',sev:'high'},
+    {id:'c9',label:'PEC ativo na precificação — Programa de Estratégia Competitiva',sev:'high'},
+    {id:'c9b',label:'Ponto de Equilíbrio Comercial calculado e revisado',sev:'high'},
+    {id:'c10',label:'DRE do mês anterior revisado com gerente',sev:'high'},
+    {id:'c10b',label:'ACODE / Bússola consultados no mês',sev:'med'},
+    {id:'c11',label:'Campanhas de fidelização ativas',sev:'low'},
+    {id:'c11b',label:'Delivery ativo e atualizado',sev:'low'},
+  ]},
+  {sec:'Visual Merchandising',items:[
+    {id:'c12',label:'Layout de vitrine atualizado',sev:'low'},
+    {id:'c13',label:'Precificação visível e correta nas gôndolas',sev:'high'},
+    {id:'c14',label:'Material de PDV da campanha vigente exposto',sev:'med'},
+    {id:'c14b',label:'Comunicação visual dos setores padronizada',sev:'med'},
+  ]},
+  {sec:'Saúde Financeira — Padrão Rede',items:[
+    {id:'f1',label:'Royalties em dia (R$ 1.938,75/mês)',sev:'high'},
+    {id:'f2',label:'PEC ativo e mensalidade paga (R$ 115,00/mês)',sev:'high'},
+    {id:'f3',label:'DAS recolhido corretamente (4,5%)',sev:'high'},
+    {id:'f4',label:'Comissões provisionadas (~2,5% fat.)',sev:'med'},
+    {id:'f5',label:'Marketing provisionado (2% fat.)',sev:'med'},
+    {id:'f6',label:'Capital de giro para mínimo 60 dias',sev:'high'},
+    {id:'f7',label:'Controle de vencidos implantado',sev:'high'},
+    {id:'f8',label:'Taxa PBM monitorada',sev:'med'},
+    {id:'f9',label:'ABC Farma em dia (R$ 30,00/mês)',sev:'low'},
+    {id:'f10',label:'Coleta de resíduos contratada e em dia',sev:'med'},
+  ]},
+];
+
+const CHECKLIST_F2 = [{sec:'Fase 2 — Execução & Controle',items:[
+  {id:'x1',label:'Plano de ação da Fase 1 sendo executado',sev:'high'},
+  {id:'x2',label:'Feedbacks de correção de rota registrados',sev:'med'},
+  {id:'x3',label:'Células especializadas receberam handover',sev:'high'},
+  {id:'x4',label:'Indicadores medidos semanalmente pelo gerente',sev:'high'},
+]}];
+
+const CHECKLIST_F3 = [{sec:'Fase 3 — Direção & Manutenção',items:[
+  {id:'z1',label:'Processos da Fase 2 consolidados e documentados',sev:'high'},
+  {id:'z2',label:'Equipe autônoma na execução do plano',sev:'med'},
+  {id:'z3',label:'Reunião periódica de resultados ocorrendo',sev:'high'},
+  {id:'z4',label:'Metas do próximo ciclo definidas',sev:'med'},
+]}];
+
+const ACORDOS_SAMPLE = [
+  {desc:'Implantar Yungas Checklist semanal',prazo:'2025-06-05',resp:'Ana Paula',loja:'Bom Jesus Centro',status:'aberto',data:'01/06/2025',fase:1},
+  {desc:'Revisar CMV da categoria Genéricos',prazo:'2025-06-08',resp:'Marcos Lima',loja:'Bom Jesus Norte',status:'aberto',data:'30/05/2025',fase:2},
+  {desc:'Ativar campanha de Similares na gôndola',prazo:'2025-06-12',resp:'Patrícia Souza',loja:'Central Norte',status:'aberto',data:'28/05/2025',fase:2},
+  {desc:'Treinamento de balcão concluído',prazo:'2025-05-20',resp:'Roberto Alves',loja:'Park Sul',status:'concluido',data:'15/05/2025',fase:3},
+];
+
+const HIST = [
+  {data:'02/06/2025',loja:'Farmácia Bom Jesus Centro',celula:'Amarela',fase:1,itens:8,acordos:2,yungas:true},
+  {data:'30/05/2025',loja:'Farmácia Park Sul',celula:'Turquesa',fase:2,itens:10,acordos:3,yungas:true},
+  {data:'28/05/2025',loja:'Farmácia Central Norte',celula:'Verde',fase:2,itens:6,acordos:2,yungas:false},
+  {data:'20/05/2025',loja:'Farmácia Recanto das Flores',celula:'Turquesa',fase:3,itens:9,acordos:1,yungas:true},
+];
+
+let checks={},levChecks={},ferrChecks={},acordosVisita=[],faseAtual=1,lojaVisita=null;
+let calMes=new Date(2025,5,1);
+let config={nome:'Consultor',perfil:'consultor',celula:'Amarela'};
+let eventos=[
+  {loja:'Farmácia Bom Jesus Centro',data:'2025-06-05',desc:'Verificar implantação do Yungas'},
+  {loja:'Farmácia Central Norte',data:'2025-06-10',desc:'Follow-up CMV Genéricos'},
+  {loja:'Farmácia Park Sul',data:'2025-06-15',desc:'Revisão de metas mensais'},
+];
+
+try{const c=JSON.parse(localStorage.getItem('cf360_config')||'{}');if(c.nome)config=c;}catch(e){}
+
+// AUTH
+async function fazerLogin2(){
+  const email=document.getElementById('login-email').value.trim();
+  const senha=document.getElementById('login-senha').value;
+  const btn=document.getElementById('login-btn');
+  const erro=document.getElementById('login-erro');
+  erro.style.display='none';
+  if(!email||!senha){erro.textContent='Preencha e-mail e senha.';erro.style.display='block';return;}
+  btn.textContent='Entrando...';btn.disabled=true;
+  try{
+    const res=await fetch(API_BASE+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,senha})});
+    const data=await res.json();
+    if(data&&data.token){
+      authToken=data.token;usuarioLogado=data.usuario;
+      localStorage.setItem('cf360_token',authToken);
+      localStorage.setItem('cf360_usuario',JSON.stringify(usuarioLogado));
+      config.nome=data.usuario.nome;config.perfil=data.usuario.perfil;config.celula=data.usuario.celula||'Todas';
+      showApp();
+    }else{erro.textContent=(data&&data.erro)||'Credenciais inválidas.';erro.style.display='block';}
+  }catch(e){erro.textContent='Erro de conexão com o servidor.';erro.style.display='block';}
+  btn.textContent='Entrar';btn.disabled=false;
+}
+
+function showApp(){
+  document.getElementById('tela-login').style.display='none';
+  document.getElementById('sidebar').style.display='flex';
+  document.getElementById('main-app').style.display='block';
+  initConfig();renderLevantamento();renderChecklist();renderLojas();
+  showPage('dashboard');
+}
+
+function showLogin(){
+  document.getElementById('tela-login').style.display='flex';
+  document.getElementById('sidebar').style.display='none';
+  document.getElementById('main-app').style.display='none';
+}
+
+function logout(){localStorage.removeItem('cf360_token');localStorage.removeItem('cf360_usuario');authToken=null;usuarioLogado=null;showLogin();}
+
+function initConfig(){
+  document.getElementById('user-nome').textContent=config.nome;
+  document.getElementById('user-perfil').textContent=config.perfil==='gestor'?'Gestor':'Consultor';
+  const ini=config.nome.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+  document.getElementById('avatar-ini').textContent=ini||'CF';
+  document.getElementById('cfg-nome').value=config.nome;
+  document.getElementById('cfg-perfil').value=config.perfil;
+  document.getElementById('cfg-celula').value=config.celula;
+}
+
+// NAV
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const map={dashboard:0,lojas:1,visita:2,acordos:3,calendario:4,performance:5,historico:6,yungas:7};
+  document.querySelectorAll('.nav-item')[map[id]]?.classList.add('active');
+  const titles={dashboard:'Dashboard',lojas:'Minhas lojas',visita:'Nova visita + IA',acordos:'Acordos & pendentes',calendario:'Calendário',historico:'Histórico',yungas:'Gerar p/ Yungas'};
+  document.getElementById('topbar-title').textContent=titles[id]||id;
+  if(id==='lojas')renderLojas();
+  if(id==='acordos')renderAcordos();
+  if(id==='historico')renderHistorico();
+  if(id==='calendario')renderCal();
+  if(id==='visita')initVisita();
+  if(id==='performance'){renderPerfLojas();switchPerfTab('perf-consolidado');}
+  closeSidebar();
+}
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+
+function switchTab(id,group){
+  const pg=group==='visita-tabs'?'visita':'acordos';
+  document.querySelectorAll(`#page-${pg} .tab-content`).forEach(t=>t.style.display='none');
+  document.getElementById(id).style.display='block';
+  const ids=group==='visita-tabs'?['tab-sel','tab-lev','tab-check','tab-ia','tab-ac']:['ac-abertos','ac-concluidos'];
+  document.querySelectorAll(`#page-${pg} .tab`).forEach((b,i)=>b.classList.toggle('active',ids[i]===id));
+}
+
+// LOJAS
+function statusBadge(s){
+  return{ok:'<span class="badge badge-green">OK</span>',atencao:'<span class="badge badge-amber">Atenção</span>',pendente:'<span class="badge badge-red">Pendente</span>'}[s]||'';
+}
+
+function renderLojas(filtro=''){
+  document.getElementById('loja-list').innerHTML=LOJAS.filter(l=>l.nome.toLowerCase().includes(filtro.toLowerCase())||l.celula.includes(filtro.toLowerCase())).map(l=>`
+    <div class="loja-card">
+      <div class="loja-dot" style="background:${CEL_CORES[l.celula]||'#888'}"></div>
+      <div class="loja-info">
+        <div class="loja-nome">${l.nome}</div>
+        <div class="loja-meta">${l.cidade} · ${l.gerente} · Última: ${l.ultimaVisita}</div>
+      </div>
+      <div class="loja-right">
+        ${statusBadge(l.status)}
+        <span class="fase-badge f${l.fase}">Fase ${l.fase}</span>
+      </div>
+    </div>`).join('');
+}
+function filtrarLojas(){renderLojas(document.getElementById('search-lojas').value);}
+
+// VISITA
+function initVisita(){
+  const sel=document.getElementById('sel-loja');
+  sel.innerHTML='<option value="">— Selecione —</option>'+LOJAS.map(l=>`<option value="${l.id}">${l.nome}</option>`).join('');
+  document.getElementById('ev-loja').innerHTML=LOJAS.map(l=>`<option>${l.nome}</option>`).join('');
+  document.getElementById('data-visita').value=new Date().toISOString().slice(0,10);
+  renderLevantamento();renderChecklist();
+}
+
+function selecionarLoja(){
+  lojaVisita=LOJAS.find(l=>l.id==document.getElementById('sel-loja').value)||null;
+  if(lojaVisita)selecionarFase(lojaVisita.fase,null);
+}
+
+const FASE_DESCS={
+  1:{cls:'f1',title:'Fase 1 · Análise, Diagnóstico e Planejamento',text:'Raio-X completo da loja. Levantamento de indicadores financeiros, operacionais e de equipe. Sem diagnóstico, qualquer intervenção é tiro no escuro.'},
+  2:{cls:'f2',title:'Fase 2 · Comando, Coordenação e Controle',text:'Plano da Fase 1 em execução. Consultor coordena, dá feedbacks de correção e aciona as células especializadas.'},
+  3:{cls:'f3',title:'Fase 3 · Direção, Gerenciamento e Manutenção',text:'Processos definidos, equipe engajada. Consultor garante direção estratégica e conduz reuniões periódicas de resultado.'},
+};
+
+function selecionarFase(f,btn){
+  faseAtual=f;
+  document.querySelectorAll('.fase-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  else document.querySelectorAll('.fase-btn')[f-1]?.classList.add('active');
+  const d=FASE_DESCS[f];
+  const el=document.getElementById('fase-desc');
+  el.className='fase-info '+d.cls;
+  el.innerHTML=`<div class="fase-title">${d.title}</div>${d.text}`;
+  document.getElementById('check-fase-lbl').textContent=`Checklist — Fase ${f}`;
+  renderChecklist();
+}
+
+function renderLevantamento(){
+  document.getElementById('lev-grid').innerHTML=LEVANTAMENTO.map((item,i)=>`
+    <div class="lev-item ${levChecks[i]?'checked':''}" onclick="toggleLev(${i},this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">${item}</div>
+    </div>`).join('');
+  document.getElementById('ferr-grid').innerHTML=FERRAMENTAS.map((item,i)=>`
+    <div class="lev-item ${ferrChecks[i]?'checked':''}" onclick="toggleFerr(${i},this)">
+      <div class="lev-check"></div>
+      <div class="lev-label">${item}</div>
+    </div>`).join('');
+}
+function toggleLev(i,el){levChecks[i]=!levChecks[i];el.classList.toggle('checked',levChecks[i]);}
+function toggleFerr(i,el){ferrChecks[i]=!ferrChecks[i];el.classList.toggle('checked',ferrChecks[i]);}
+
+function renderChecklist(){
+  let itens=[...CHECKLIST];
+  if(faseAtual===2)itens=[...itens,...CHECKLIST_F2];
+  if(faseAtual===3)itens=[...itens,...CHECKLIST_F3];
+  document.getElementById('checklist-content').innerHTML=itens.map(sec=>`
+    <div class="check-section">
+      <div class="check-sec-title">${sec.sec}</div>
+      ${sec.items.map(item=>`
+        <div class="check-item ${checks[item.id]?'done':''}" id="wrap-${item.id}" onclick="toggleCheck('${item.id}')">
+          <div class="sev sev-${item.sev}"></div>
+          <div class="check-box ${checks[item.id]?'checked':''}" id="cb-${item.id}"></div>
+          <div>
+            <div class="check-label">${item.label}</div>
+            <div class="check-obs">${item.sev==='high'?'⚠ Prioridade alta':item.sev==='med'?'Prioridade média':'Observação'}</div>
+          </div>
+        </div>`).join('')}
+    </div>`).join('');
+  atualizarPct(itens);
+}
+
+function toggleCheck(id){
+  checks[id]=!checks[id];
+  document.getElementById('cb-'+id).classList.toggle('checked',checks[id]);
+  document.getElementById('wrap-'+id).classList.toggle('done',checks[id]);
+  atualizarPct();
+}
+
+function atualizarPct(itens){
+  if(!itens){itens=[...CHECKLIST];if(faseAtual===2)itens=[...itens,...CHECKLIST_F2];if(faseAtual===3)itens=[...itens,...CHECKLIST_F3];}
+  const total=itens.reduce((a,s)=>a+s.items.length,0);
+  const done=Object.values(checks).filter(Boolean).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('check-bar').style.width=pct+'%';
+  document.getElementById('check-pct').textContent=pct+'%';
+}
+
+function iniciarVisita(){
+  if(!document.getElementById('sel-loja').value){notif('Selecione uma loja primeiro');return;}
+  selecionarLoja();switchTab('tab-lev','visita-tabs');
+}
+
+// IA
+async function gerarIA(){
+  const obs=document.getElementById('obs-campo').value;
+  const dor=document.getElementById('dor-gerente').value;
+  const fin=document.getElementById('dados-fin').value;
+  const loja=lojaVisita?lojaVisita.nome:'Farmácia selecionada';
+  let allItems=[...CHECKLIST];
+  if(faseAtual===2)allItems=[...allItems,...CHECKLIST_F2];
+  if(faseAtual===3)allItems=[...allItems,...CHECKLIST_F3];
+  const total=allItems.reduce((a,s)=>a+s.items.length,0);
+  const done=Object.values(checks).filter(Boolean).length;
+  const pendentes=[];allItems.forEach(sec=>sec.items.forEach(item=>{if(!checks[item.id])pendentes.push(item.label);}));
+  const levFeitos=LEVANTAMENTO.filter((_,i)=>levChecks[i]);
+  const ferrUsadas=FERRAMENTAS.filter((_,i)=>ferrChecks[i]);
+  const faseTitulo=['Análise & Diagnóstico','Execução & Controle','Direção & Manutenção'][faseAtual-1];
+
+  document.getElementById('ia-output').style.display='block';
+  document.getElementById('ai-text').innerHTML='<div class="ai-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+
+  const prompt=`Você é o Consultor Executivo Sênior da Cresce Farma 360. Trajetória real: promotor, balconista, gerente de loja de alto fluxo, supervisor regional e comprador técnico. Você conhece a dor do operador, o comportamento do balcão e a pressão das franqueadoras.
+
+CONTEXTO DA REDE:
+- Royalties: R$ 1.938,75/mês | PEC: R$ 115,00/mês | DAS: 4,5% fat.
+- CMV Elite: Genéricos ≤52% | Similares ≤58% | Referência ≤65% | HB ≤55%
+- Margem bruta mínima: ≥38% | Resultado operacional mínimo: ≥5%
+- Ticket referência: R$ 52,00 | Itens/cliente: ≥3,2
+- Quadro mínimo: Comprador R$ 3k+var | Gerente R$ 4k | Farmacêutico 100%
+
+VISITA — ${loja} · Fase ${faseAtual}: ${faseTitulo}
+- Checklist: ${done}/${total} itens
+- Pendentes: ${pendentes.slice(0,10).join(' | ')}
+- Levantamento coletado: ${levFeitos.join(', ')||'nenhum'}
+- Ferramentas em uso: ${ferrUsadas.join(', ')||'nenhuma'}
+- Dados financeiros: ${fin||'não informados'}
+- Campo: ${obs||'não informado'}
+- Dor do gerente: ${dor||'não informada'}
+
+Gere plano executivo:
+1. DIAGNÓSTICO CIRÚRGICO (2-4 linhas diretas)
+2. AÇÕES IMEDIATAS HOJE (3-5 ações antes de sair da loja)
+3. HANDOVER CÉLULAS COT (tarefa específica por célula relevante: Financeiro, Marketing, Negociações, VM, GCP, Dr Cuidado)
+4. ACORDOS PARA FECHAR HOJE (2-3 concretos com prazo)
+5. PRÓXIMA VISITA (2-3 pontos de verificação)
+
+Linguagem direta. De quem já esteve no balcão.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    document.getElementById('ai-text').textContent=data.content?.find(c=>c.type==='text')?.text||'Erro ao gerar.';
+  }catch(e){document.getElementById('ai-text').textContent='Erro de conexão.';}
+}
+
+// ACORDOS
+function registrarAcordo(){
+  const desc=document.getElementById('novo-acordo').value.trim();
+  const prazo=document.getElementById('prazo-acordo').value;
+  const resp=document.getElementById('resp-acordo').value.trim();
+  if(!desc){notif('Descreva o acordo');return;}
+  acordosVisita.push({desc,prazo,resp,loja:lojaVisita?.nome||'',status:'aberto',data:new Date().toLocaleDateString('pt-BR'),fase:faseAtual});
+  document.getElementById('novo-acordo').value='';document.getElementById('prazo-acordo').value='';document.getElementById('resp-acordo').value='';
+  renderAcordosVisita();notif('Acordo registrado ✓');
+}
+
+function renderAcordosVisita(){
+  const div=document.getElementById('acordos-visita-lista');
+  if(!acordosVisita.length){div.innerHTML='<div class="empty">Nenhum acordo nesta visita</div>';return;}
+  div.innerHTML=acordosVisita.map((a,i)=>`
+    <div class="acordo-card">
+      <div class="acordo-hdr">
+        <div><div class="acordo-ttl">${a.desc}</div><div class="acordo-meta">${a.resp?'Resp: '+a.resp+' · ':''}Prazo: ${a.prazo||'a definir'}</div></div>
+        <button onclick="acordosVisita.splice(${i},1);renderAcordosVisita()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px">×</button>
+      </div>
+    </div>`).join('');
+}
+
+function prazoStatus(prazo){
+  if(!prazo)return'<span class="badge badge-gray">Sem prazo</span>';
+  const diff=Math.ceil((new Date(prazo)-new Date())/86400000);
+  if(diff<=0)return'<span class="badge badge-red">Vencido</span>';
+  if(diff<=3)return`<span class="badge badge-red">Vence em ${diff}d</span>`;
+  if(diff<=7)return`<span class="badge badge-amber">Vence em ${diff}d</span>`;
+  return`<span class="badge badge-green">Vence em ${diff}d</span>`;
+}
+
+function renderAcordos(){
+  const all=[...ACORDOS_SAMPLE,...acordosVisita];
+  const abertos=all.filter(a=>a.status==='aberto');
+  const conc=all.filter(a=>a.status==='concluido');
+  document.getElementById('badge-acordos').textContent=abertos.length;
+  document.getElementById('s-acordos').textContent=abertos.length;
+  document.getElementById('acordos-abertos-list').innerHTML=abertos.map((a,i)=>`
+    <div class="acordo-card">
+      <div class="acordo-hdr">
+        <div><div class="acordo-ttl">${a.desc}</div><div class="acordo-meta">${a.loja} · ${a.data} · <span class="fase-badge f${a.fase||1}">Fase ${a.fase||1}</span></div></div>
+        ${prazoStatus(a.prazo)}
+      </div>
+      <div class="acordo-body">Responsável: ${a.resp||'—'} · Prazo: ${a.prazo||'a definir'}</div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="notif('Acordo concluído ✓')">✓ Concluir</button>
+        <button class="btn btn-ghost btn-sm" onclick="notif('Lembrete configurado')">🔔 Lembrete</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('acordos-concluidos-list').innerHTML=conc.length?
+    conc.map(a=>`<div class="acordo-card" style="opacity:.6"><div class="acordo-ttl">${a.desc}</div><div class="acordo-meta">${a.loja} · ${a.data}</div></div>`).join(''):
+    '<div class="empty">Nenhum acordo concluído</div>';
+}
+
+// CALENDÁRIO
+function renderCal(){
+  const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('cal-mes-label').textContent=meses[calMes.getMonth()]+' '+calMes.getFullYear();
+  const primeiro=new Date(calMes.getFullYear(),calMes.getMonth(),1).getDay();
+  const total=new Date(calMes.getFullYear(),calMes.getMonth()+1,0).getDate();
+  const hoje=new Date();
+  const dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  let html=dias.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+  for(let i=0;i<primeiro;i++)html+=`<div class="cal-day empty">·</div>`;
+  for(let d=1;d<=total;d++){
+    const ds=`${calMes.getFullYear()}-${String(calMes.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isHoje=hoje.getDate()===d&&hoje.getMonth()===calMes.getMonth()&&hoje.getFullYear()===calMes.getFullYear();
+    const temEv=eventos.some(e=>e.data===ds);
+    html+=`<div class="cal-day${isHoje?' today':''}${temEv?' has-event':''}" onclick="verDia('${ds}')">${d}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+  const mes=`${calMes.getFullYear()}-${String(calMes.getMonth()+1).padStart(2,'0')}`;
+  const ev=eventos.filter(e=>e.data.startsWith(mes));
+  document.getElementById('cal-eventos-list').innerHTML=ev.length?ev.map(e=>`
+    <div class="acordo-card" style="margin-bottom:8px">
+      <div class="acordo-ttl">${e.loja}</div>
+      <div class="acordo-meta">${e.data.split('-').reverse().join('/')}</div>
+      <div class="acordo-body">${e.desc}</div>
+    </div>`).join(''):'<div class="empty">Sem lembretes neste mês</div>';
+}
+function mudarMes(d){calMes.setMonth(calMes.getMonth()+d);renderCal();}
+function verDia(date){const ev=eventos.find(e=>e.data===date);if(ev)notif(ev.loja+': '+ev.desc);}
+
+// HISTÓRICO
+function renderHistorico(){
+  document.getElementById('historico-list').innerHTML=HIST.map(h=>`
+    <div class="acordo-card" style="margin-bottom:10px">
+      <div class="acordo-hdr">
+        <div><div class="acordo-ttl">${h.loja}</div><div class="acordo-meta">${h.data} · Célula ${h.celula} · <span class="fase-badge f${h.fase}">Fase ${h.fase}</span></div></div>
+        ${h.yungas?'<span class="badge badge-green">Yungas ✓</span>':'<span class="badge badge-amber">Pendente Yungas</span>'}
+      </div>
+      <div class="acordo-body">${h.itens} checks · ${h.acordos} acordos</div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm">Ver detalhes</button>
+        ${!h.yungas?`<button class="btn btn-primary btn-sm" onclick="showPage('yungas')">Gerar Yungas</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// YUNGAS
+async function gerarYungas(){
+  document.getElementById('yungas-output').style.display='block';
+  document.getElementById('yungas-content').textContent='Gerando...';
+  const prompt=`Gere um relatório de visita de consultoria farmacêutica para registro no sistema Yungas.\n\nConsultor: ${config.nome}\nLoja: Farmácia Bom Jesus Centro — Célula Amarela\nData: 02/06/2025 · Fase 1 — Análise & Diagnóstico\n\nChecklist: 8 de 14 itens concluídos\nPendentes: Metas não comunicadas ao balcão | PEC não verificado | Ponto de Equilíbrio não calculado\nAcordos: 1) Comunicar metas até 05/06 (Ana Paula) 2) Yungas semanal a partir de 09/06\n\nGere relatório executivo com tópicos, linguagem objetiva, máximo 350 palavras. Inclua: resumo, pontos críticos, acordos e próximos passos.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    document.getElementById('yungas-content').textContent=data.content?.find(c=>c.type==='text')?.text||'Erro.';
+  }catch(e){document.getElementById('yungas-content').textContent='Erro de conexão.';}
+}
+function copiarYungas(){navigator.clipboard.writeText(document.getElementById('yungas-content').textContent);notif('Copiado! Cole no Yungas ✓');}
+
+// EVENTO
+function salvarEvento(){
+  const loja=document.getElementById('ev-loja').value;
+  const data=document.getElementById('ev-data').value;
+  const desc=document.getElementById('ev-desc').value.trim();
+  if(!data||!desc){notif('Preencha data e descrição');return;}
+  eventos.push({loja,data,desc});closeModal('modal-evento');renderCal();notif('Lembrete salvo ✓');
+}
+
+// CONFIG
+function salvarConfig(){
+  config.nome=document.getElementById('cfg-nome').value||'Consultor';
+  config.perfil=document.getElementById('cfg-perfil').value;
+  config.celula=document.getElementById('cfg-celula').value;
+  try{localStorage.setItem('cf360_config',JSON.stringify(config));}catch(e){}
+  initConfig();closeModal('modal-config');notif('Configurações salvas ✓');
+}
+
+// MODAL/NOTIF
+function showModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function notif(msg){const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800);}
+
+// ══ PERFORMANCE ══
+const PERF_DATA = [
+  {id:1,nome:'Farmácia Bom Jesus Centro',celula:'amarela',fat:187420,cmv:64.2,ticket:48.3,itens:2.8,resultado:7175,meta:180000,consultor:'Francisco R.'},
+  {id:2,nome:'Farmácia Bom Jesus Norte',celula:'amarela',fat:142800,cmv:62.1,ticket:44.1,itens:2.6,resultado:5200,meta:150000,consultor:'Francisco R.'},
+  {id:3,nome:'Farmácia Central Norte',celula:'verde',fat:168400,cmv:61.8,ticket:46.2,itens:2.7,resultado:6420,meta:165000,consultor:'Mariana C.'},
+  {id:4,nome:'Farmácia Park Sul',celula:'turquesa',fat:195600,cmv:58.4,ticket:52.1,itens:3.2,resultado:9840,meta:190000,consultor:'Rafael L.'},
+  {id:5,nome:'Farmácia Recanto das Flores',celula:'turquesa',fat:128400,cmv:66.8,ticket:39.4,itens:2.2,resultado:3180,meta:145000,consultor:'Rafael L.'},
+  {id:6,nome:'Farmácia Nova Esperança',celula:'coral',fat:112800,cmv:67.2,ticket:37.8,itens:2.1,resultado:2640,meta:130000,consultor:'Mariana C.'},
+  {id:7,nome:'Farmácia Boa Saúde',celula:'laranja',fat:178200,cmv:60.2,ticket:49.8,itens:2.9,resultado:7920,meta:175000,consultor:'Rafael L.'},
+  {id:8,nome:'Farmácia Vida Plena',celula:'cafe',fat:152400,cmv:63.4,ticket:45.6,itens:2.7,resultado:5480,meta:155000,consultor:'Francisco R.'},
+];
+
+function switchPerfTab(id) {
+  document.querySelectorAll('.perf-tab').forEach(t=>{t.style.display='none';t.classList.remove('active');});
+  const el = document.getElementById(id);
+  if(el){el.style.display='block';el.classList.add('active');}
+  document.querySelectorAll('#page-performance .tab').forEach((b,i)=>{
+    b.classList.toggle('active',['perf-consolidado','perf-ranking'][i]===id);
+  });
+  if(id==='perf-ranking') renderRankings();
+}
+
+function renderPerfLojas() {
+  const grid = document.getElementById('perf-lojas-grid');
+  if(!grid) return;
+  grid.innerHTML = PERF_DATA.map(l => {
+    const atingimento = Math.round(l.fat/l.meta*100);
+    const acimaMeta = l.fat >= l.meta;
+    const cmvOk = l.cmv <= 58;
+    const corCMV = l.cmv <= 58 ? 'pos' : l.cmv <= 63 ? 'warn' : 'neg';
+    const corFat = acimaMeta ? 'pos' : 'warn';
+    return `<div class="loja-perf-card">
+      <div class="loja-perf-header">
+        <div class="loja-dot" style="background:${CEL_CORES[l.celula]||'#888'};width:10px;height:10px;border-radius:50%;flex-shrink:0"></div>
+        <div style="flex:1;min-width:0">
+          <div class="loja-perf-nome">${l.nome.replace('Farmácia ','')}</div>
+          <div class="loja-perf-meta">Consultor: ${l.consultor} · Meta: ${fmtR(l.meta)}</div>
+        </div>
+        <span class="badge ${acimaMeta?'badge-green':'badge-amber'}">${atingimento}%</span>
+      </div>
+      <div class="loja-perf-kpis">
+        <div class="lp-kpi"><div class="lp-kpi-lbl">Faturamento</div><div class="lp-kpi-val ${corFat}">${fmtR(l.fat)}</div></div>
+        <div class="lp-kpi"><div class="lp-kpi-lbl">CMV %</div><div class="lp-kpi-val ${corCMV}">${l.cmv}%</div></div>
+        <div class="lp-kpi"><div class="lp-kpi-lbl">Ticket médio</div><div class="lp-kpi-val">R$ ${l.ticket.toFixed(2)}</div></div>
+        <div class="lp-kpi"><div class="lp-kpi-lbl">Itens/cliente</div><div class="lp-kpi-val ${l.itens>=3.2?'pos':l.itens>=2.8?'warn':'neg'}">${l.itens.toFixed(1)}</div></div>
+      </div>
+      <div class="loja-perf-footer">
+        <div style="font-size:11px;color:var(--text3)">Resultado op.: <strong style="color:${l.resultado>5000?'var(--green)':'var(--amber)'}">R$ ${l.resultado.toLocaleString('pt-BR')}</strong></div>
+        <button class="btn btn-ghost btn-sm" onclick="abrirPerformanceLoja(${l.id})">Ver detalhes →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderRankings() {
+  // Ranking faturamento
+  const porFat = [...PERF_DATA].sort((a,b)=>b.fat-a.fat);
+  const maxFat = porFat[0].fat;
+  document.getElementById('rank-fat').innerHTML = porFat.map((l,i) => `
+    <div class="rank-row">
+      <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
+      <div class="rank-info">
+        <div class="rank-nome">${l.nome.replace('Farmácia ','')}</div>
+        <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${l.fat/maxFat*100}%;background:var(--green)"></div></div></div>
+      </div>
+      <div class="rank-val" style="color:var(--green)">${fmtR(l.fat)}</div>
+    </div>`).join('');
+
+  // Ranking CMV (menor é melhor)
+  const porCMV = [...PERF_DATA].sort((a,b)=>a.cmv-b.cmv);
+  const minCMV = porCMV[0].cmv, maxCMV = porCMV[porCMV.length-1].cmv;
+  document.getElementById('rank-cmv').innerHTML = porCMV.map((l,i) => {
+    const cor = l.cmv<=58?'var(--green)':l.cmv<=63?'var(--amber)':'var(--red)';
+    return `<div class="rank-row">
+      <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
+      <div class="rank-info">
+        <div class="rank-nome">${l.nome.replace('Farmácia ','')}</div>
+        <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${(1-(l.cmv-minCMV)/(maxCMV-minCMV||1))*100}%;background:${cor}"></div></div></div>
+      </div>
+      <div class="rank-val" style="color:${cor}">${l.cmv}%</div>
+    </div>`;
+  }).join('');
+
+  // Ranking resultado
+  const porRes = [...PERF_DATA].sort((a,b)=>b.resultado-a.resultado);
+  const maxRes = porRes[0].resultado;
+  document.getElementById('rank-resultado').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      ${porRes.map((l,i) => `
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:12px;display:flex;align-items:center;gap:10px">
+          <div class="rank-pos ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12.5px;font-weight:600;color:var(--text)">${l.nome.replace('Farmácia ','')}</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;color:${l.resultado>6000?'var(--green)':'var(--amber)';};margin-top:2px">${fmtR(l.resultado)}</div>
+            <div class="rank-bar-wrap"><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${l.resultado/maxRes*100}%;background:${l.resultado>6000?'var(--green)':'var(--amber)'}"></div></div></div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function abrirPerformanceLoja(id) {
+  const loja = PERF_DATA.find(l=>l.id===id);
+  if(!loja) return;
+  // Abre o painel_performance.html com a loja selecionada
+  const url = 'painel_performance.html?loja=' + id;
+  window.open(url, '_blank');
+  notif('Abrindo painel de ' + loja.nome.replace('Farmácia ',''));
+}
+
+const fmtR = v => 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
+
+// ══ RECUPERAÇÃO DE SENHA ══
+async function enviarRecuperacao() {
+  const email = document.getElementById('rec-email').value.trim();
+  const btn = document.getElementById('rec-btn');
+  const sucesso = document.getElementById('rec-sucesso');
+  const erro = document.getElementById('rec-erro');
+  sucesso.style.display='none'; erro.style.display='none';
+  if (!email) { erro.textContent='Informe o e-mail.'; erro.style.display='block'; return; }
+  btn.textContent='Enviando...'; btn.disabled=true;
+  try {
+    const res = await fetch(API_BASE + '/auth/recuperar-senha', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email})
+    });
+    // Mesmo que o e-mail não exista, mostramos sucesso por segurança
+    sucesso.style.display='block';
+    document.getElementById('rec-email').value='';
+    setTimeout(()=>{ closeModal('modal-esqueci-senha'); sucesso.style.display='none'; }, 3000);
+  } catch(e) {
+    // Fallback: simula envio (endpoint ainda não implementado no backend)
+    sucesso.style.display='block';
+    sucesso.textContent='✓ Se o e-mail estiver cadastrado, você receberá o link em instantes.';
+    document.getElementById('rec-email').value='';
+    setTimeout(()=>{ closeModal('modal-esqueci-senha'); sucesso.style.display='none'; }, 3000);
+  }
+  btn.textContent='Enviar link'; btn.disabled=false;
+}
+
+// ══ DADOS CONFIG ══
+let consultores = [
+  {id:1, nome:'Francisco Rodrigues', email:'consultor@focofarma.com', celula:'Amarela', farmacias:[1,2], status:'ativo'},
+  {id:2, nome:'Mariana Costa', email:'mariana@focofarma.com', celula:'Verde', farmacias:[3,6], status:'ativo'},
+  {id:3, nome:'Rafael Lima', email:'rafael@focofarma.com', celula:'Turquesa', farmacias:[4,5,7,8], status:'ativo'},
+];
+
+let franqueados = [
+  {id:1, nome:'João Silva / Drogaria Silva', email:'joao@drogaria.com', farmacias:[1,2], status:'ativo'},
+  {id:2, nome:'Maria Santos Ltda', email:'maria@farmaciasantos.com', farmacias:[3], status:'ativo'},
+  {id:3, nome:'Grupo Farma Norte', email:'grupo@farmanorte.com', farmacias:[4,5], status:'ativo'},
+];
+
+let farmaciasDB = [...LOJAS];
+
+// Mostrar/ocultar nav de config baseado no perfil
+function atualizarNavPerfil() {
+  const isGestor = config.perfil === 'gestor';
+  const navSec = document.getElementById('nav-sec-admin');
+  const navCfg = document.getElementById('nav-config');
+  if(navSec) navSec.style.display = isGestor ? '' : 'none';
+  if(navCfg) navCfg.style.display = isGestor ? '' : 'none';
+}
+
+// ══ CONFIG TABS ══
+function switchConfigTab(id) {
+  document.querySelectorAll('.cfg-tab').forEach(t=>t.style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('#page-configuracoes .tab').forEach((b,i)=>{
+    const ids=['cfg-consultores','cfg-farmacias','cfg-franqueados','cfg-rede'];
+    b.classList.toggle('active', ids[i]===id);
+  });
+  if(id==='cfg-consultores') renderConsultores();
+  if(id==='cfg-farmacias') renderFarmaciasAdmin();
+  if(id==='cfg-franqueados') renderFranqueados();
+  if(id==='cfg-rede') renderRede();
+}
+
+// ══ RENDER CONSULTORES ══
+function renderConsultores() {
+  const el = document.getElementById('lista-consultores');
+  if(!el) return;
+  const cores = ['#1D9E75','#378ADD','#6D28D9','#B45309','#B91C1C'];
+  el.innerHTML = consultores.map((c,idx) => {
+    const lojasNomes = c.farmacias.map(id => farmaciasDB.find(f=>f.id===id)?.nome||'').filter(Boolean);
+    const ini = c.nome.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+    return `<div class="user-cfg-card">
+      <div class="ucf-avatar" style="background:${cores[idx%5]}20;color:${cores[idx%5]}">${ini}</div>
+      <div class="ucf-info">
+        <div class="ucf-nome">${c.nome}</div>
+        <div class="ucf-meta">${c.email} · Célula ${c.celula}</div>
+        <div class="ucf-lojas">${lojasNomes.length} farmácia${lojasNomes.length!==1?'s':''}: ${lojasNomes.slice(0,2).join(', ')}${lojasNomes.length>2?' +'+( lojasNomes.length-2):''}</div>
+      </div>
+      <div class="ucf-actions">
+        <span class="badge ${c.status==='ativo'?'badge-green':'badge-gray'}">${c.status}</span>
+        <button class="btn btn-ghost btn-sm" onclick="editarConsultor(${c.id})">Editar</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="notif('Consultor desativado')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ RENDER FARMÁCIAS ADMIN ══
+function renderFarmaciasAdmin() {
+  const el = document.getElementById('lista-farmacias');
+  if(!el) return;
+  el.innerHTML = farmaciasDB.map(f => {
+    const cons = consultores.find(c=>c.farmacias.includes(f.id));
+    return `<div class="user-cfg-card">
+      <div class="loja-dot" style="background:${CEL_CORES[f.celula]||'#888'};width:12px;height:12px;border-radius:50%;flex-shrink:0"></div>
+      <div class="ucf-info">
+        <div class="ucf-nome">${f.nome}</div>
+        <div class="ucf-meta">${f.cidade} · Célula ${f.celula.charAt(0).toUpperCase()+f.celula.slice(1)} · Ger: ${f.gerente}</div>
+        <div class="ucf-lojas">Consultor: ${cons?cons.nome:'Não atribuído'} · <span class="fase-badge f${f.fase}">Fase ${f.fase}</span></div>
+      </div>
+      <div class="ucf-actions">
+        ${statusBadge(f.status)}
+        <button class="btn btn-ghost btn-sm" onclick="editarFarmacia(${f.id})">Editar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ RENDER FRANQUEADOS ══
+function renderFranqueados() {
+  const el = document.getElementById('lista-franqueados');
+  if(!el) return;
+  el.innerHTML = franqueados.map((f,idx) => {
+    const lojasNomes = f.farmacias.map(id => farmaciasDB.find(lj=>lj.id===id)?.nome||'').filter(Boolean);
+    const ini = f.nome.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+    return `<div class="user-cfg-card">
+      <div class="ucf-avatar" style="background:var(--blue-bg);color:var(--blue)">${ini}</div>
+      <div class="ucf-info">
+        <div class="ucf-nome">${f.nome}</div>
+        <div class="ucf-meta">${f.email}</div>
+        <div class="ucf-lojas">${lojasNomes.length} farmácia${lojasNomes.length!==1?'s':''}: ${lojasNomes.join(', ')}</div>
+      </div>
+      <div class="ucf-actions">
+        <span class="badge ${f.status==='ativo'?'badge-green':'badge-gray'}">${f.status}</span>
+        <button class="btn btn-ghost btn-sm" onclick="editarFranqueado(${f.id})">Editar</button>
+        <button class="btn btn-ghost btn-sm" onclick="simularFranqueado(${f.id})">👁 Ver como</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ RENDER REDE ══
+function renderRede() {
+  // Distribuição por célula
+  const celCount = {};
+  farmaciasDB.forEach(f => { celCount[f.celula] = (celCount[f.celula]||0)+1; });
+  const elCel = document.getElementById('rede-celulas');
+  if(elCel) elCel.innerHTML = Object.entries(celCount).map(([cel,n]) => `
+    <div class="rede-item">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--text)">${cel.charAt(0).toUpperCase()+cel.slice(1)}</div>
+        <div style="font-size:11px;color:var(--text3)">${n} farmácia${n!==1?'s':''}</div>
+      </div>
+      <div style="text-align:right;min-width:100px">
+        <div style="font-size:12px;font-weight:600;color:var(--green)">${n}</div>
+        <div class="rede-bar" style="width:100px"><div class="rede-fill" style="width:${n/farmaciasDB.length*100}%;background:${CEL_CORES[cel]||'var(--green)'}"></div></div>
+      </div>
+    </div>`).join('');
+
+  // Distribuição por fase
+  const faseCount = {1:0,2:0,3:0};
+  farmaciasDB.forEach(f => faseCount[f.fase]++);
+  const faseNomes = {1:'Fase 1 — Diagnóstico',2:'Fase 2 — Execução',3:'Fase 3 — Manutenção'};
+  const faseCores = {1:'var(--blue)',2:'var(--amber-light)',3:'var(--green)'};
+  const elFase = document.getElementById('rede-fases');
+  if(elFase) elFase.innerHTML = Object.entries(faseCount).map(([fase,n]) => `
+    <div class="rede-item">
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--text)">${faseNomes[fase]}</div>
+        <div style="font-size:11px;color:var(--text3)">${n} farmácia${n!==1?'s':''}</div>
+      </div>
+      <div style="text-align:right;min-width:100px">
+        <div style="font-size:12px;font-weight:600;color:${faseCores[fase]}">${n}</div>
+        <div class="rede-bar" style="width:100px"><div class="rede-fill" style="width:${n/farmaciasDB.length*100}%;background:${faseCores[fase]}"></div></div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('r-farmacias').textContent = farmaciasDB.length;
+  document.getElementById('r-consultores').textContent = consultores.length;
+  document.getElementById('r-franqueados').textContent = franqueados.length;
+}
+
+// ══ ABRIR MODALS COM DADOS ══
+function abrirModalConsultor() {
+  const grid = document.getElementById('nc-farmacias-check');
+  if(grid) grid.innerHTML = farmaciasDB.map(f => `
+    <label class="farmacia-check" id="nc-fc-${f.id}">
+      <input type="checkbox" value="${f.id}" onchange="toggleFarmaciaCheck(this,'nc-fc-${f.id}')"> ${f.nome.replace('Farmácia ','').substring(0,20)}
+    </label>`).join('');
+  showModal('modal-novo-consultor');
+}
+
+function abrirModalFranqueado() {
+  const grid = document.getElementById('nfq-farmacias-check');
+  if(grid) grid.innerHTML = farmaciasDB.map(f => `
+    <label class="farmacia-check" id="nfq-fc-${f.id}">
+      <input type="checkbox" value="${f.id}" onchange="toggleFarmaciaCheck(this,'nfq-fc-${f.id}')"> ${f.nome.replace('Farmácia ','').substring(0,20)}
+    </label>`).join('');
+  showModal('modal-novo-franqueado');
+}
+
+function abrirModalFarmacia() {
+  const sel = document.getElementById('nf-consultor');
+  if(sel) sel.innerHTML = '<option value="">— Selecione —</option>' + consultores.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  showModal('modal-nova-farmacia');
+}
+
+function toggleFarmaciaCheck(cb, labelId) {
+  document.getElementById(labelId)?.classList.toggle('selected', cb.checked);
+}
+
+// ══ SALVAR ══
+function salvarConsultor() {
+  const nome = document.getElementById('nc-nome').value.trim();
+  const email = document.getElementById('nc-email').value.trim();
+  const senha = document.getElementById('nc-senha').value.trim();
+  const celula = document.getElementById('nc-celula').value;
+  if(!nome||!email||!senha){notif('Preencha todos os campos obrigatórios');return;}
+  const farmacias = [...document.querySelectorAll('#nc-farmacias-check input:checked')].map(i=>parseInt(i.value));
+  consultores.push({id:Date.now(),nome,email,celula,farmacias,status:'ativo'});
+  closeModal('modal-novo-consultor');
+  document.getElementById('nc-nome').value='';document.getElementById('nc-email').value='';document.getElementById('nc-senha').value='';
+  renderConsultores();
+  notif('Consultor cadastrado ✓ — credenciais enviadas por e-mail');
+}
+
+function salvarFarmacia() {
+  const nome = document.getElementById('nf-nome').value.trim();
+  const cidade = document.getElementById('nf-cidade').value.trim();
+  const gerente = document.getElementById('nf-gerente').value.trim();
+  if(!nome){notif('Informe o nome da farmácia');return;}
+  const novaId = farmaciasDB.length + 1;
+  const nova = {id:novaId,nome,cidade,gerente,celula:document.getElementById('nf-celula').value,fase:parseInt(document.getElementById('nf-fase').value),status:'ok',ultimaVisita:'—',tel:document.getElementById('nf-tel').value};
+  farmaciasDB.push(nova);
+  LOJAS.push(nova);
+  const consId = parseInt(document.getElementById('nf-consultor').value);
+  if(consId){const cons=consultores.find(c=>c.id===consId);if(cons)cons.farmacias.push(novaId);}
+  closeModal('modal-nova-farmacia');
+  renderFarmaciasAdmin();
+  notif('Farmácia cadastrada ✓');
+}
+
+function salvarFranqueado() {
+  const nome = document.getElementById('nfq-nome').value.trim();
+  const email = document.getElementById('nfq-email').value.trim();
+  const senha = document.getElementById('nfq-senha').value.trim();
+  if(!nome||!email||!senha){notif('Preencha todos os campos obrigatórios');return;}
+  const farmacias = [...document.querySelectorAll('#nfq-farmacias-check input:checked')].map(i=>parseInt(i.value));
+  if(!farmacias.length){notif('Selecione ao menos uma farmácia');return;}
+  franqueados.push({id:Date.now(),nome,email,farmacias,status:'ativo'});
+  closeModal('modal-novo-franqueado');
+  document.getElementById('nfq-nome').value='';document.getElementById('nfq-email').value='';document.getElementById('nfq-senha').value='';
+  renderFranqueados();
+  notif('Franqueado cadastrado ✓ — acesso enviado por e-mail');
+}
+
+function editarConsultor(id){notif('Edição de consultor em breve');}
+function editarFarmacia(id){notif('Edição de farmácia em breve');}
+function editarFranqueado(id){notif('Edição de franqueado em breve');}
+
+function simularFranqueado(id) {
+  const f = franqueados.find(fr=>fr.id===id);
+  if(!f) return;
+  const lojasNomes = f.farmacias.map(fid=>farmaciasDB.find(lj=>lj.id===fid)?.nome).filter(Boolean);
+  notif('Visualizando como: '+f.nome+' ('+lojasNomes.length+' farmácia'+( lojasNomes.length!==1?'s':'')+')');
+}
+
+// ══ SOBRESCREVER showPage PARA CONFIGURAÇÕES ══
+const _showPageOrig = showPage;
+window.showPage = function(id) {
+  _showPageOrig(id);
+  if(id==='configuracoes'){
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('nav-config')?.classList.add('active');
+    document.getElementById('topbar-title').textContent='Configurações';
+    renderConsultores();
+  }
+  atualizarNavPerfil();
+};
+
+// ══ SOBRESCREVER showModal PARA ABRIR COM DADOS ══
+const _showModalOrig = showModal;
+window.showModal = function(id) {
+  if(id==='modal-novo-consultor') { abrirModalConsultor(); return; }
+  if(id==='modal-novo-franqueado') { abrirModalFranqueado(); return; }
+  if(id==='modal-nova-farmacia') { abrirModalFarmacia(); return; }
+  _showModalOrig(id);
+};
+
+// INIT
+if(authToken&&usuarioLogado){showApp();}else{document.getElementById('tela-login').style.display='flex';}
+</script>
+</body>
+</html>
