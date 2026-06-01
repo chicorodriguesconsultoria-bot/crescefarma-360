@@ -1,0 +1,5 @@
+flask==3.1.1
+flask-cors==6.0.0
+pyjwt==2.10.1
+bcrypt==4.3.0
+gunicorn==23.0.0
