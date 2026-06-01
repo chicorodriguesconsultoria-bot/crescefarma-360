@@ -643,6 +643,25 @@ def dashboard():
 
 
 # ══════════════════════════════════════════
+# RECUPERAÇÃO DE SENHA
+# ══════════════════════════════════════════
+
+@app.route("/api/auth/recuperar-senha", methods=["POST"])
+def recuperar_senha():
+    data = request.get_json() or {}
+    email = data.get("email","").strip().lower()
+    if not email:
+        return jsonify({"erro": "E-mail obrigatório"}), 400
+    db = get_db()
+    user = db.execute("SELECT id, nome FROM usuarios WHERE email=? AND ativo=1", (email,)).fetchone()
+    # Por segurança, sempre retorna sucesso mesmo se e-mail não existir
+    if user:
+        # Em produção: gerar token e enviar e-mail real via SMTP/SendGrid
+        # Por ora, loga no console e retorna sucesso
+        print(f"[RECUPERAÇÃO] Solicitação para: {email} (id: {user['id']})")
+    return jsonify({"mensagem": "Se o e-mail estiver cadastrado, você receberá o link em instantes."})
+
+# ══════════════════════════════════════════
 # HEALTH CHECK
 # ══════════════════════════════════════════
 
